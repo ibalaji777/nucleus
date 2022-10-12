@@ -44,6 +44,9 @@
 </template>
 
 <script>
+/*eslint-disable*/
+// window.ipcRenderer = require("electron").ipcRenderer;
+const ipcRenderer = window.require("electron").ipcRenderer;
 
 export default {
   name: 'App',
@@ -51,5 +54,18 @@ export default {
   data: () => ({
     //
   }),
+
+  mounted(){
+             // Synchronous message emmiter and handler
+        //  console.log(ipcRenderer.sendSync('shedule', 'sync ping')) 
+
+        //  // Async message handler
+         ipcRenderer.on('shedule', (event, arg) => {
+            console.log(arg)
+         })
+
+         // Async message sender
+        //  ipcRenderer.send('asynchronous-message', 'async ping')
+  }
 };
 </script>
