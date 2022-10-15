@@ -1,5 +1,5 @@
 'use strict'
-
+/*esint-disable*/
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
@@ -12,8 +12,8 @@ function sendToRender(win){
 
   var i=0
   const job = schedule.scheduleJob('* * * * * *', function(){
-    console.log('every second',i);
-    win.webContents.send('shedule', i);
+    // console.log('every second',i);
+    // win.webContents.send('shedule', i);
 
     i++
   });

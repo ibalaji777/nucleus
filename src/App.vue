@@ -47,7 +47,7 @@
 /*eslint-disable*/
 // window.ipcRenderer = require("electron").ipcRenderer;
 const ipcRenderer = window.require("electron").ipcRenderer;
-
+import * as oee from '../src/core/oee'
 export default {
   name: 'App',
 
@@ -63,7 +63,7 @@ export default {
          ipcRenderer.on('shedule', (event, arg) => {
             console.log(arg)
          })
-
+oee.calculation()
          // Async message sender
         //  ipcRenderer.send('asynchronous-message', 'async ping')
   }
