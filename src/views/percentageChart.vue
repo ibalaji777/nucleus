@@ -1,29 +1,28 @@
 <template>
     <div>
-<canvas id="myChart" width="400" height="400"></canvas>        
+<canvas ref="myChart" width="400" height="400"></canvas>        
     </div>
 </template>
 <script>
 /*eslint-disable*/
 const Chart = require('chart.js/auto').default;
 export default {
+    props:['title','chartData','color'],
     mounted(){
-const ctx = document.getElementById('myChart').getContext('2d');
+        var dataset=[parseFloat(this.chartData),100-parseFloat(this.chartData)]
+const ctx =this.$refs.myChart// document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
-        labels: ['Red', 'Blue', 'Yellow'],
+        labels: ['Active', 'Pending'],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3],
+            label: this.title,
+            data: dataset,
             backgroundColor: [
-                'red',
-                'blue',
-                'green',
+                                this.color,
+                                'grey'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
             ],
             borderWidth: 1
