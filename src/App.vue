@@ -44,6 +44,8 @@
 </template>
 
 <script>
+// import { Chart, registerables } from 'chart.js';
+// Chart.register(...registerables);
 /*eslint-disable*/
 // window.ipcRenderer = require("electron").ipcRenderer;
 const ipcRenderer = window.require("electron").ipcRenderer;

@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     
+    <time-chart></time-chart>
 <div class="oeeContainer">
       <div>
       <percentage-chart :role="'OEE'" :color="$store.state.bgColor.oee" :chartData="10" :title="'OEE'"></percentage-chart>
