@@ -15,8 +15,10 @@
   "main": "background.js",
   "dependencies": {
     "chart.js": "^3.9.1",
+    "chartjs-adapter-moment": "^1.0.0",
     "core-js": "^3.6.5",
     "electron": "^8.2.5",
+    "moment": "^2.29.4",
     "node-schedule": "^2.1.0",
     "serialport": "^10.4.0",
     "vue": "^2.6.11",

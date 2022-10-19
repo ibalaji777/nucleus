@@ -14,7 +14,7 @@ export default {
 const ctx =this.$refs.myChart// document.getElementById('myChart').getContext('2d');
 var centertxt={
   beforeDraw: function(chart) {
-    console.log(chart)
+    // console.log(chart)
     var width = chart.width,
         height = chart.height,
         ctx = chart.ctx;

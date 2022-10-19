@@ -129,7 +129,8 @@ var myChart = new Chart(ctx, {
         text: 'Chart.js Bar Chart - Stacked'
       },
     },
-    responsive: true,
+    responsive:true,
+maintainAspectRatio: false, 
     scales: {
       x: {
         stacked: true,
@@ -146,7 +147,8 @@ var myChart = new Chart(ctx, {
 </script>
 <style lang="scss">
           .graph_container{
-      display:block;
-      width:600px;
+       display:block;
+      width:100vw;
+      height:200px !important;
     }
 </style>
