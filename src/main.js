@@ -4,6 +4,8 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
 
+import stackbarChart from './views/stackbarChart.vue'
+
 import timeChart from './views/timeChart.vue'
 import timeChartStatus from './views/timeChartStatus.vue'
 import barChart from './views/barChart.vue'
@@ -11,6 +13,7 @@ import pieChart from './views/pieChart.vue'
 import doughnutChart from './views/doughnutChart.vue'
 import percentageChart from './views/percentageChart.vue'
 
+Vue.component('stackbarChart',stackbarChart);
 Vue.component('timeChartStatus',timeChartStatus);
 Vue.component('timeChart',timeChart);
 Vue.component('barChart',barChart);
