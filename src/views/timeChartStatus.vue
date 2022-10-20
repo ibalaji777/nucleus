@@ -23,10 +23,10 @@ export default {
   console.log(todayEndTime);
   //----date----------------------
   // var time = "15:30:00";
-  const data = {
+  var data = {
    datasets: [
     {
-     label: "T",
+
 
      data: [
       {
@@ -49,74 +49,76 @@ export default {
       },
       
      ],
+          label: ["T0","T1","T2"],
      backgroundColor: ["red","blue","yellow"]
     },
-    {
-     label: "T",
+    // {
+    //  label: "T",
 
-     data: [
-      {
-       x: [
-      moment(todayStartTime).add(1, "hours"),
-      moment(todayStartTime).add(2.5, "hours"),
-       ],
-       y: 0,
-      },
-     ],
-     backgroundColor: "blue",
-    },
-    {
-     label: "T",
-     data: [
-      {
-       x: [
-      moment(todayStartTime).add(2.5, "hours"),
-      moment(todayStartTime).add(9, "hours"),
-       ],
-       y: 0,
-      },
-     ],
-     backgroundColor: "red",
-     borderColor: "red",
-    },
+    //  data: [
+    //   {
+    //    x: [
+    //   moment(todayStartTime).add(1, "hours"),
+    //   moment(todayStartTime).add(2.5, "hours"),
+    //    ],
+    //    y: 0,
+    //   },
+    //  ],
+    //  backgroundColor: "blue",
+    // },
+    // {
+    //  label: "T",
+    //  data: [
+    //   {
+    //    x: [
+    //   moment(todayStartTime).add(2.5, "hours"),
+    //   moment(todayStartTime).add(9, "hours"),
+    //    ],
+    //    y: 0,
+    //   },
+    //  ],
+    //  backgroundColor: "red",
+    //  borderColor: "red",
+    // },
    ],
   };
-  //----date----------------------
-  //----time----------------------
-  // var time = "15:30:00";
-  // const data = {
-  //   datasets: [
-  //     {
-  //       label: "Testing",
-  //       data: [{
-  //    x: '2021-11-06 23:39:30',
-  //         y: 0
-  //       }],
-  //       backgroundColor: "red"
-  //     },
-  //     {
-  //       label: "Testing"+moment().startOf('day').add(1, 'day'),
-  //       data: [{
-  //         x:"15:33:00",
-  //         y: 0
-  //       }],
-  //       backgroundColor: "blue"
-  //     },
-  //     {
-  //       label: "Testing"+moment().startOf('day').add(2, 'day'),
-  //       data: [{
-  //         x:"3:1:00",
-  //         y: 0
-  //       }],
-  //       backgroundColor: "red"
-  //     },
-  //   ]
-  // };
 
   const config = {
    type: "bar",
    data,
+   
    options: {
+    animation:{
+    
+//         onComplete: function () {
+//             // var chartInstance = this.chart;
+//             // var ctx = chartInstance.ctx;
+//             ctx.textAlign = "left";
+//             ctx.font = "9px Open Sans";
+//             ctx.fillStyle = "#fff";
+
+//             Chart.each(this.data.datasets.forEach(function (dataset, i) {
+//                 var meta = myChart.getDatasetMeta(i);
+//                console.log("meta",meta)
+//                Chart.each(meta.data.forEach(function (bar, index) {
+//                     data = dataset.data[index];
+//                     // console.log("bar",bar,index,bar.y)
+//                    var countXaxis=0
+//                     if(i==0){
+// ctx.fillText(data, 50, bar._model.y+4);
+// ctx.textAlign = "start";
+// ctx.fillText(data, bar._model.x-countXaxis, 60);
+//                     } else {
+//                         ctx.fillText(data, bar._model.x-25, bar._model.y+4);
+//                        // Show the different textAlign values
+// ctx.textAlign = "start";
+// ctx.fillText(data, bar._model.x-countXaxis, 60);
+            
+//                     }
+//                 }),this)
+//             }),this);
+//         }
+    },
     responsive: true,
     maintainAspectRatio: false,
     indexAxis: "y",
@@ -141,7 +143,7 @@ export default {
    },
   };
 
-  new Chart(ctx, config);
+var myChart=  new Chart(ctx, config);
  },
 };
 </script>

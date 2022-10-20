@@ -2,6 +2,13 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+import createMachine from '../views/createMachine.vue'
+import selectMachine from '../views/selectMachine.vue'
+import createUser from '../views/createUser.vue'
+import createRole from '../views/createRole.vue'
+import createShift from '../views/createShift.vue'
+import dashboardMachine from '../views/dashboardMachine.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -10,6 +17,39 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/dashboardMachine',
+    name: 'dashboardMachine',
+    component: dashboardMachine
+  },
+  {
+    path: '/createMachine',
+    name: 'createMachine',
+    component: createMachine
+  },
+  {
+    path: '/selectMachine',
+    name: 'selectMachine',
+    component: selectMachine
+  },
+  {
+    path: '/createUser',
+    name: 'createUser',
+    component: createUser
+  },
+
+  {
+    path: '/createRole',
+    name: 'createRole',
+    component: createRole
+  },
+  {
+    path: '/createShift',
+    name: 'createShift',
+    component: createShift
+  },
+
+  
   {
     path: '/about',
     name: 'About',
