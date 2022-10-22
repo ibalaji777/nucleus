@@ -19,14 +19,14 @@ const mutations={
     createCompany(state,payload){
       state.db.companies.push(payload)
     },
-    checkUser(state,payload){
+    checkCompany(state,payload){
       _.filter(state.db.companies,(x)=>x.username==payload.username&&payload.password)
     },
     createGroup(state,payload){
 state.db.groups.push(payload)
     },
     setCompany(state,payload){
-state.setup.setCompany={
+state.setup.company={
 id:payload.id,
 email:payload.email,
 password:payload.password

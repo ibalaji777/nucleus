@@ -5,7 +5,7 @@
 <div class="xyCenter">
        <div>
         <!-- <img style="max-height:150px"  src="/login.gif" alt=""> -->
-
+{{$store.state.setup.company}}
          <v-text-field
          outlined
          style="text-align:center"
@@ -51,6 +51,8 @@ export default {
             if($vm.company.username=='admin'&&$vm.company.password=='admin'){
 
                 $vm.$store.dispatch('setCompany',{id:1,username:'admin',password:'admin'})
+
+                $vm.$router.push("/home")
 
             }
 

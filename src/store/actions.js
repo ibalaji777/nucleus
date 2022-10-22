@@ -7,7 +7,7 @@ const actions={
         context.commit('createCompany',payload)
     },
     checkCompany(context,payload){
-        context.commit('createCompany',payload)
+        context.commit('checkCompany',payload)
     },
     createGroup(context,payload){
         context.commit('createGroup',payload)

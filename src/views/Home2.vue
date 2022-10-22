@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-<!-- <div class="toolbar_container">
+<div class="toolbar_container">
 
   <div @click="$router.push('createCompany')">
     <div class="center" >
@@ -47,7 +47,7 @@
       <span style="font-size:12px"> Create Shift</span>
     </div>
   </div>
-</div> -->
+</div>
 
         <!-- <time-chart-status></time-chart-status> -->
     <!-- <stackbar-chart></stackbar-chart>     -->

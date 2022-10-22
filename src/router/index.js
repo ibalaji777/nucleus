@@ -1,8 +1,8 @@
 /*eslint-disable*/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
+import Home from '../views/home.vue'
+import store from '../store/index.js'
 import dashboard from '../views/dashboard.vue'
 import createMachine from '../views/createMachine.vue'
 import selectMachine from '../views/selectMachine.vue'
@@ -20,6 +20,11 @@ const routes = [
     path: '/',
     name: 'Login',
     component: login
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home
   },
   {
     path: '/login',
@@ -89,5 +94,21 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+
+router.beforeEach(
+  (to, from, next) => {
+
+          if( to.name == 'Login'&&store.state.setup.company.id!='') {
+              next({
+                  path: '/home'
+                  // Redirect to original path if specified
+              })
+          } else {
+              next()
+          }
+      } 
+          
+)
 
 export default router

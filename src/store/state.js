@@ -15,7 +15,7 @@ setup:{
 
     company:{
         id:'',
-        username:'',
+        email:'',
         password:''
 
     },
