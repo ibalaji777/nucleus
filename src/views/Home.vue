@@ -1,6 +1,13 @@
 <template>
   <div class="home">
 <div class="toolbar_container">
+  <div @click="$router.push('dashboard')">
+    <div class="center" >
+      <v-icon>mdi-plus</v-icon><br>
+      <span style="font-size:12px">Dashboard</span>
+    </div>
+  </div>
+
   <div @click="$router.push('dashboardMachine')">
     <div class="center" >
       <v-icon>mdi-plus</v-icon><br>
@@ -19,7 +26,7 @@
       <span style="font-size:12px"> Create User</span>
     </div>
   </div>
- <div @click="$router.push('selectMachine')">
+ <div @click="$router.push('createShift')">
     <div class="center">
       <v-icon>mdi-plus</v-icon><br>
       <span style="font-size:12px"> Create Shift</span>
@@ -27,12 +34,12 @@
   </div>
 </div>
 
-        <time-chart-status></time-chart-status>
+        <!-- <time-chart-status></time-chart-status> -->
     <!-- <stackbar-chart></stackbar-chart>     -->
         <time-chart></time-chart>    
 
 <!-- <time-chart-status></time-chart-status> -->
-<div class="oeeContainer">
+<!-- <div class="oeeContainer">
       <div>
       <percentage-chart :role="'OEE'" :color="$store.state.bgColor.oee" :chartData="10" :title="'OEE'"></percentage-chart>
     </div>
@@ -48,7 +55,7 @@
   </div>
 
 
-</div>
+</div> -->
 
 <!-- <div style="width:300px">
 <percentage-chart :chartData="10" :title="'Quality'"></percentage-chart>

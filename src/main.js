@@ -13,6 +13,9 @@ import pieChart from './views/pieChart.vue'
 import doughnutChart from './views/doughnutChart.vue'
 import percentageChart from './views/percentageChart.vue'
 
+import VueSimpleAlert from "vue-simple-alert";
+ 
+Vue.use(VueSimpleAlert);
 Vue.component('stackbarChart',stackbarChart);
 Vue.component('timeChartStatus',timeChartStatus);
 Vue.component('timeChart',timeChart);

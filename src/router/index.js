@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+import dashboard from '../views/dashboard.vue'
 import createMachine from '../views/createMachine.vue'
 import selectMachine from '../views/selectMachine.vue'
 import createUser from '../views/createUser.vue'
@@ -16,6 +17,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: dashboard
   },
   {
     path: '/dashboardMachine',

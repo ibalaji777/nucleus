@@ -1,5 +1,6 @@
 <template>
-    <div>
+  <div class="graph_container">
+
 <canvas ref="myChart" width="400" height="400"></canvas>        
     </div>
 </template>
@@ -40,8 +41,10 @@ const myChart = new Chart(ctx, {
     plugins:[centertxt],
     options: {
 cutout: 80,
-  	responsive: true,
-    },
+    responsive: true,
+    maintainAspectRatio: false,
+
+},
     data: {
         // labels: ['Active', 'Pending'],
         datasets: [{
@@ -89,5 +92,9 @@ cutout: 80,
 }
 </script>
 <style lang="scss">
-    
+    .graph_container {
+ display: block;
+ width: 100vw;
+ height: 200px !important;
+}
 </style>

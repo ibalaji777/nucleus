@@ -36,6 +36,7 @@ export default {
   }),
 
   mounted(){
+    var $vm=this;
              // Synchronous message emmiter and handler
         //  console.log(ipcRenderer.sendSync('shedule', 'sync ping')) 
 
@@ -46,6 +47,20 @@ export default {
 oee.calculation()
          // Async message sender
         //  ipcRenderer.send('asynchronous-message', 'async ping')
+
+$vm.$store.commit('setDate')
+$vm.setTimeEverySecond()
+  },
+  methods:{
+
+setTimeEverySecond(){
+var $vm=this;
+  setInterval(() => {
+    $vm.$store.commit('setTimeEverySecond')
+  }, 1);
+}
+
+
   }
 };
 </script>

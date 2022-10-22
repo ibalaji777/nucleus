@@ -1,5 +1,6 @@
 <template>
-    <div>
+  <div class="graph_container">
+
 <canvas id="myChart" width="400" height="400"></canvas>        
     </div>
 </template>
@@ -37,5 +38,9 @@ const myChart = new Chart(ctx, {
 }
 </script>
 <style lang="scss">
-    
+    .graph_container {
+ display: block;
+ width: 100vw;
+ height: 200px !important;
+}
 </style>
