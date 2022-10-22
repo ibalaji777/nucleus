@@ -1,6 +1,21 @@
 <template>
   <div class="home">
 <div class="toolbar_container">
+
+  <div @click="$router.push('createCompany')">
+    <div class="center" >
+      <v-icon>mdi-plus</v-icon><br>
+      <span style="font-size:12px">Company</span>
+    </div>
+  </div>
+
+  <div @click="$router.push('createGroup')">
+    <div class="center" >
+      <v-icon>mdi-plus</v-icon><br>
+      <span style="font-size:12px">Create Group</span>
+    </div>
+  </div>
+
   <div @click="$router.push('dashboard')">
     <div class="center" >
       <v-icon>mdi-plus</v-icon><br>

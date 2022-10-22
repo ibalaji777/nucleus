@@ -1,4 +1,5 @@
 import moment from 'moment'
+import _ from 'lodash'
 const mutations={
 
   createShift(state,payload){
@@ -14,6 +15,24 @@ const mutations={
     setTimeEverySecond(state){
       state.setup.time=moment().format()
     }
+,
+    createCompany(state,payload){
+      state.db.companies.push(payload)
+    },
+    checkUser(state,payload){
+      _.filter(state.db.companies,(x)=>x.username==payload.username&&payload.password)
+    },
+    createGroup(state,payload){
+state.db.groups.push(payload)
+    },
+    setCompany(state,payload){
+state.setup.setCompany={
+id:payload.id,
+email:payload.email,
+password:payload.password
+      }
+  }
+
 //"hh:mm:ss a"
 }
 

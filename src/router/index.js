@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
@@ -9,14 +10,31 @@ import createUser from '../views/createUser.vue'
 import createRole from '../views/createRole.vue'
 import createShift from '../views/createShift.vue'
 import dashboardMachine from '../views/dashboardMachine.vue'
-
+import createCompany from '../views/createCompany.vue'
+import createGroup from '../views/createGroup.vue'
+import login from '../views/login.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Login',
+    component: login
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: login
+  },
+  {
+    path: '/createCompany',
+    name: 'createCompany',
+    component: createCompany
+  },
+  {
+    path: '/createGroup',
+    name: 'createGroup',
+    component: createGroup
   },
   {
     path: '/dashboard',

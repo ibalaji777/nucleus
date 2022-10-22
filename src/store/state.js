@@ -2,8 +2,24 @@ import moment from "moment/moment";
 
 const state={
 
+db:{
+    companies:[]
+
+
+
+},
+
+
 
 setup:{
+
+    company:{
+        id:'',
+        username:'',
+        password:''
+
+    },
+
     shifts:[],
 format:{
     time:"hh:mm:ss a",
