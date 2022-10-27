@@ -33,23 +33,28 @@ export default {
       {
        x:[
       moment(todayStartTime).add(0, "hours"),
-      moment(todayStartTime).add(1, "hours")],
+      moment(todayStartTime).add(0.5, "hours")],
        y: 0,
-        labels: {
-    render: 'label'
-  }
-      },
+    label:'a1',
+    count:3 
+   },
       {
        x:[
       moment(todayStartTime).add(1, "hours"),
       moment(todayStartTime).add(2, "hours")],
        y: 0,
+         label:'a2',
+             count:5 
+
       },
       {
        x:[
       moment(todayStartTime).add(2, "hours"),
       moment(todayStartTime).add(6, "hours")],
        y: 0,
+         label:'a3',
+             count:8 
+
       },
       
      ],
@@ -102,31 +107,60 @@ export default {
 // ctx.fillText("tet adf", 200,90);
 
 // ctx.fillText("tet adf", 200,130);
-
+var bars=[]
 this.data.datasets.forEach(function (dataset, i) {
                 var meta = myChart.getDatasetMeta(i);
 var bar=meta.data[i]
-console.log(i,bar.x,'meta',meta)
+// console.log(i,bar.x,'meta',meta)
 
 // console.log("meta",meta)
 meta.data.forEach(function (bar, index) {
+var data = dataset.data[index];
+console.log("data",data)
   // ctx.textAlign = "left";
 // ----------------------label--------------------------------
 ctx.font = "15px Open Sans";
 ctx.fillStyle = "black";
 ctx.textAlign = "right";
-ctx.fillText("create labels", bar.x-20,bar.y+30);
 
+ctx.fillText(data.label, bar.x-20,bar.y+30);
+// ctx.restore()
 // ----------------------counter--------------------------------
+var countX=bar.x+2;
+var countY=bar.y-30;
+// var countY=(parseFloat(data.count)/parseFloat(bar.height))+120;
+console.log("countY",countY)
 ctx.font = "15px Open Sans";
 ctx.fillStyle = "black";
 ctx.textAlign = "left";
-ctx.fillText("Count", bar.x+2,bar.y-30);
-
+ /// color for background
+    ctx.fillStyle = 'black';
+       /// get width of text
+    var width = ctx.measureText(data.count).width;
+ /// draw background rect assuming height of font
+    ctx.fillRect(countX-1,countY, width+10, 20);
+       /// text color
+    ctx.fillStyle = '#ffff';
+bars.push({x:countX,y:countY})
+ctx.fillText(data.count,countX,countY+10);
 console.log("nes",index,bar,i)
 })
 
 })
+
+
+// --------------------------bar line--------------------
+bars.forEach(function (plot, i) {
+ctx.beginPath();
+if(i==0)
+ctx.moveTo(74, 146);
+else
+ctx.moveTo(bars[i-1].x, bars[i-1].y);
+ctx.lineTo(plot.x, plot.y);
+ctx.stroke();
+
+})
+
 
 //             Chart.each(this.data.datasets.forEach(function (dataset, i) {
 //                 var meta = myChart.getDatasetMeta(i);
