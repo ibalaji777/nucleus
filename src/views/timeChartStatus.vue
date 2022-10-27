@@ -11,6 +11,7 @@
 var moment = require("moment");
 const Chart = require("chart.js/auto").default;
 import "chartjs-adapter-moment";
+// import "chartjs-plugin-labels"
 export default {
  mounted() {
   var $vm = this;
@@ -34,6 +35,9 @@ export default {
       moment(todayStartTime).add(0, "hours"),
       moment(todayStartTime).add(1, "hours")],
        y: 0,
+        labels: {
+    render: 'label'
+  }
       },
       {
        x:[
@@ -90,12 +94,39 @@ export default {
    options: {
     animation:{
     
-//         onComplete: function () {
-//             // var chartInstance = this.chart;
-//             // var ctx = chartInstance.ctx;
-//             ctx.textAlign = "left";
-//             ctx.font = "9px Open Sans";
-//             ctx.fillStyle = "#fff";
+        onComplete: function () {
+          console.log(this)
+            var chartInstance = this;
+            var ctx = chartInstance.ctx;
+          
+// ctx.fillText("tet adf", 200,90);
+
+// ctx.fillText("tet adf", 200,130);
+
+this.data.datasets.forEach(function (dataset, i) {
+                var meta = myChart.getDatasetMeta(i);
+var bar=meta.data[i]
+console.log(i,bar.x,'meta',meta)
+
+// console.log("meta",meta)
+meta.data.forEach(function (bar, index) {
+  // ctx.textAlign = "left";
+// ----------------------label--------------------------------
+ctx.font = "15px Open Sans";
+ctx.fillStyle = "black";
+ctx.textAlign = "right";
+ctx.fillText("create labels", bar.x-20,bar.y+30);
+
+// ----------------------counter--------------------------------
+ctx.font = "15px Open Sans";
+ctx.fillStyle = "black";
+ctx.textAlign = "left";
+ctx.fillText("Count", bar.x+2,bar.y-30);
+
+console.log("nes",index,bar,i)
+})
+
+})
 
 //             Chart.each(this.data.datasets.forEach(function (dataset, i) {
 //                 var meta = myChart.getDatasetMeta(i);
@@ -105,19 +136,21 @@ export default {
 //                     // console.log("bar",bar,index,bar.y)
 //                    var countXaxis=0
 //                     if(i==0){
-// ctx.fillText(data, 50, bar._model.y+4);
+// ctx.fillText("tet", 10,10);
 // ctx.textAlign = "start";
-// ctx.fillText(data, bar._model.x-countXaxis, 60);
+// // ctx.fillText("datatt", bar._model.x-countXaxis, 60);
+// ctx.fillText("tesst", 10,10);
 //                     } else {
-//                         ctx.fillText(data, bar._model.x-25, bar._model.y+4);
+//                       ctx.fillText("tete", 10,10);
+//                         // ctx.fillText(data, bar._model.x-25, bar._model.y+4);
 //                        // Show the different textAlign values
 // ctx.textAlign = "start";
-// ctx.fillText(data, bar._model.x-countXaxis, 60);
+// // ctx.fillText(data, bar._model.x-countXaxis, 60);
             
 //                     }
 //                 }),this)
 //             }),this);
-//         }
+        }
     },
     responsive: true,
     maintainAspectRatio: false,

@@ -13,6 +13,37 @@ db:{
 
 setup:{
 
+    logged:{
+        id:'',
+        name:'',
+        email:'',
+        phone:'',
+        gender:'',
+        idcard:'',
+        other:'',
+        group:'',
+    },
+    selected_shift:{
+     id:'',
+     name:'',
+     hour:'',
+     group:'',
+    },
+    selected_machine:{
+        id:'',
+        name:'',
+        detail:'',
+        group:'',
+    },
+    selected_part_no:{
+        id:'',
+        name:'',
+        production_perStroke:1,
+        group:'',
+        other_detail:'',
+
+
+    },
     company:{
         id:'',
         email:'',
