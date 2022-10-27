@@ -53,7 +53,8 @@
     <!-- <stackbar-chart></stackbar-chart>     -->
         <!-- <time-chart></time-chart>     -->
 
-<time-chart-status></time-chart-status>
+<!-- <time-chart-status></time-chart-status> -->
+<time-chart-status2></time-chart-status2>
 <div class="oeeContainer">
       <div>
       <percentage-chart :role="'OEE'" :color="$store.state.bgColor.oee" :chartData="10" :title="'OEE'"></percentage-chart>
