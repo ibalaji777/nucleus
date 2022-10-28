@@ -1,6 +1,7 @@
 <template>
- <div>
-  <div class="graph_container">
+ <div class="graphContainer2">
+
+  <div class="graph_container2">
    <canvas ref="myChart" width="400" height="400"></canvas>
   </div>
  </div>
@@ -182,9 +183,13 @@ const config = {
 };
 </script>
 <style lang="scss">
-.graph_container {
+.graph_container2 {
  display: block;
- width: 100vw;
+ width: 92vw;
  height: 200px !important;
+}
+.graphContainer2{
+    padding:10px;
+    // background:lightgrey;
 }
 </style>

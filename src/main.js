@@ -13,10 +13,12 @@ import barChart from './views/barChart.vue'
 import pieChart from './views/pieChart.vue'
 import doughnutChart from './views/doughnutChart.vue'
 import percentageChart from './views/percentageChart.vue'
-
+import heatMap from './views/heatMap.vue'
 import VueSimpleAlert from "vue-simple-alert";
  
 Vue.use(VueSimpleAlert);
+Vue.component('heatMap',heatMap);
+
 Vue.component('stackbarChart',stackbarChart);
 Vue.component('timeChartStatus2',timeChartStatus2);
 Vue.component('timeChartStatus',timeChartStatus);

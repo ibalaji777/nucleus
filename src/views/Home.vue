@@ -54,6 +54,7 @@
         <!-- <time-chart></time-chart>     -->
 
 <!-- <time-chart-status></time-chart-status> -->
+<heat-map></heat-map>
 <time-chart-status2></time-chart-status2>
 <div class="oeeContainer">
       <div>
@@ -102,7 +103,16 @@ export default {
 }
 
 .oeeContainer div{
-width: 200px;
+    width: 200px;
+    box-shadow: 8px 0px -1px 0px black;
+    margin: 15px;
+    padding: 1px;}
+
+.oeeContainer > div{
+background: #fdfdfd;
+    width: 250px;
+    box-shadow: 0px 0px 6px 2px;
+    border-radius: 4%;
 }
 
 .toolbar_container{
