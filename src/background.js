@@ -1,13 +1,38 @@
-'use strict'
+
+
 /*eslint-disable*/
+'use strict'
+
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const schedule = require('node-schedule');
-// Scheme must be registered before the app is ready
 
+// const {SerialPort,ReadlineParser} = require('serialport');
+// const Readline = require('@serialport/parser-readline');
 
+// const writeDelay = 2000; // reducing this value stops it working
+// const path = 'COM9';
+// const port = new SerialPort( {path,
+//     lock: false,
+//     baudRate: 9600,
+// });
+
+// port.on('open', () => {
+//     setTimeout(function () {
+//         console.log('sending: ping');
+//         port.write('ping');
+//     }, writeDelay);
+// });
+
+// const parser = new ReadlineParser({ delimiter: '\r\n' });
+
+// port.pipe(parser);
+
+// parser.on('data', function (data) {
+//     console.log('from arduino:', data);
+// });
 function sendToRender(win){
 
   var i=0
@@ -38,7 +63,8 @@ async function createWindow() {
      plugins: true,
      contextIsolation: false,
      enableRemoteModule: true,
-     webviewTag: true
+     webviewTag: true,
+     webSecurity: false
    },
   })
 

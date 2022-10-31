@@ -22,8 +22,8 @@ export default {
   var todayStartTime = new moment("2022-10-19 08:00:00 am");
   var todayEndTime = new moment("2022-10-19 03:00:00 pm");
   //today date based on shift
-  console.log(todayStartTime);
-  console.log(todayEndTime);
+  // console.log(todayStartTime);
+  // console.log(todayEndTime);
   //----date----------------------
   // var time = "15:30:00";
 var options = {
@@ -33,7 +33,7 @@ var options = {
         animation:{
     
         onComplete: function () {
-          console.log(this)
+          // console.log(this)
             var chartInstance = this;
             var ctx = chartInstance.ctx;
           
@@ -49,7 +49,7 @@ var bar=meta.data[i]
 // console.log("meta",meta)
 meta.data.forEach(function (bar, index) {
 var data = dataset.data[index];
-console.log("data",data)
+// console.log("data",data)
   // ctx.textAlign = "left";
 // ----------------------label--------------------------------
 ctx.font = "15px Open Sans";
@@ -62,7 +62,7 @@ ctx.fillText(data.label, bar.x-20,bar.y+30);
 var countX=bar.x+2;
 var countY=bar.y-30;
 // var countY=(parseFloat(data.count)/parseFloat(bar.height))+120;
-console.log("countY",countY)
+// console.log("countY",countY)
 ctx.font = "15px Open Sans";
 ctx.fillStyle = "black";
 ctx.textAlign = "left";
@@ -76,7 +76,7 @@ ctx.textAlign = "left";
     ctx.fillStyle = '#ffff';
 bars.push({x:countX,y:countY})
 ctx.fillText(data.count,countX,countY+10);
-console.log("nes",index,bar,i)
+// console.log("nes",index,bar,i)
 })
 
 })

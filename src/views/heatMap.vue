@@ -139,124 +139,90 @@ function generateData(count, yrange) {
   return series;
 }
 
-var options = {
+let options = {
+   plotOptions: {
+      heatmap: {
+        colorScale: {
+          ranges: [{
+              from: -10,
+              to: 10,
+              color: 'green',
+              name: 'low',
+            },
+            {
+              from: 11,
+              to: 20,
+              color: 'yellow',
+              name: 'medium',
+            },
+            {
+              from: 21,
+              to: 170,
+              color: 'red',
+              name: 'high',
+            }
+          ]
+        }
+      }
+    },
   chart: {
-    height: 350,
-    type: "heatmap"
-  },
-           dataLabels: {
-      enabled: true
-    },
-    xaxis: {
-      labels: {
-        show: false
-      },
-      tooltip: {
-        enabled: false,
-      },
-    },
-    // tooltip: {
-    //   shared: false,
-    //   followCursor: true,
-    //   intersect: false,
-    //   x: {
-    //     show: true,
-    //     format: 'dd MMM'
-    //   },
-    // },
-colors: [
-    "#5A9BD5",
-    "#5A9BD5",
-    "#5A9BD5",
-    "#5A9BD5",
-    "#ffffff",
-    "#F8C045",
-    "#F8C045",
-    "#F8C045",
-    "#F8C045"
-  ],
-  plotOptions: {
-    heatmap: {
-      shadeIntensity: 1
-    }
+    type: "heatmap",
+    fontSize: "16px",
+    fontFamily: "Montserrat, Arial, sans-serif"
   },
   dataLabels: {
-    enabled: false
+    enabled: true,
+    style: {
+      fontSize: "1.2em",
+      fontFamily: "Montserrat, Arial, sans-serif",
+      fontWeight: "700",
+      colors: ["#fff"]
+    },
+    
+    background: {
+      enabled: true,
+      foreColor: '#333'
+    },
+    dropShadow: {
+      enabled: false
+    }
+  },
+  xaxis: {
+    labels: {
+      style: {
+        fontSize: "14px",
+        fontWeight: 700
+      }
+    }
+  },
+  yaxis: {
+    labels: {
+      style: {
+        fontSize: "14px",
+        fontWeight: 700
+      }
+    }
   },
   series: [
     {
-      name: "Jan",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
+      name: 'count',
+      data: [
+        { x: 'Q1', y: 1 },
+        { x: 'Q2', y: 33 },
+        { x: 'Q3', y: 81 },
+        { x: 'Q4', y: 89 }
+      ]
     },
     {
-      name: "Feb",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
-    },
-    {
-      name: "Mar",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
-    },
-    {
-      name: "Apr",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
-    },
-    {
-      name: "",
-      data: generateData(20, {
-        min: 0,
-        max: 0
-      })
-    },
-    {
-      name: "May",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
-    },
-    {
-      name: "Jun",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
-    },
-    {
-      name: "Jul",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
-    },
-    {
-      name: "Aug",
-      data: generateData(20, {
-        min: -30,
-        max: 55
-      })
+      name: 'heat',
+      data: [
+        { x: 'Q1', y: 44 },
+        { x: 'Q2', y: 0 },
+        { x: 'Q3', y: 85 },
+        { x: 'Q4', y: 97 }
+      ]
     }
   ],
-  tooltip: {
-    custom: function({ series, seriesIndex, dataPointIndex, w }) {
-      if (w.globals.seriesNames[seriesIndex] !== "") {
-        return series[seriesIndex][dataPointIndex];
-      } else {
-        return "";
-      }
-    }
-  }
 };
 
 
