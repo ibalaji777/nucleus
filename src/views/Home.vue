@@ -111,6 +111,15 @@
 /*eslint-disable*/
 import io from 'socket.io-client'
 
+        // //load serialport module
+        // const serialPort = require('serialport');
+        // const Readline = serialPort.parsers.Readline;
+
+        // //initialize serialport with 115200 baudrate.
+        // var sp = new serialPort('/dev/ttyUSB0', {
+        //     baudRate: 115200,
+        // });
+
 export default {
  name: "Home",
  mounted(){

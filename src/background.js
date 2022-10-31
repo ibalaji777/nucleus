@@ -8,7 +8,8 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const schedule = require('node-schedule');
-
+app.allowRendererProcessReuse = false
+// import serialport from '../serialport/index'
 // const {SerialPort,ReadlineParser} = require('serialport');
 // const Readline = require('@serialport/parser-readline');
 
