@@ -17,10 +17,14 @@ import heatMap from './views/heatMap.vue'
 import VueSimpleAlert from "vue-simple-alert";
 import widgetHeader from './views/widgetHeader.vue' 
 
+
+import selectEmployeeWidget from './views/selectEmployeeWidget.vue' 
+
 import widgetNavbar from './views/widgetNavbar.vue' 
 import oeePanel from './views/oeePanel.vue' 
 Vue.use(VueSimpleAlert);
 Vue.component('heatMap',heatMap);
+Vue.component('selectEmployeeWidget',selectEmployeeWidget);
 
 Vue.component('widgetNavbar',widgetNavbar);
 Vue.component('stackbarChart',stackbarChart);

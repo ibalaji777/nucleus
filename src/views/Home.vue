@@ -110,6 +110,10 @@ export default {
  background: white;
  margin:2px;
  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
+ cursor:pointer;
+ }
+ .widgetGroup:hover{
+  background: lightgray;
  }
 .widgetGroupContainer{
   display:flex;

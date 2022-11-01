@@ -2,10 +2,96 @@ import moment from "moment/moment";
 
 const state={
 
+    dialog:{
+operatorLoginDialog:false,
+selectEmployeeWidget:false,
+
+    },
 db:{
-    companies:[]
+    employee:[
+    {
+        id:1,
+        branch:'',
+        company_id:1,
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        name:'sathish',
+        username:'op',
+        password:'op',
+        email:'',
+        role:'',//superviser or operator
+        phone:'',
+        id_card:'',
+        other:'',
+
+    },
+
+],
+machine:[
+    {
+        id:1,
+        company_id:1,
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        group:'general',
+        branch:'',
+        name:'a1',
+        description:'',
+        other:'',
+
+    }
+],
+shifts:[
+    {
+        id:1,
+        name:'Shift A',
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        branch:'',
+        hours:8,
+        start_time:'',
+        end_time:''
+    },
+    {
+        id:1,
+        name:'Shift B',
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        branch:'',
+        hours:8,
+        start_time:'',
+        end_time:''
+    },
+    {
+        id:1,
+        name:'Shift C',
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        branch:'',
+        hours:8,
+        start_time:'',
+        end_time:''
+    }
+],
+
+    companies:[{
+id:1,
+name:'interplex',
+username:'inter',
+password:'inter',
+phone:'',
+dialcode:'',
+email:'',
+
+
+    }],
+
 },
 setup:{
+    time:moment().format("hh:mm s"),
+date:moment().format("HH:MM S"),
+shift:'a',
+
     checkMachine:false,
     logged:{
         id:'',
@@ -52,9 +138,6 @@ format:{
 },
 
 
-time:moment().format("HH:MM S"),
-date:moment().format("HH:MM S"),
-shift:'a',
 machine:{
     eventSignal:'',
     eventCount:'',
@@ -62,8 +145,19 @@ machine:{
 
 },
 user:{
-    name:'',
-    userUq:'111'
+    id:1,
+    branch:'Chennai',
+    company_id:1,
+    creator_id:1, 
+    creator_role:'',//supervisor or company
+    name:'sathish',
+    username:'op',
+    password:'op',
+    email:'sathish@gmail.com',
+    role:'operator',//superviser or operator
+    phone:'888888888',
+    id_card:'1111',
+    other:'',
     },
 },
     currentShift:{

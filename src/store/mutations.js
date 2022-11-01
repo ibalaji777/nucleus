@@ -1,5 +1,6 @@
 import moment from 'moment'
 import _ from 'lodash'
+import Vue from 'vue'
 const mutations={
 
   createShift(state,payload){
@@ -35,9 +36,15 @@ password:payload.password
  setMachineStatus(state,value){
   // console.log("setMachineStatus",value)
   state.setup.checkMachine=value
+ } ,
+ setDialog(state,payload)
+{
+  console.log("dialog",payload)
 
- } 
-
+  // state.dialog[payload.key]=payload.value;
+  Vue.set(state.dialog,payload.key,payload.value)
+  // operatorLoginDialog
+}
 //"hh:mm:ss a"
 }
 
