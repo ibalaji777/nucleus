@@ -92,9 +92,9 @@ cutout: 80,
 }
 </script>
 <style lang="scss">
-    .graph_container {
+  .graph_container {
  display: block;
- width: 100vw;
- height: 200px !important;
+ width: 100%;
+ max-height: 200px !important;
 }
 </style>

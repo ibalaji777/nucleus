@@ -4,15 +4,9 @@ const state={
 
 db:{
     companies:[]
-
-
-
 },
-
-
-
 setup:{
-
+    checkMachine:false,
     logged:{
         id:'',
         name:'',

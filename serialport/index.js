@@ -7,7 +7,7 @@ const io = new Server(server);
 
 
 const {SerialPort,ReadlineParser} = require('serialport');
-const Readline = require('@serialport/parser-readline');
+// const Readline = require('@serialport/parser-readline');
 
 const writeDelay = 2000; // reducing this value stops it working
 const path = 'COM9';//windows

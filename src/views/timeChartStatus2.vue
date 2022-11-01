@@ -185,7 +185,7 @@ const config = {
 <style lang="scss">
 .graph_container2 {
  display: block;
- width: 92vw;
+ width: 100%;
  height: 200px !important;
 }
 .graphContainer2{

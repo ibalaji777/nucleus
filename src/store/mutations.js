@@ -31,7 +31,12 @@ id:payload.id,
 email:payload.email,
 password:payload.password
       }
-  }
+  },
+ setMachineStatus(state,value){
+  // console.log("setMachineStatus",value)
+  state.setup.checkMachine=value
+
+ } 
 
 //"hh:mm:ss a"
 }

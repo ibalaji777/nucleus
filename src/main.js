@@ -15,10 +15,14 @@ import doughnutChart from './views/doughnutChart.vue'
 import percentageChart from './views/percentageChart.vue'
 import heatMap from './views/heatMap.vue'
 import VueSimpleAlert from "vue-simple-alert";
- 
+import widgetHeader from './views/widgetHeader.vue' 
+
+import widgetNavbar from './views/widgetNavbar.vue' 
+import oeePanel from './views/oeePanel.vue' 
 Vue.use(VueSimpleAlert);
 Vue.component('heatMap',heatMap);
 
+Vue.component('widgetNavbar',widgetNavbar);
 Vue.component('stackbarChart',stackbarChart);
 Vue.component('timeChartStatus2',timeChartStatus2);
 Vue.component('timeChartStatus',timeChartStatus);
@@ -27,6 +31,8 @@ Vue.component('barChart',barChart);
 Vue.component('pieChart',pieChart);
 Vue.component('doughnutChart',doughnutChart);
 Vue.component('percentageChart',percentageChart);
+Vue.component('widgetHeader',widgetHeader);
+Vue.component('oeePanel',oeePanel);
 
 Vue.config.productionTip = false
 

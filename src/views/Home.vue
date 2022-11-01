@@ -1,134 +1,38 @@
 <template>
  <div class="home">
-  <!-- <div class="toolbar_container">
+  
+<widget-header></widget-header>
+<div style="display:flex;padding:10px">
 
-  <div @click="$router.push('createCompany')">
-    <div class="center" >
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px">Company</span>
-    </div>
-  </div>
+<div style="width:77vw;">
+    <div style="margin-right:20px">
+      <div class="timeChart">
+<time-chart-status2></time-chart-status2>
+</div>
+<oee-panel></oee-panel>
+</div>
+</div>
+<div style="width:19vw">
 
-  <div @click="$router.push('createGroup')">
-    <div class="center" >
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px">Create Group</span>
-    </div>
-  </div>
-
-  <div @click="$router.push('dashboard')">
-    <div class="center" >
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px">Dashboard</span>
-    </div>
-  </div>
-
-  <div @click="$router.push('dashboardMachine')">
-    <div class="center" >
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px">Machine</span>
-    </div>
-  </div>
-    <div @click="$router.push('selectMachine')">
-    <div class="center" >
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px"> Select Machine</span>
-    </div>
-  </div>
-  <div @click="$router.push('selectMachine')">
-    <div class="center">
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px"> Create User</span>
-    </div>
-  </div>
- <div @click="$router.push('createShift')">
-    <div class="center">
-      <v-icon>mdi-plus</v-icon><br>
-      <span style="font-size:12px"> Create Shift</span>
-    </div>
-  </div>
-</div> -->
-
-  <!-- <time-chart-status></time-chart-status> -->
-  <!-- <stackbar-chart></stackbar-chart>     -->
-  <!-- <time-chart></time-chart>     -->
-
-  <!-- <time-chart-status></time-chart-status> -->
-  <!-- <heat-map></heat-map> -->
-  <time-chart-status2></time-chart-status2>
-  <div class="oeeContainer">
-   <div>
-    <percentage-chart
-     :role="'OEE'"
-     :color="$store.state.bgColor.oee"
-     :chartData="10"
-     :title="'OEE'"
-    ></percentage-chart>
-   </div>
-
-   <div>
-    <percentage-chart
-     :role="'AVAILABILITY'"
-     :color="$store.state.bgColor.availability"
-     :chartData="10"
-     :title="'Availability'"
-    ></percentage-chart>
-   </div>
-   <div>
-    <percentage-chart
-     :role="'QUALITY'"
-     :color="$store.state.bgColor.quality"
-     :chartData="90"
-     :title="'Quality'"
-    ></percentage-chart>
-   </div>
-   <div>
-    <percentage-chart
-     :role="'PERFORMANCE'"
-     :color="$store.state.bgColor.performance"
-     :chartData="80"
-     :title="'Performance'"
-    ></percentage-chart>
-   </div>
-  </div>
-
-  <!-- <div style="width:300px">
-<percentage-chart :chartData="10" :title="'Quality'"></percentage-chart>
-</div> -->
-
-  <!-- <doughnut-chart></doughnut-chart> -->
-
-  <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-
-  <!-- We are using Node.js <span id="node-version"></span>, Chromium <span id="chrome-version"></span>, Electron <span id="electron-version"></span>, and Serialport <span id="serialport-version"></span>
-
-    <div id="error"></div>
-    <div id="ports"></div> -->
+<widget-navbar></widget-navbar>
+</div>
+</div>
  </div>
 </template>
 <script>
 /*eslint-disable*/
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 
-        // //load serialport module
-        // const serialPort = require('serialport');
-        // const Readline = serialPort.parsers.Readline;
-
-        // //initialize serialport with 115200 baudrate.
-        // var sp = new serialPort('/dev/ttyUSB0', {
-        //     baudRate: 115200,
-        // });
 
 export default {
  name: "Home",
  mounted(){
-  const socket = io("http://127.0.0.1:4444");
+//   const socket = io("http://127.0.0.1:4444");
 
-  socket.on("readData", async (data) => {
+//   socket.on("readData", async (data) => {
 
-console.log("socket",data)
- })
+// console.log("socket",data)
+//  })
  }
 };
 </script>
@@ -137,23 +41,29 @@ console.log("socket",data)
 .oeeContainer {
  display: flex;
  max-width: 100% !important;
- justify-content: center;
- // overflow:hidden
+ flex-wrap:wrap;
 }
 
-.oeeContainer div {
- width: 200px;
- box-shadow: 8px 0px -1px 0px black;
+.timeChart{
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
+ background: white;
+
+}
+.oeeContainer .oeeWidget {
+ width: 16vw;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
+
  margin: 15px;
  padding: 1px;
+ background: white;
+ border-radius: 4%;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
+
 }
 
-.oeeContainer > div {
- background: #fdfdfd;
- width: 250px;
- box-shadow: 0px 0px 6px 2px;
- border-radius: 4%;
-}
+// .oeeContainer > div {
+
+// }
 
 .toolbar_container {
  display: flex;
@@ -175,4 +85,52 @@ console.log("socket",data)
 .toolbar_container .center {
  text-align: center;
 }
+.widgetContainer{
+  width:100%;
+  display: flex;
+  margin-top:10px;
+  justify-content:center;
+
+}
+.widgetContainer .widget{
+
+    width: 250px;
+    /* height: 57px; */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    margin: 1px;
+    padding: 13px;
+
+
+}
+.widgetGroup{
+ padding:10px;
+ background: white;
+ margin:2px;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
+ }
+.widgetGroupContainer{
+  display:flex;
+}
+.widgetTitle{
+background: #f58181;
+    padding: 5px;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+}
+.widgetBlueTitle{
+  background: cornflowerblue;
+    padding: 5px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+
+}
+body{
+    background: #fdfdfd;
+}
+  
 </style>
