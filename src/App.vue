@@ -14,13 +14,15 @@
 <img style="max-width:65px" src="logo.png" alt="">
       <v-spacer></v-spacer>
 
-<div style="margin-right:10px">Machine</div> <div style="color:green"  class="machineStatus" 
- v-if="$store.state.setup.checkEmbededDevice">
-  <v-icon style="color:green">mdi-power-plug</v-icon>
-</div>
-        <div class="machineStatus" style="color:red;" v-else>
-<v-icon style="color:red">mdi-power-plug-off</v-icon>
+<div style="margin-right:10px">Machine</div> 
+{{$store.state.setup.checkMachine}}
 
+<div style="background:white;padding:10px;">
+
+<v-icon  v-if="$store.state.setup.checkEmbededDevice" style="color:green">mdi-power-plug</v-icon>
+<v-icon v-else style="color:red">mdi-power-plug-off</v-icon>
+<v-icon  v-if="$store.state.setup.checkMachine" style="color:green">mdi-power</v-icon>
+<v-icon v-else style="color:red">mdi-power</v-icon>
         </div>
     </v-app-bar>
 
@@ -57,6 +59,7 @@ export default {
   const socket = io("http://127.0.0.1:4444");
 
 $vm.$store.commit('setEmbededStatus',isMachineStatus)
+$vm.$store.commit('setMachineStatus',false)
 
 socket.on('connect_failed', function(){
   
@@ -73,11 +76,11 @@ socket.on('connect_error', err => handleErrors(err))
 socket.on('connect_failed', err => handleErrors(err))
 socket.on('disconnect', err => handleErrors(err))
   socket.on("readData", async (data) => {
-console.log((JSON.parse(data)))
-// console.log("socket",JSON.parse(data),typeof Object(data))
-var embededData=data
-// $vm.$store.commit('setMachineStatus',embededData.machine)
-
+    var dataset=JSON.parse(data);
+    var machineStatus=dataset.machine==1?true:false
+    var result={...dataset,machine:machineStatus}
+$vm.$store.commit('setMachineStatus',result.machine)
+console.log("embeded",result)
 $vm.$store.commit('setEmbededStatus',true)
  })
  

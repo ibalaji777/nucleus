@@ -32,7 +32,9 @@ port.pipe(parser);
 
 parser.on('data', function (data) {
     console.log('from arduino:', data);
-    io.sockets.emit("readData", JSON.parse(JSON.stringify(data)));
+    io.sockets.emit("readData", data);
+
+    //working
 
 });
 

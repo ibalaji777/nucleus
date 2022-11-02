@@ -50,7 +50,7 @@ isMachineOnOrOff=false;
 
  //---------------------commented---------------
 // Serial.println((String)"{stroke:"+stroke+",rpm:"+rpm+",machine:"+isMachineOnOrOff+",inputState:"+inputState+"}");
-output=(String)"{\"stroke\":\""+stroke+"\","+"\"rpm\":\""+rpm+"\","+"\"machine\":\""+stroke+"\","+"\"inputState\":\""+inputState+"\"}";
+output=(String)"{\"stroke\":\""+stroke+"\","+"\"rpm\":\""+rpm+"\","+"\"machine\":\""+isMachineOnOrOff+"\","+"\"inputState\":\""+inputState+"\"}";
 //-------------------------------------------used string
 //"\"stroke\":\""+stroke+"\""
 //-------------------------------------------used string

@@ -34,7 +34,7 @@ password:payload.password
       }
   },
  setMachineStatus(state,value){
-  // console.log("setMachineStatus",value)
+  console.log("setMachineStatus",value)
   state.setup.checkMachine=value
  } ,
  setEmbededStatus(state,value){
