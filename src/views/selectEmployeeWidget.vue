@@ -65,13 +65,12 @@ Today Date:{{$store.state.setup.date}}<br>
 Current Time:{{$store.state.setup.time}}<br>
 Running Shift:
 
-Shifts:<br>
 
 <!-- {{$store.state.db.shifts}} -->
 <table class="employeeTable">
 <tr>
-    <th>No</th>
-  <th>Name</th>
+ <th>No</th>
+<th>Name</th>
 <th>Start Time</th>
   <th>End Time</th>
 </tr>

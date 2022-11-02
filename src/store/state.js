@@ -7,7 +7,48 @@ operatorLoginDialog:false,
 selectEmployeeWidget:false,
 
     },
-db:{
+xdb:{
+
+default:{
+    id:1,
+    branch:'',
+    company_id:1,
+    config:{
+        plannedTime:8,
+        shifts:[  {
+            id:1,
+            name:'Shift A',
+            creator_id:1, 
+            group:'',
+            creator_role:'',//supervisor or company
+            branch:'',
+            start_time:'',
+            end_time:''
+        },
+        {
+            id:1,
+            name:'Shift B',
+            creator_id:1, 
+            creator_role:'',//supervisor or company
+            branch:'',
+            group:'',
+            start_time:'',
+            end_time:''
+        },
+        {
+            id:1,
+            name:'Shift C',
+            creator_id:1, 
+            creator_role:'',//supervisor or company
+            branch:'',
+            group:'',
+            start_time:'',
+            end_time:''
+        }],
+        breaks:[]
+    },
+},
+
     employee:[
     {
         id:1,
@@ -27,6 +68,42 @@ db:{
     },
 
 ],
+runningMachine:[
+{
+    id:1,
+    company_id:1,
+    ref_id:'111',
+    machine_id:1,
+    part_no_id:'',
+    part_no:'',
+    status:'started',//started/stopped
+    msg:'',//custom stopping  part no insert or change,oil change,powercut
+    reason:'',//unplaneed or planned 
+    shift:'a',
+    emp_id:'',
+    emp_id_card:'',
+    emp_id_name:'',
+    emp_id_role:'',
+}
+],
+runningMachineEntries:[
+{  id:'',
+company_id:1,
+running_machine_id:1,
+running_ref_id:'111',
+machine_id:1,
+part_no_id:'',
+part_no:'',
+status:'started',//started/stopped
+msg:'',//custom stopping  part no insert or change,oil change,powercut
+reason:'',//unplaneed or planned 
+shift:'a',
+emp_id:'',
+emp_id_card:'',
+emp_id_name:'',
+emp_id_role:'',}
+],
+
 machine:[
     {
         id:1,
@@ -38,6 +115,9 @@ machine:[
         name:'a1',
         description:'',
         other:'',
+        hours:8,
+        breaks:[],
+
 
     }
 ],
@@ -48,7 +128,6 @@ shifts:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         branch:'',
-        hours:8,
         start_time:'',
         end_time:''
     },
@@ -58,7 +137,6 @@ shifts:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         branch:'',
-        hours:8,
         start_time:'',
         end_time:''
     },
@@ -89,7 +167,7 @@ email:'',
 },
 setup:{
     time:moment().format("hh:mm s"),
-date:moment().format("HH:MM S"),
+date:moment().format("dddd"),
 shift:'a',
 
     checkMachine:false,
