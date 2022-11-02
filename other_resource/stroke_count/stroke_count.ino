@@ -6,7 +6,10 @@ int time;
 int count=0; 
 int stroke=0;
 int inPin = 7; 
-int isMachineOnOrOff=0;
+  int inputState = 0;
+
+
+boolean isMachineOnOrOff=false;
 String readFrom;
 void isr()//interrupt service routine 
 { 
@@ -17,11 +20,20 @@ void isr()//interrupt service routine
 void setup() { 
   Serial.begin(9600); 
   attachInterrupt(0,isr,RISING);
-  pinMode(inPin, INPUT);
+  pinMode(inPin, OUTPUT);
   //attaching the interrupt 
   count++; } 
-  void loop() { delay(1000); 
-  isMachineOnOrOff= digitalRead(inPin);  
+  void loop() { 
+      inputState= digitalRead(inPin);  
+  if (inputState == HIGH)
+  {
+isMachineOnOrOff=true;
+  } 
+  else{
+isMachineOnOrOff=false;
+  }
+
+    delay(1000); 
   detachInterrupt(0);
   //detaches the interrupt 
   time=millis()-oldtime;    
@@ -35,8 +47,9 @@ void setup() {
 //Serial.println("rotation per minute"); 
 //Serial.println(rpm); 
 //Serial.println("stroke");
+
  //---------------------commented---------------
-Serial.println((String)"output={stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+"}");
+Serial.println((String)"output={stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+",inputState:"+inputState+"}");
 ////------------------read-----serial data-----------
 if (Serial.available() > 0) {
 
