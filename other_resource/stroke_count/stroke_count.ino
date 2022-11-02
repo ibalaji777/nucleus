@@ -31,17 +31,24 @@ void setup() {
   oldtime=millis();             
   //saves the current time 
   rev=0;
-Serial.println("rotation per minute"); 
-Serial.println(rpm); 
-Serial.println("stroke");
+ //---------------------commented--------------- 
+//Serial.println("rotation per minute"); 
+//Serial.println(rpm); 
+//Serial.println("stroke");
+ //---------------------commented---------------
 Serial.println((String)"output={stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+"}");
 ////------------------read-----serial data-----------
 if (Serial.available() > 0) {
 
 readFrom = Serial.readString(); // read the incoming byte:
+Serial.println((String)"readFrom:"+readFrom);
+//Serial.println((String)readFrom=="clear");
+if(readFrom=="clear"){
+//  Serial.println("cleared");
+  stroke=0;
+  rpm=0;
 
-Serial.print(" I received:");
-Serial.println(readFrom);
+}
 
 }
 ////-----------------------------------------------
