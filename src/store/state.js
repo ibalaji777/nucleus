@@ -79,29 +79,49 @@ runningMachine:[
     status:'started',//started/stopped
     msg:'',//custom stopping  part no insert or change,oil change,powercut
     reason:'',//unplaneed or planned 
-    shift:'a',
-    emp_id:'',
-    emp_id_card:'',
-    emp_id_name:'',
-    emp_id_role:'',
-}
-],
-runningMachineEntries:[
-{  id:'',
-company_id:1,
-running_machine_id:1,
-running_ref_id:'111',
-machine_id:1,
-part_no_id:'',
-part_no:'',
-status:'started',//started/stopped
-msg:'',//custom stopping  part no insert or change,oil change,powercut
-reason:'',//unplaneed or planned 
-shift:'a',
+//employee detail
 emp_id:'',
 emp_id_card:'',
 emp_id_name:'',
-emp_id_role:'',}
+shift:'a',
+
+    //computation-----------
+    totalStroke:5,
+    production_count_per_stroke:0,
+    production_count_per_stroke2:0,
+    production_count_type:'production_count_per_stroke',//production_count_per_stroke
+//date
+machine_start_date:'',//date with time
+machine_end_date:'',//date with time 
+
+}
+],
+runningMachineEntries:[
+{  
+id:'',
+company_id:1,
+//
+running_machine_id:1,
+running_ref_id:'111',
+machine_id:1,
+//reason
+status:'started',//started/stopped
+msg:'',//custom stopping  part no insert or change,oil change,powercut
+reason:'',//unplaneed or planned 
+//date
+machine_date:'',//date with time
+
+
+//employee detail
+emp_id:'',
+emp_id_card:'',
+emp_id_name:'',
+shift:'a',
+//running part no
+part_no_id:'',
+part_no:'',
+
+}
 ],
 
 machine:[

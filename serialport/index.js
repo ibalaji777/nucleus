@@ -1,3 +1,4 @@
+/*eslint-disable*/
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -37,6 +38,16 @@ parser.on('data', function (data) {
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
+app.get('/clear', () => {
+  port.write('clear', function(err) {
+    if (err) {
+      return console.log('Error on write: ', err.message)
+    }
+    console.log('message written')
+  })
+  
+});
+
 
 io.on('connection', (socket) => {
   console.log('a user connected');

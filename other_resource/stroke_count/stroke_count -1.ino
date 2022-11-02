@@ -7,7 +7,6 @@ int count=0;
 int stroke=0;
 int inPin = 7; 
 int isMachineOnOrOff=0;
-String readFrom;
 void isr()//interrupt service routine 
 { 
   rev++; 
@@ -35,16 +34,10 @@ Serial.println("rotation per minute");
 Serial.println(rpm); 
 Serial.println("stroke");
 Serial.println((String)"output={stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+"}");
-////------------------read-----serial data-----------
-if (Serial.available() > 0) {
+//Serial.println("output={ stroke: %d ,rpm: %d ,rev: %f   }",stroke,rpm,rev);
+//Serial.println("output={ stroke: %d   }",stroke);
+//Serial.println("stroke %stroke ", stroke);
 
-readFrom = Serial.readString(); // read the incoming byte:
-
-Serial.print(" I received:");
-Serial.println(readFrom);
-
-}
-////-----------------------------------------------
 count++; 
 attachInterrupt(0,isr,RISING); 
 }
