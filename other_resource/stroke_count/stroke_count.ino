@@ -6,9 +6,9 @@ int time;
 int count=0; 
 int stroke=0;
 int inPin = 7; 
-  int inputState = 0;
+int inputState = 0;
 
-
+String output;
 boolean isMachineOnOrOff=false;
 String readFrom;
 void isr()//interrupt service routine 
@@ -49,7 +49,12 @@ isMachineOnOrOff=false;
 //Serial.println("stroke");
 
  //---------------------commented---------------
-Serial.println((String)"{stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+",inputState:"+inputState+"}");
+// Serial.println((String)"{stroke:"+stroke+",rpm:"+rpm+",machine:"+isMachineOnOrOff+",inputState:"+inputState+"}");
+output=(String)"{\"stroke\":\""+stroke+"\","+"\"rpm\":\""+rpm+"\","+"\"machine\":\""+stroke+"\","+"\"inputState\":\""+inputState+"\"}";
+//-------------------------------------------used string
+//"\"stroke\":\""+stroke+"\""
+//-------------------------------------------used string
+Serial.println(output);
 ////------------------read-----serial data-----------
 if (Serial.available() > 0) {
 

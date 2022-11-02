@@ -73,7 +73,7 @@ socket.on('connect_error', err => handleErrors(err))
 socket.on('connect_failed', err => handleErrors(err))
 socket.on('disconnect', err => handleErrors(err))
   socket.on("readData", async (data) => {
-console.log(JSON.parse(data))
+console.log((JSON.parse(data)))
 // console.log("socket",JSON.parse(data),typeof Object(data))
 var embededData=data
 // $vm.$store.commit('setMachineStatus',embededData.machine)
