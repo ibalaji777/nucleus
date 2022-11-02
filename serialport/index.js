@@ -8,6 +8,7 @@ const io = new Server(server);
 
 
 const {SerialPort,ReadlineParser} = require('serialport');
+const { json } = require('express');
 // const Readline = require('@serialport/parser-readline');
 
 const writeDelay = 2000; // reducing this value stops it working
@@ -31,7 +32,7 @@ port.pipe(parser);
 
 parser.on('data', function (data) {
     console.log('from arduino:', data);
-    io.sockets.emit("readData", data);
+    io.sockets.emit("readData", JSON.parse(JSON.stringify(data)));
 
 });
 

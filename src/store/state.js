@@ -109,7 +109,7 @@ status:'started',//started/stopped
 msg:'',//custom stopping  part no insert or change,oil change,powercut
 reason:'',//unplaneed or planned 
 //date
-machine_date:'',//date with time
+machine_end_date:'',//date with time
 
 
 //employee detail
@@ -189,7 +189,7 @@ setup:{
     time:moment().format("hh:mm s"),
 date:moment().format("dddd"),
 shift:'a',
-
+checkEmbededDevice:false,
     checkMachine:false,
     logged:{
         id:'',

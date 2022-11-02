@@ -49,7 +49,7 @@ isMachineOnOrOff=false;
 //Serial.println("stroke");
 
  //---------------------commented---------------
-Serial.println((String)"output={stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+",inputState:"+inputState+"}");
+Serial.println((String)"{stroke:"+stroke+", rpm:"+rpm+",machine:"+isMachineOnOrOff+",inputState:"+inputState+"}");
 ////------------------read-----serial data-----------
 if (Serial.available() > 0) {
 

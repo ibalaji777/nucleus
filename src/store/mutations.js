@@ -37,6 +37,10 @@ password:payload.password
   // console.log("setMachineStatus",value)
   state.setup.checkMachine=value
  } ,
+ setEmbededStatus(state,value){
+  // console.log("setMachineStatus",value)
+  state.setup.checkEmbededDevice=value
+ } ,
  setDialog(state,payload)
 {
   console.log("dialog",payload)
