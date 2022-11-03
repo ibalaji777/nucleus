@@ -16,9 +16,9 @@
 
 <div style="margin-right:10px">Machine</div> 
 <!-- {{$store.state.setup.checkMachine}} -->
+{{$store.state.setup.watchMachine}}
 
 <div style="background:white;padding:10px;">
-
 <v-icon  v-if="$store.state.setup.checkEmbededDevice" style="color:green">mdi-power-plug</v-icon>
 <v-icon v-else style="color:red">mdi-power-plug-off</v-icon>
 <v-icon  v-if="$store.state.setup.checkMachine" style="color:green">mdi-power</v-icon>
@@ -33,8 +33,9 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import io from 'socket.io-client'
-
+import moment from 'moment'
 // import { Chart, registerables } from 'chart.js';
 // Chart.register(...registerables);
 /*eslint-disable*/
@@ -42,6 +43,7 @@ import io from 'socket.io-client'
 const ipcRenderer = window.require("electron").ipcRenderer;
 import * as oee from '../src/core/oee'
 var isMachineStatus=false;
+var liveMachine=[];
 export default {
   name: 'App',
 
@@ -76,13 +78,25 @@ socket.on('connect_error', err => handleErrors(err))
 socket.on('connect_failed', err => handleErrors(err))
 socket.on('disconnect', err => handleErrors(err))
   socket.on("readData", async (data) => {
-    var dataset=JSON.parse(data);
-    var machineStatus=dataset.machine==1?true:false
-    var result={...dataset,machine:machineStatus}
+
+
+var dataset=JSON.parse(data);
+var machineStatus=dataset.machine==1?true:false
+var result={...dataset,machine:machineStatus}
 $vm.$store.commit('setMachineStatus',result.machine)
-console.log("embeded",result)
+// console.log("embeded",result)
 $vm.$store.commit('setEmbededStatus',true)
- })
+$vm.$store.commit('machineLiveData',result)
+//----------watch machine  on/off changes-------
+// if($vm.$store.state.watchMachine!=result.machineStatus)
+// {
+//   liveMachine.push({...result,date:moment()})
+//   $vm.$store.commit('watchMachine',result.machineStatus)
+// }
+
+})
+
+// console.log("live machine",liveMachine)
  
          ipcRenderer.on('shedule', (event, arg) => {
             console.log(arg)
@@ -94,6 +108,17 @@ oee.calculation()
 $vm.$store.commit('setDate')
 $vm.setTimeEverySecond()
   },
+  watch:{
+"$store.state.setup.checkMachine":{
+  handler(value){
+    var $vm=this;
+console.log("macchine state",value)
+  liveMachine.push({...$vm.$store.state.setup.machineLiveData,date:moment()})
+console.log("Live Machine",liveMachine)
+  },deep:true
+}
+  },
+
   methods:{
 
 setTimeEverySecond(){

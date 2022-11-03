@@ -34,7 +34,7 @@ password:payload.password
       }
   },
  setMachineStatus(state,value){
-  console.log("setMachineStatus",value)
+  // console.log("setMachineStatus",value)
   state.setup.checkMachine=value
  } ,
  setEmbededStatus(state,value){
@@ -43,17 +43,17 @@ password:payload.password
  } ,
  setDialog(state,payload)
 {
-  console.log("dialog",payload)
-
-  // state.dialog[payload.key]=payload.value;
   Vue.set(state.dialog,payload.key,payload.value)
-  // operatorLoginDialog
 },
 
 watchMachine(state,value){
-
   state.setup.watchMachine=value;
 }
+,
+machineLiveData(state,value){
+  state.setup.machineLiveData=value;
+}
+
 //"hh:mm:ss a"
 }
 

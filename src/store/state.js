@@ -188,6 +188,7 @@ email:'',
 },
 setup:{
 watchMachine:false,
+machineLiveData:{},
 time:moment().format("hh:mm s"),
 date:moment().format("dddd"),
 shift:'a',
