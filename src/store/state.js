@@ -2,6 +2,7 @@ import moment from "moment/moment";
 
 const state={
 
+
     dialog:{
 operatorLoginDialog:false,
 selectEmployeeWidget:false,
@@ -186,7 +187,8 @@ email:'',
 
 },
 setup:{
-    time:moment().format("hh:mm s"),
+watchMachine:false,
+time:moment().format("hh:mm s"),
 date:moment().format("dddd"),
 shift:'a',
 checkEmbededDevice:false,

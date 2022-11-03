@@ -15,7 +15,7 @@
       <v-spacer></v-spacer>
 
 <div style="margin-right:10px">Machine</div> 
-{{$store.state.setup.checkMachine}}
+<!-- {{$store.state.setup.checkMachine}} -->
 
 <div style="background:white;padding:10px;">
 
@@ -68,8 +68,8 @@ socket.on('connect_failed', function(){
 
 function handleErrors(err)
 {
-  $vm.$store.commit('setEmbededStatus',false)
-
+$vm.$store.commit('setEmbededStatus',false)
+$vm.$store.commit('setMachineStatus',false)
   console.log("Failed to connect")
 }
 socket.on('connect_error', err => handleErrors(err))

@@ -48,9 +48,16 @@ password:payload.password
   // state.dialog[payload.key]=payload.value;
   Vue.set(state.dialog,payload.key,payload.value)
   // operatorLoginDialog
+},
+
+watchMachine(state,value){
+
+  state.setup.watchMachine=value;
 }
 //"hh:mm:ss a"
 }
+
+
 
 
 export default mutations;

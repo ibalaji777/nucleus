@@ -39,6 +39,7 @@
     "node": "10.x"
   },
   "devDependencies": {
+    "@mdi/font": "^7.0.96",
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.13",
     "@vue/cli-plugin-router": "^4.5.19",
