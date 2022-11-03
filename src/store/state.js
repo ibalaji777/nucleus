@@ -8,7 +8,7 @@ operatorLoginDialog:false,
 selectEmployeeWidget:false,
 
     },
-xdb:{
+db:{
 
 default:{
     id:1,
@@ -77,7 +77,8 @@ runningMachine:[
     machine_id:1,
     part_no_id:'',
     part_no:'',
-    status:'started',//started/stopped
+    active_status:'',//ON/OFF
+   // status:'started',//started/stopped
     msg:'',//custom stopping  part no insert or change,oil change,powercut
     reason:'',//unplaneed or planned 
 //employee detail
@@ -191,37 +192,55 @@ watchMachine:false,
 machineLiveData:{},
 time:moment().format("hh:mm s"),
 date:moment().format("dddd"),
-shift:'a',
+// -------using shift------------------------
+selected_shift:{
+    id:1,
+    name:'Shift A',
+    creator_id:1, 
+    group:'',
+    creator_role:'',//supervisor or company
+    branch:'',
+    start_time:'',
+    end_time:''
+},
+// -------using shift------------------------
 checkEmbededDevice:false,
     checkMachine:false,
-    logged:{
-        id:'',
-        name:'',
+  selected_employee:
+    {
+        id:1,
+        branch:'',
+        company_id:1,
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        name:'sathish',
+        username:'op',
+        password:'op',
         email:'',
+        role:'',//superviser or operator
         phone:'',
-        gender:'',
-        idcard:'',
+        id_card:'',
         other:'',
-        group:'',
+
     },
-    selected_shift:{
-     id:'',
-     name:'',
-     hour:'',
-     group:'',
-    },
+  
     selected_machine:{
         id:'',
         name:'',
         detail:'',
         group:'',
     },
-    selected_part_no:{
+    selected_product:{
         id:'',
+        part_no:'',
+        rmcode:'',
+        material_no:'',
+        grn_no:'',
         name:'',
-        production_perStroke:1,
+        // production_perStroke:1,//
         group:'',
         other_detail:'',
+        other:{}
 
 
     },
