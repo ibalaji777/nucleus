@@ -21,7 +21,7 @@
     "core-js": "^3.6.5",
     "echarts": "^5.4.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4",
+    "moment": "^2.19.1",
     "node-gyp": "^9.3.0",
     "node-schedule": "^2.1.0",
     "serialport": "^10.4.0",

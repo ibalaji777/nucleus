@@ -35,7 +35,8 @@
 <script>
 /*eslint-disable*/
 import io from 'socket.io-client'
-import moment from 'moment'
+var moment = require('moment');
+import lodash from 'lodash'
 // import { Chart, registerables } from 'chart.js';
 // Chart.register(...registerables);
 /*eslint-disable*/
@@ -113,7 +114,9 @@ $vm.setTimeEverySecond()
   handler(value){
     var $vm=this;
 console.log("macchine state",value)
-  liveMachine.push({...$vm.$store.state.setup.machineLiveData,date:moment()})
+  liveMachine.push({...$vm.$store.state.setup.machineLiveData,machine_date:new moment().format("YYYY-MM-DD"),machine_time:new moment().format("hh:mm:ss")})
+  liveMachine=_.uniqBy(liveMachine,'stroke')
+  
 console.log("Live Machine",liveMachine)
   },deep:true
 }
