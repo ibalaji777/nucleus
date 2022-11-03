@@ -19,13 +19,14 @@ import widgetHeader from './views/widgetHeader.vue'
 
 
 import selectEmployeeWidget from './views/selectEmployeeWidget.vue' 
+import selectMachine from './views/selectMachine.vue' 
 
 import widgetNavbar from './views/widgetNavbar.vue' 
 import oeePanel from './views/oeePanel.vue' 
 Vue.use(VueSimpleAlert);
 Vue.component('heatMap',heatMap);
 Vue.component('selectEmployeeWidget',selectEmployeeWidget);
-
+Vue.component('selectMachine',selectMachine);
 Vue.component('widgetNavbar',widgetNavbar);
 Vue.component('stackbarChart',stackbarChart);
 Vue.component('timeChartStatus2',timeChartStatus2);

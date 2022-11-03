@@ -1,7 +1,7 @@
 <template>
     <div>
  <div class="widgetContainer">
-<div class="widgetGroup" style="width:32vw">
+<div  @click="$store.commit('setDialog',{key:'selectMachineDialog',value:true})" class="widgetGroup" style="width:32vw">
   <h5 class="widgetTitle">Planned Production Time</h5>
   <div class="widgetGroupContainer">
     <div class="widget">
@@ -41,7 +41,7 @@
  </div>
     
     <select-employee-widget></select-employee-widget>
-    
+    <select-machine></select-machine>
     </div>
 </template>
 <script>

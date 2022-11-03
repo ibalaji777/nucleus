@@ -4,6 +4,7 @@ const state={
 
 
     dialog:{
+        selectMachineDialog:false,
 operatorLoginDialog:false,
 selectEmployeeWidget:false,
 
@@ -165,8 +166,9 @@ down_time:[
     {
         id:1,
         company_id:1,
-        group:'',
-        name:'',
+        name:'Hardware Fixing',
+        description:'',
+           group:'',
 
 
     }
@@ -294,10 +296,18 @@ selected_shift:{
     },
   
     selected_machine:{
-        id:'',
-        name:'',
-        detail:'',
+        id:'1',
+        name:'m1',
+        code:'ia11',
+        detail:'some',
         group:'',
+        company_id:1,
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        branch:'',//ok
+        hours:8,
+        description:'',
+        other:'',
     },
     selected_product:{
         id:'',

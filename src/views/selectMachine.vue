@@ -1,0 +1,118 @@
+<template>
+<v-row justify="center">
+<v-dialog
+v-model="$store.state.dialog.selectMachineDialog"
+fullscreen
+hide-overlay
+transition="dialog-bottom-transition"
+>
+<v-card>
+<v-toolbar
+dark
+color="primary"
+>
+<v-btn
+icon
+dark
+@click="$store.commit('setDialog',{key:'selectMachineDialog',value:false})"
+>
+<v-icon>mdi-close</v-icon>
+</v-btn>
+<v-toolbar-title>Machine Plan</v-toolbar-title>
+<v-spacer></v-spacer>
+<v-toolbar-items>
+<v-btn
+dark
+text
+@click="$store.commit('setDialog',{key:'selectMachineDialog',value:false})"
+>
+Save
+</v-btn>
+</v-toolbar-items>
+</v-toolbar>
+<div style="padding:10px;display:flex">
+
+<div  style="width:50vw">
+<h4>Machine Detail</h4>
+<table class="employeeTable">
+    <tr>
+        <td>id</td>
+        <td>Code</td>
+        <td>Name</td>
+        <td>Detail</td>
+        <td>Planned Time(Hours)</td>
+
+    </tr>
+    <tr>
+    <td>{{$store.state.setup.selected_machine.id}}</td>
+    <td>{{$store.state.setup.selected_machine.code}}</td>
+    <td>{{$store.state.setup.selected_machine.name}}</td>
+    <td>{{$store.state.setup.selected_machine.detail}}</td>
+    <td>{{$store.state.setup.selected_machine.hours}}</td>
+  </tr>
+
+</table>
+<h4>Sheduled Breaks</h4>
+
+<table class="employeeTable">
+    <tr>
+        <td>Name</td>
+        <td>Type</td>
+        <td>Start Time</td>
+        <td>End Time</td>
+    </tr>
+  <tr v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">
+    <td>{{item.name}}</td>
+        <td>{{item.type}}</td>
+    <td>{{item.start_time}}</td>
+     <td>{{item.end_time}}</td>  </tr>
+
+
+</table>
+</div>
+
+<div style="width:50vw">
+
+<h4>DownTimes</h4>
+
+<table class="employeeTable">
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+    </tr>
+  <tr v-for="(item,index) in $store.state.db.down_time" :key="'break'+index">
+    <td>{{item.name}}</td>
+        <td>{{item.Description}}</td>
+  </tr>
+
+</table>
+</div>
+</div>
+</v-card>
+</v-dialog>
+</v-row>
+</template>
+<script>
+export default {
+  data(){
+    return {
+      currentTime:''
+    }
+  }
+
+}
+</script>
+<style lang="scss">
+  
+.employeeTable{
+
+  width:45vw;
+  border-collapse: collapse;
+
+}
+.employeeTable td,th{
+border:1px solid black;
+padding:10px;
+
+}
+</style>
