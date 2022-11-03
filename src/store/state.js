@@ -112,6 +112,7 @@ breaks:[
     {
         id:1,
         name:'teak break',
+        type:'PLANNED',//PLANNED/UNLPLANNED
         groupe:'',
         discription:'shift A',
         start_time:moment().format('hh:mm:ss'),
@@ -132,10 +133,46 @@ companies:[{
     
     
         }],
-    
+//ok-----    
+ product_wise_stroke:[
+            {
+                id:1,
+                product_id:1,
+                machine_id:1,//machine id for group
+                productionPerStroke:1,
+            }
+        ],
+//ok-----        
+        machines:[
+            {
+                id:1,
+                company_id:1,
+                creator_id:1, 
+                creator_role:'',//supervisor or company
+                group:'',
+                branch:'',
+                hours:8,
+                name:'a1',
+                description:'',
+                other:'',
+            }
+        ],
+//ok---------
+down_time:[
+    {
+        id:1,
+        company_id:1,
+        group:'',
+        name:'',
+
+
+    }
+]        
+        
+
 // machine_track:,
 
-runningMachine:[
+// runningMachine:[
 // {
 //     id:1,
 //     company_id:1,
@@ -165,74 +202,37 @@ runningMachine:[
 // machine_end_date:'',//date with time 
 
 // }
-],
+// ],
 
 
-runningMachineEntries:[
-{  
-id:'',
-company_id:1,
-//
-running_machine_id:1,
-running_ref_id:'111',
-machine_id:1,
-//reason
-status:'started',//started/stopped
-msg:'',//custom stopping  part no insert or change,oil change,powercut
-reason:'',//unplaneed or planned 
-//date
-machine_end_date:'',//date with time
+// runningMachineEntries:[
+// {  
+// id:'',
+// company_id:1,
+// //
+// running_machine_id:1,
+// running_ref_id:'111',
+// machine_id:1,
+// //reason
+// status:'started',//started/stopped
+// msg:'',//custom stopping  part no insert or change,oil change,powercut
+// reason:'',//unplaneed or planned 
+// //date
+// machine_end_date:'',//date with time
 
 
-//employee detail
-emp_id:'',
-emp_id_card:'',
-emp_id_name:'',
-shift:'a',
-//running part no
-part_no_id:'',
-part_no:'',
+// //employee detail
+// emp_id:'',
+// emp_id_card:'',
+// emp_id_name:'',
+// shift:'a',
+// //running part no
+// part_no_id:'',
+// part_no:'',
 
-}
-],
+// }
+// ],
 
-machine:[
-    {
-        id:1,
-        company_id:1,
-        creator_id:1, 
-        creator_role:'',//supervisor or company
-        group:'general',
-        branch:'',
-        name:'a1',
-        description:'',
-        other:'',
-        hours:8,
-
-        //importent
-        // shifts:[],
-        products:[
-            {
-                id:1,
-                product_id:1,
-                productionPerStroke:1,
-            }
-        ],
-
-        //importent
-        // breaks:[
-        //     {
-        //         id:1,
-        //         name:'teak break',
-        //         discription:'shift A',
-        //         start_time:moment().format('hh:mm:ss'),
-        //         end_time:moment() .add(15, 'minutes').format('hh:mm:ss')//.add(15,'minutes'),
-        //     }
-        // ]
-
-
-    }
-],
 
 
 
@@ -242,6 +242,18 @@ watchMachine:false,
 machineLiveData:{},
 time:moment().format("hh:mm s"),
 date:moment().format("dddd"),
+
+//ok
+selected_breaks:{
+    id:1,
+    name:'Shift A',
+    creator_id:1, 
+    group:'',
+    creator_role:'',//supervisor or company
+    branch:'',
+    start_time:'',
+    end_time:''
+},
 // -------using shift------------------------
 selected_shift:{
     id:1,

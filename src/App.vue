@@ -162,7 +162,7 @@ production_per_stroke_auto:'',
 production_per_stroke_manual:'', 
 running_machine:[],
 planned_hours:8,
-breaks:[],
+// breaks:[],
 ...shift,
 ...employee
 };
