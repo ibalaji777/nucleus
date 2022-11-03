@@ -46,9 +46,12 @@ default:{
             start_time:'',
             end_time:''
         }],
-        breaks:[]
+  
     },
 },
+// breaks:[
+
+// ],
 
     employee:[
     {
@@ -79,8 +82,10 @@ runningMachine:[
     part_no:'',
     active_status:'',//ON/OFF
    // status:'started',//started/stopped
-    msg:'',//custom stopping  part no insert or change,oil change,powercut
-    reason:'',//unplaneed or planned 
+    //msg:'',//custom stopping  part no insert or change,oil change,powercut
+    break_type:'',//NONE,PLANNED or UNPLANNED ,
+    break_reason:'',
+    remarks:'',
 //employee detail
 emp_id:'',
 emp_id_card:'',
@@ -138,7 +143,25 @@ machine:[
         description:'',
         other:'',
         hours:8,
-        breaks:[],
+        //importent
+        
+        products:[
+            {
+                id:1,
+                product_id:1,
+                productionPerStroke:1,
+            }
+        ],
+
+        //importent
+        breaks:[
+            {
+                id:1,
+                name:'teak break',
+                start_time:'hh:mm:ss',
+                end_time:'hh:mm:ss',
+            }
+        ]
 
 
     }

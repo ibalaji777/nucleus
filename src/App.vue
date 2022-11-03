@@ -150,7 +150,12 @@ var currentMachine={
   machine_date:new moment().format("YYYY-MM-DD"),
   machine_time:new moment().format("hh:mm:ss"),
   machine_active_status:runningMachine.machine?'ON':'OFF',
-  reason:runningMachine.machine?'':'UNPLANNED'
+  //in work--progress
+  break_type:runningMachine.machine?'NONE':'UNPLANNED/PLANNED',
+  break_reason:runningMachine.machine?'Tea Break':'UNPLANNED',
+  break_id:runningMachine.machine?'Tea Break':'UNPLANNED',
+
+
 }
 
 var prepare={
