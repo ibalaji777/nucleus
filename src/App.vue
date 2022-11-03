@@ -16,7 +16,7 @@
 
 <div style="margin-right:10px">Machine</div> 
 <!-- {{$store.state.setup.checkMachine}} -->
-{{$store.state.setup.watchMachine}}
+{{currentTime}}{{$store.state.setup.watchMachine}}
 
 <div style="background:white;padding:10px;">
 <v-icon  v-if="$store.state.setup.checkEmbededDevice" style="color:green">mdi-power-plug</v-icon>
@@ -50,7 +50,7 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+    currentTime:new moment().format('hh:mm')
   }),
 
   mounted(){
@@ -71,6 +71,19 @@ socket.on('connect_failed', function(){
     console.log('Connection Failed');
 });
 
+setInterval(()=>{
+$vm.$store.commit('setTimeEverySecond')
+$vm.$store.commit('setDate')
+var currentTime=$vm.$store.state.setup.time;
+var currentShift=_.filter($vm.$store.state.db.shifts,(x)=>{
+if(x.start_time <= currentTime&&x.end_time >= currentTime) return true;
+return false;
+})
+if(currentShift.length!=0)
+$vm.$store.commit('setShift',currentShift[0])
+
+},700)
+
 function handleErrors(err)
 {
 $vm.$store.commit('setEmbededStatus',false)
@@ -80,7 +93,7 @@ $vm.$store.commit('setMachineStatus',false)
 socket.on('connect_error', err => handleErrors(err))
 socket.on('connect_failed', err => handleErrors(err))
 socket.on('disconnect', err => handleErrors(err))
-  socket.on("readData", async (data) => {
+socket.on("readData", async (data) => {
 
 
 var dataset=JSON.parse(data);
@@ -108,10 +121,18 @@ oee.calculation()
          // Async message sender
         //  ipcRenderer.send('asynchronous-message', 'async ping')
 
-$vm.$store.commit('setDate')
-$vm.setTimeEverySecond()
+// $vm.$store.commit('setDate')
+// $vm.setTimeEverySecond()
   },
   watch:{
+currentTime:{
+handler(){
+var $vm=this;
+console.log(this.currentTime)
+},
+deep:true
+},
+    
 "$store.state.setup.checkMachine":{
   handler(value){
     var $vm=this;
@@ -205,12 +226,12 @@ console.log("Live Machine",liveMachine)
 
   methods:{
 
-setTimeEverySecond(){
-var $vm=this;
-  setInterval(() => {
-    $vm.$store.commit('setTimeEverySecond')
-  }, 1);
-}
+// setTimeEverySecond(){
+// var $vm=this;
+//   setInterval(() => {
+//     $vm.$store.commit('setTimeEverySecond')
+//   }, 1);
+// }
 
 
   }

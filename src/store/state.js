@@ -73,7 +73,7 @@ shifts:[
         creator_role:'',//supervisor or company
         group:'',
         start_time:moment().add(8,'hours')
-        .add(1,'seconds').format('hh:mm'),
+        .format('hh:mm'),
         end_time:moment().add(16,'hours').format('hh:mm'),
     },
     {
@@ -83,9 +83,8 @@ shifts:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         group:'',
-        hours:8,
         start_time:moment().add(16,'hours')
-           .add(1,'seconds').format('hh:mm'),
+        .format('hh:mm'),
         end_time:moment().add(24,'hours').format('hh:mm'),
 
     }
@@ -242,11 +241,12 @@ down_time:[
 
 },
 setup:{
+autoShift:true,
 watchMachine:false,
 machineLiveData:{},
 checkEmbededDevice:false,
 checkMachine:false,
-time:moment().format("hh:mm s"),
+time:moment().format("hh:mm"),
 date:moment().format("dddd"),
 //ok
 selected_group:'',
@@ -268,9 +268,10 @@ selected_shift:{
     creator_id:1, 
     group:'',
     creator_role:'',//supervisor or company
-    branch:'',
     start_time:'',
     end_time:''
+
+
 },
 
 // -------using shift------------------------

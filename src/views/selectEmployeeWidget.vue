@@ -61,9 +61,24 @@ Save
 </div>
 
 <div style="width:50vw">
-Today Date:{{$store.state.setup.date}}<br>
-Current Time:{{$store.state.setup.time}}<br>
-Running Shift:
+  <table class="employeeTable" style="margin:10px 0">
+    <tr>
+      <td><b>Today Date:</b></td>
+      <td>{{$store.state.setup.date}}</td>
+    </tr>
+    <tr>
+      <td><b>Current Time:</b></td>
+      <td>{{$store.state.setup.time}}</td>
+    </tr>
+    <tr>
+      <td><b>Running Shift:</b></td>
+      <td>{{$store.state.setup.selected_shift.name}}</td>
+    </tr>
+  </table>
+<!-- <b>Today Date:</b>{{$store.state.setup.date}}<br> -->
+<!-- <b>Current Time:</b>{{$store.state.setup.time}}<br> -->
+<!-- <b>Running Shift:</b>{{$store.state.setup.selected_shift.name}} -->
+
 
 
 <!-- {{$store.state.db.shifts}} -->

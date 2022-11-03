@@ -9,12 +9,12 @@ const mutations={
 
   },
     setDate(state){
-        state.setup.date=moment().format()
+        state.setup.date=moment().format('YYYY-MM-DD')
       },
   
 
     setTimeEverySecond(state){
-      state.setup.time=moment().format()
+      state.setup.time=moment().format('hh:mm')
     }
 ,
     createCompany(state,payload){
@@ -52,6 +52,19 @@ watchMachine(state,value){
 ,
 machineLiveData(state,value){
   state.setup.machineLiveData=value;
+}
+,
+setShift(state,value){
+console.log("value",value)
+if(state.setup.autoShift){
+Vue.set(state.setup,'selected_shift',{
+  id:value.id,
+  name:value.name,
+  group:value.group,
+  start_time:value.start_time,
+  end_time:value.end_time
+  })
+}
 }
 
 //"hh:mm:ss a"

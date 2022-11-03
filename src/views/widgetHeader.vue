@@ -19,7 +19,10 @@
     <div>User</div>
   </div>
    <div class="widget">
-    <div>Shift </div>
+    <div>
+      Shift<br>
+    {{$store.state.setup.selected_shift.name}}
+      </div>
   </div>
   </div>
   </div>
