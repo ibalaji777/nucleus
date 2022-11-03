@@ -43,6 +43,7 @@ import lodash from 'lodash'
 // window.ipcRenderer = require("electron").ipcRenderer;
 const ipcRenderer = window.require("electron").ipcRenderer;
 import * as oee from '../src/core/oee'
+import { v4 as uuidv4 } from 'uuid';
 var isMachineStatus=false;
 var liveMachine=[];
 export default {
@@ -141,9 +142,30 @@ var runningMachine=$vm.$store.state.setup.machineLiveData;
 if(!_.isEmpty(runningMachine))
 //
 
+var createMachineEntryParent=
+{
+
+company_id:$vm.$store.state.setup.selected_company.id,
+branch_id:$vm.$store.state.setup.selected_company.id,
+machine_client_id:$vm.$store.state.setup.selected_machine.id+new Date().valueOf(),
+machine_id:$vm.$store.state.setup.selected_machine.id,
+machine_name:$vm.$store.state.setup.selected_machine.name,
+date:moment().format('YYY-MM-DD'),
+start_time:moment().format(),//must
+end_time:'',//must
+date:moment().format("YYYY-MM-DD"),
+selectedStrokeType:'manual',//auto or manual
+production_per_stroke_auto:'',
+production_per_stroke_manual:'', 
+running_machine:[],
+planned_hours:8,
+breaks:[],
+...shift,
+...employee
+};
+
 //CHECKING PLANNED
 var currentMachine={
-
   stroke:parseFloat().toFixed(2),
   machine_id:$vm.$store.state.setup.selected_machine.id,
   machine_name:$vm.$store.state.setup.selected_machine.name,

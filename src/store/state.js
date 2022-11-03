@@ -10,45 +10,45 @@ selectEmployeeWidget:false,
     },
 db:{
 
-default:{
-    id:1,
-    branch:'',
-    company_id:1,
-    config:{
-        plannedTime:8,
-        shifts:[  {
-            id:1,
-            name:'Shift A',
-            creator_id:1, 
-            group:'',
-            creator_role:'',//supervisor or company
-            branch:'',
-            start_time:'',
-            end_time:''
-        },
-        {
-            id:1,
-            name:'Shift B',
-            creator_id:1, 
-            creator_role:'',//supervisor or company
-            branch:'',
-            group:'',
-            start_time:'',
-            end_time:''
-        },
-        {
-            id:1,
-            name:'Shift C',
-            creator_id:1, 
-            creator_role:'',//supervisor or company
-            branch:'',
-            group:'',
-            start_time:'',
-            end_time:''
-        }],
+// default:{
+//     id:1,
+//     branch:'',
+//     company_id:1,
+//     config:{
+//         plannedTime:8,
+//         shifts:[  {
+//             id:1,
+//             name:'Shift A',
+//             creator_id:1, 
+//             group:'',
+//             creator_role:'',//supervisor or company
+//             branch:'',
+//             start_time:'',
+//             end_time:''
+//         },
+//         {
+//             id:1,
+//             name:'Shift B',
+//             creator_id:1, 
+//             creator_role:'',//supervisor or company
+//             branch:'',
+//             group:'',
+//             start_time:'',
+//             end_time:''
+//         },
+//         {
+//             id:1,
+//             name:'Shift C',
+//             creator_id:1, 
+//             creator_role:'',//supervisor or company
+//             branch:'',
+//             group:'',
+//             start_time:'',
+//             end_time:''
+//         }],
   
-    },
-},
+//     },
+// },
 // breaks:[
 
 // ],
@@ -72,37 +72,43 @@ default:{
     },
 
 ],
+
+
+// machine_track:,
+
 runningMachine:[
-{
-    id:1,
-    company_id:1,
-    ref_id:'111',
-    machine_id:1,
-    part_no_id:'',
-    part_no:'',
-    active_status:'',//ON/OFF
-   // status:'started',//started/stopped
-    //msg:'',//custom stopping  part no insert or change,oil change,powercut
-    break_type:'',//NONE,PLANNED or UNPLANNED ,
-    break_reason:'',
-    remarks:'',
-//employee detail
-emp_id:'',
-emp_id_card:'',
-emp_id_name:'',
-shift:'a',
+// {
+//     id:1,
+//     company_id:1,
+//     ref_id:'111',
+//     machine_id:1,
+//     part_no_id:'',
+//     part_no:'',
+//     active_status:'',//ON/OFF
+//    // status:'started',//started/stopped
+//     //msg:'',//custom stopping  part no insert or change,oil change,powercut
+//     break_type:'',//NONE,PLANNED or UNPLANNED ,
+//     break_reason:'',
+//     remarks:'',
+// //employee detail
+// emp_id:'',
+// emp_id_card:'',
+// emp_id_name:'',
+// shift:'a',
 
-    //computation-----------
-    totalStroke:5,
-    production_count_per_stroke:0,
-    production_count_per_stroke2:0,
-    production_count_type:'production_count_per_stroke',//production_count_per_stroke
-//date
-machine_start_date:'',//date with time
-machine_end_date:'',//date with time 
+//     //computation-----------
+//     totalStroke:5,
+//     production_count_per_stroke:0,
+//     production_count_per_stroke2:0,
+//     production_count_type:'production_count_per_stroke',//production_count_per_stroke
+// //date
+// machine_start_date:'',//date with time
+// machine_end_date:'',//date with time 
 
-}
+// }
 ],
+
+
 runningMachineEntries:[
 {  
 id:'',
@@ -143,8 +149,9 @@ machine:[
         description:'',
         other:'',
         hours:8,
+
         //importent
-        
+        // shifts:[],
         products:[
             {
                 id:1,
@@ -158,8 +165,9 @@ machine:[
             {
                 id:1,
                 name:'teak break',
-                start_time:'hh:mm:ss',
-                end_time:'hh:mm:ss',
+                discription:'shift A',
+                start_time:moment().format('hh:mm:ss'),
+                end_time:moment() .add(15, 'minutes').format('hh:mm:ss')//.add(15,'minutes'),
             }
         ]
 
@@ -267,7 +275,7 @@ checkEmbededDevice:false,
 
 
     },
-    company:{
+    selected_company:{
         id:'',
         email:'',
         password:''
