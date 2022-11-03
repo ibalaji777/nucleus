@@ -114,23 +114,26 @@ $vm.setTimeEverySecond()
 "$store.state.setup.checkMachine":{
   handler(value){
     var $vm=this;
-
+//ok
 var shift={
   shift_id:$vm.$store.state.setup.selected_shift.id,
   shift_name:$vm.$store.state.setup.selected_shift.name,
 }
+//ok
 var selected_machine={
   machine_id:'',
   machine_name:'',
  
 }
+//ok
 var selected_product={
   product_id:$vm.$store.state.setup.selected_product.id,
-  machine_name:$vm.$store.state.setup.selected_product.name,
+  product_name:$vm.$store.state.setup.selected_product.name,
   rmcode:$vm.$store.state.setup.selected_product.rmcode,
   material_no:$vm.$store.state.setup.selected_product.material_no,
  
 }
+//ok
 var selected_employee={
   emp_id:$vm.$store.state.setup.selected_employee.id,
   emp_name:$vm.$store.state.setup.selected_employee.name,
@@ -175,7 +178,7 @@ var currentMachine={
   //in work--progress
   break_type:runningMachine.machine?'NONE':'UNPLANNED/PLANNED',
   break_reason:runningMachine.machine?'Tea Break':'UNPLANNED',
-  break_id:runningMachine.machine?'Tea Break':'UNPLANNED',
+  // break_id:runningMachine.machine?'Tea Break':'UNPLANNED',
 
 
 }

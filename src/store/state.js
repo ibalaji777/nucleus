@@ -53,10 +53,45 @@ db:{
 
 // ],
 
-    employee:[
+//ok-----
+shifts:[
     {
         id:1,
-        branch:'',
+        company_id:1,
+        name:'Shift A',
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        group:'',
+        start_time:'',
+        end_time:''
+    },
+    {
+        id:2,
+        company_id:1,
+        name:'Shift B',
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        group:'',
+        start_time:'',
+        end_time:''
+    },
+    {
+        id:3,
+        company_id:1,
+        name:'Shift C',
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        group:'',
+        hours:8,
+        start_time:'',
+        end_time:''
+    }
+],
+//ok-------
+employee:[
+    {
+        id:1,
+        group:'',
         company_id:1,
         creator_id:1, 
         creator_role:'',//supervisor or company
@@ -72,8 +107,32 @@ db:{
     },
 
 ],
-
-
+//ok--------
+breaks:[
+    {
+        id:1,
+        name:'teak break',
+        groupe:'',
+        discription:'shift A',
+        start_time:moment().format('hh:mm:ss'),
+        end_time:moment() .add(15, 'minutes').format('hh:mm:ss')//.add(15,'minutes'),
+    }
+],
+//ok-----
+companies:[{
+    id:1,
+    name:'interplex',
+    username:'inter',
+    password:'inter',
+    phone:'',
+    dialcode:'',
+    email:'',
+    address:'',
+    
+    
+    
+        }],
+    
 // machine_track:,
 
 runningMachine:[
@@ -161,61 +220,21 @@ machine:[
         ],
 
         //importent
-        breaks:[
-            {
-                id:1,
-                name:'teak break',
-                discription:'shift A',
-                start_time:moment().format('hh:mm:ss'),
-                end_time:moment() .add(15, 'minutes').format('hh:mm:ss')//.add(15,'minutes'),
-            }
-        ]
+        // breaks:[
+        //     {
+        //         id:1,
+        //         name:'teak break',
+        //         discription:'shift A',
+        //         start_time:moment().format('hh:mm:ss'),
+        //         end_time:moment() .add(15, 'minutes').format('hh:mm:ss')//.add(15,'minutes'),
+        //     }
+        // ]
 
 
     }
 ],
-shifts:[
-    {
-        id:1,
-        name:'Shift A',
-        creator_id:1, 
-        creator_role:'',//supervisor or company
-        branch:'',
-        start_time:'',
-        end_time:''
-    },
-    {
-        id:1,
-        name:'Shift B',
-        creator_id:1, 
-        creator_role:'',//supervisor or company
-        branch:'',
-        start_time:'',
-        end_time:''
-    },
-    {
-        id:1,
-        name:'Shift C',
-        creator_id:1, 
-        creator_role:'',//supervisor or company
-        branch:'',
-        hours:8,
-        start_time:'',
-        end_time:''
-    }
-],
-
-    companies:[{
-id:1,
-name:'interplex',
-username:'inter',
-password:'inter',
-phone:'',
-dialcode:'',
-email:'',
 
 
-    }],
 
 },
 setup:{
