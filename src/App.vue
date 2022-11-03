@@ -59,6 +59,7 @@ export default {
         //  console.log(ipcRenderer.sendSync('shedule', 'sync ping')) 
 
         //  // Async message handler
+        console.log($vm.$store.state.db)
 
   const socket = io("http://127.0.0.1:4444");
 
@@ -164,7 +165,7 @@ running_machine:[],
 planned_hours:8,
 // breaks:[],
 ...shift,
-...employee
+...selected_employee
 };
 
 //CHECKING PLANNED

@@ -62,8 +62,8 @@ shifts:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         group:'',
-        start_time:'',
-        end_time:''
+        start_time:moment().format('hh:mm'),
+        end_time:moment().add(8,'hours').format('hh:mm'),
     },
     {
         id:2,
@@ -72,8 +72,9 @@ shifts:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         group:'',
-        start_time:'',
-        end_time:''
+        start_time:moment().add(8,'hours')
+        .add(1,'seconds').format('hh:mm'),
+        end_time:moment().add(16,'hours').format('hh:mm'),
     },
     {
         id:3,
@@ -83,8 +84,10 @@ shifts:[
         creator_role:'',//supervisor or company
         group:'',
         hours:8,
-        start_time:'',
-        end_time:''
+        start_time:moment().add(16,'hours')
+           .add(1,'seconds').format('hh:mm'),
+        end_time:moment().add(24,'hours').format('hh:mm'),
+
     }
 ],
 //ok-------
@@ -96,6 +99,7 @@ employee:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         name:'sathish',
+        branch:'',//ok
         username:'op',
         password:'op',
         email:'',
@@ -240,9 +244,12 @@ down_time:[
 setup:{
 watchMachine:false,
 machineLiveData:{},
+checkEmbededDevice:false,
+checkMachine:false,
 time:moment().format("hh:mm s"),
 date:moment().format("dddd"),
-
+//ok
+selected_group:'',
 //ok
 selected_breaks:{
     id:1,
@@ -265,9 +272,8 @@ selected_shift:{
     start_time:'',
     end_time:''
 },
+
 // -------using shift------------------------
-checkEmbededDevice:false,
-    checkMachine:false,
   selected_employee:
     {
         id:1,
@@ -313,7 +319,7 @@ checkEmbededDevice:false,
 
     },
 
-    shifts:[],
+
 format:{
     time:"hh:mm:ss a",
     date:'YYYY-MM-DD'
