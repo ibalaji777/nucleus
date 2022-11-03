@@ -27,8 +27,8 @@
   </div>
   </div>
 
-    <div class="widgetGroup"  style="width:32vw">
-  <h5 class="widgetTitle">Running Part No</h5>
+    <div  @click="$store.commit('setDialog',{key:'selectProductDialog',value:true})" class="widgetGroup"  style="width:32vw">
+  <h5 class="widgetTitle">Item/Product</h5>
   <div class="widgetGroupContainer">
     <div class="widget">
     <div>Part No</div>
@@ -42,6 +42,7 @@
     
     <select-employee-widget></select-employee-widget>
     <select-machine></select-machine>
+    <select-product></select-product>
     </div>
 </template>
 <script>

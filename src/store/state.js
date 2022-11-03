@@ -7,6 +7,7 @@ const state={
         selectMachineDialog:false,
 operatorLoginDialog:false,
 selectEmployeeWidget:false,
+selectProductDialog:false,
 
     },
 db:{
@@ -310,12 +311,12 @@ selected_shift:{
         other:'',
     },
     selected_product:{
-        id:'',
-        part_no:'',
-        rmcode:'',
-        material_no:'',
-        grn_no:'',
-        name:'',
+        id:1,
+        part_no:'11',
+        // rmcode:'11a',
+        material_code:'11',
+        grn_no:'11',
+        name:'sample',
         // production_perStroke:1,//
         group:'',
         other_detail:'',

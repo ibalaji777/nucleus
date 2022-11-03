@@ -151,8 +151,8 @@ var selected_machine={
 var selected_product={
   product_id:$vm.$store.state.setup.selected_product.id,
   product_name:$vm.$store.state.setup.selected_product.name,
-  rmcode:$vm.$store.state.setup.selected_product.rmcode,
-  material_no:$vm.$store.state.setup.selected_product.material_no,
+  part_no:$vm.$store.state.setup.selected_product.part_no,
+  material_code:$vm.$store.state.setup.selected_product.material_code,
  
 }
 //ok
