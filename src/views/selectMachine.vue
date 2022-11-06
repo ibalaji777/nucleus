@@ -54,6 +54,11 @@ Save
 </table>
 <h4>Sheduled Breaks</h4>
 
+<b>Planned Time:</b>{{$store.state.setup.selected_machine.hours}} Hours({{plannedProductionMinutes}}Min)<br>
+<b>Total Shedule Break :</b>  {{totalBreak}} minutes
+<br>
+<b>Planned Production Time :</b>  {{plannedProductionMinutes-totalBreak}}  minutes
+
 <table class="employeeTable">
     <tr>
         <td>Name</td>
@@ -69,6 +74,8 @@ Save
 
 
 </table>
+
+
 </div>
 
 <div style="width:50vw">
@@ -93,10 +100,32 @@ Save
 </v-row>
 </template>
 <script>
+/*eslint-disable*/
+import * as oee from '../core/oee.js'
+import _ from 'lodash'
+import moment from 'moment'
 export default {
   data(){
     return {
       currentTime:''
+    }
+  },
+  mounted(){
+var $vm=this;
+
+  },
+  computed:{
+
+    totalBreak()
+    {var $vm=this;
+return  _.reduce($vm.$store.state.db.breaks, function(result, x) {
+  return result+parseFloat(moment.utc(moment(x.end_time, "HH:mm").diff(moment(x.start_time, "HH:mm"))).format("mm"));
+}, 0);
+
+    },
+    plannedProductionMinutes(){
+var $vm=this;
+      return oee.HourToMen($vm.$store.state.setup.selected_machine.hours||0)
     }
   }
 

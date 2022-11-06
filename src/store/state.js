@@ -120,8 +120,8 @@ breaks:[
         type:'PLANNED',//PLANNED/UNLPLANNED
         groupe:'',
         discription:'shift A',
-        start_time:moment().format('hh:mm:ss'),
-        end_time:moment() .add(15, 'minutes').format('hh:mm:ss')//.add(15,'minutes'),
+        start_time:moment().format('HH:mm'),
+        end_time:moment() .add(15, 'minutes').format('HH:mm')//.add(15,'minutes'),
     }
 ],
 //ok-----
