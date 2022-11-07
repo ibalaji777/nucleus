@@ -51,7 +51,7 @@ export default {
 
         //  // Async message handler
         console.log($vm.$store.state.db)
-
+if($vm.$store.state.dialog.isDemoPlugin){
   const socket = io("http://127.0.0.1:4444");
 
 $vm.$store.commit('setEmbededStatus',isMachineStatus)
@@ -100,7 +100,8 @@ $vm.$store.commit('machineLiveData',result)
 
 
 })
-
+}
+//end socket finished
 // console.log("live machine",liveMachine)
  
          ipcRenderer.on('shedule', (event, arg) => {
@@ -121,7 +122,7 @@ console.log(this.currentTime)
 },
 deep:true
 },
-    
+//--------------------------watch machine --------------------------    
 "$store.state.setup.checkMachine":{
   handler(value){
     var $vm=this;
@@ -151,12 +152,18 @@ var selected_employee={
 
 
 }
+//fetch data from embeded device called machineLiveData
 var runningMachine=$vm.$store.state.setup.machineLiveData;
 
 if(!_.isEmpty(runningMachine))
 //
 
-var createMachineEntryParent=
+
+if(_.isEmpty($vm.$store.state.setup.createMachineEntryParent))
+
+{
+  
+  var createMachineEntryParent=
 {
 
 company_id:$vm.$store.state.setup.selected_company.id,
@@ -165,9 +172,6 @@ machine_client_id:$vm.$store.state.setup.selected_machine.id+new Date().valueOf(
 machine_id:$vm.$store.state.setup.selected_machine.id,
 machine_name:$vm.$store.state.setup.selected_machine.name,
 date:moment().format('YYY-MM-DD'),
-start_time:moment().format(),//must
-end_time:'',//must
-date:moment().format("YYYY-MM-DD"),
 selectedStrokeType:'manual',//auto or manual
 production_per_stroke_auto:'',
 production_per_stroke_manual:'', 
@@ -175,12 +179,27 @@ running_machine:[],
 planned_hours:8,
 // breaks:[],
 ...shift,
-...selected_employee
+...selected_employee,
+
+start_time:moment().format(),//must
+end_time:'',//must
+date:moment().format("YYYY-MM-DD"),
+
 };
+
+$vm.$store.commit('createMachineEntryParent',createMachineEntryParent)
+
+}
+
+if(_.isEmpty($vm.$store.state.setup.createMachineEntryParent)){
+
+return;
+}
 
 //CHECKING PLANNED
 var currentMachine={
-  stroke:parseFloat().toFixed(2),
+  stroke:parseFloat(runningMachine.stroke).toFixed(2),
+  machine_client_id:$vm.$store.state.setup.createMachineEntryParent.client_id,
   machine_id:$vm.$store.state.setup.selected_machine.id,
   machine_name:$vm.$store.state.setup.selected_machine.name,
   machine_date:new moment().format("YYYY-MM-DD"),
@@ -207,7 +226,8 @@ var prepare={
 console.log("macchine state",value)
   liveMachine.push(prepare)
   liveMachine=_.uniqBy(liveMachine,'stroke')
-  
+$vm.$store.commit('createMachineEntryChild',prepare)
+
 console.log("Live Machine",liveMachine)
   },deep:true
 }

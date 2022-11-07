@@ -42,6 +42,30 @@ Clear
 {{machineLogs}}
 </pre>
 </div>
+machin entry parent
+<div style="height:500px;overflow:scroll">
+<div v-for="(item,index) in $store.state.setup.createMachineEntryParent" :key="'parent'+index">
+
+{{item}}
+
+</div>
+</div>
+machin entry child {{$store.state.setup.createMachineEntryChild.length}}
+
+watch:
+Live status
+{{$store.state.setup.checkEmbededDevice}}
+{{$store.state.setup.checkMachine}}
+
+<div style="height:500px;overflow:scroll">
+<div v-for="(item,index) in $store.state.setup.createMachineEntryChild" :key="'child'+index">
+
+{{item}}
+
+</div>
+
+</div>
+
 
                 </div>
             </v-card>
@@ -81,7 +105,7 @@ this.inputState=!this.inputState;
     mounted(){
 var $vm=this;
 setInterval(()=>{
-    console.log("timeline",$vm.$store.state.dialog.isDemoPlugin)
+    // console.log("timeline",$vm.$store.state.dialog.isDemoPlugin)
     if($vm.$store.state.dialog.isDemoPlugin)
 {
 //machine in continues mode and signal
@@ -91,9 +115,9 @@ $vm.$store.commit('setEmbededStatus',$vm.machine)
 //live data from machine 
 var check={stroke:$vm.stroke,rpm:$vm.rpm,machine:$vm.machine,inputState:$vm.inputState}
 $vm.$store.commit('machineLiveData',check)
-console.log("embeded",check)
+// console.log("embeded",check)
 $vm.machineLogs=check
-$vm.stroke++;
+$vm.stroke=parseFloat($vm.stroke||0)+1;
 }
 },1000)
 

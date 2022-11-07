@@ -247,7 +247,8 @@ down_time:[
 
 },
 setup:{
-
+createMachineEntryParent:{},
+createMachineEntryChild:[],
 
 autoShift:true,
 watchMachine:false,

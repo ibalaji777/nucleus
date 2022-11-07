@@ -65,8 +65,25 @@ Vue.set(state.setup,'selected_shift',{
   })
 }
 }
+//----------------machine track-----------
+,
+createMachineEntryParent(state,value){
 
-//"hh:mm:ss a"
+  state.setup.createMachineEntryParent=value
+
+}
+
+,
+createMachineEntryChild(state,value){
+
+  state.setup.createMachineEntryChild.push(value)
+
+}
+
+
+
+
+
 }
 
 
