@@ -2,7 +2,7 @@
  <div class="home">
   
 <widget-header></widget-header>
-<div style="display:flex;padding:10px">
+<div style="display:flex;padding:10px;margin:25px 0;background:cornflowerblue">
 
 <div style="width:77vw;">
     <div style="margin-right:20px">
@@ -42,6 +42,7 @@ export default {
  display: flex;
  max-width: 100% !important;
  flex-wrap:wrap;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
 }
 
 .timeChart{
@@ -88,7 +89,7 @@ export default {
 .widgetContainer{
   width:100%;
   display: flex;
-  margin-top:10px;
+  // margin-top:10px;
   justify-content:center;
 
 }

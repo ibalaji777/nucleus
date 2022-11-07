@@ -25,6 +25,9 @@
      <div class="widget">
     <div>Total Reject Count</div>
   </div>
+       <div class="widget">
+    <div>Total Ideal Count</div>
+  </div>
   <!-- <div class="widget">
     <div>Planned Time</div>
   </div> -->

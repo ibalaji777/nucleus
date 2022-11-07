@@ -16,10 +16,10 @@ companies:state.db.companies,
 groups:[],
     },
 setup:{
-  company:{
-    id:state.setup.company.id,
-    email:state.setup.company.email,
-    password:state.setup.company.password,
+  selected_company:{
+    id:state.setup.selected_company.id,
+    email:state.setup.selected_company.email,
+    password:state.setup.selected_company.password,
   },
   shifts:state.setup.shifts,
 }

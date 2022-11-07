@@ -281,17 +281,17 @@ selected_shift:{
   selected_employee:
     {
         id:1,
-        branch:'',
+        branch:'chennai',
         company_id:1,
         creator_id:1, 
         creator_role:'',//supervisor or company
         name:'sathish',
         username:'op',
         password:'op',
-        email:'',
-        role:'',//superviser or operator
-        phone:'',
-        id_card:'',
+        email:'sathis@gmail.com',
+        role:'operator',//superviser or operator
+        phone:'88888888',
+        id_card:'12345',
         other:'',
 
     },

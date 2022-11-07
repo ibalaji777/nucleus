@@ -36,26 +36,26 @@ Save
 <table class="employeeTable">
   <tr>
     <td>Name</td>
-    <td>{{$store.state.setup.user.name}}</td>
+    <td>{{$store.state.setup.selected_employee.name}}</td>
   </tr>
     <tr>
     <td>Branch</td>
-    <td>{{$store.state.setup.user.branch}}</td>
+    <td>{{$store.state.setup.selected_employee.branch}}</td>
   </tr>
     <tr>
     <td>Phone</td>
-    <td>{{$store.state.setup.user.phone}}</td>
+    <td>{{$store.state.setup.selected_employee.phone}}</td>
   </tr>
     <tr>
     <td>Email</td>
-     <td>{{$store.state.setup.user.email}}</td>  </tr>
+     <td>{{$store.state.setup.selected_employee.email}}</td>  </tr>
     <tr>
     <td>Username</td>
-    <td>{{$store.state.setup.user.username}}</td>
+    <td>{{$store.state.setup.selected_employee.username}}</td>
   </tr>
     <tr>
     <td>Id Card</td>
-    <td>{{$store.state.setup.user.id_card}}</td>
+    <td>{{$store.state.setup.selected_employee.id_card}}</td>
   </tr>
 </table>
 </div>

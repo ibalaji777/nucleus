@@ -1,6 +1,6 @@
 <template>
     <div>
-  <div class="oeeContainer">
+  <div class="oeeContainer" style="margin:10px 0;background:dimgrey">
    <div class="oeeWidget">
     <percentage-chart
      :role="'OEE'"

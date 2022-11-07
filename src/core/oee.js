@@ -37,11 +37,11 @@ return (parseFloat(shiftLength||0)-parseFloat(downTime||0)).toFixed(4)
     return (parseFloat(totalCount||0)-parseFloat(rejectCount||0)).toFixed(4)
 }
 
-export function HourToMen(hour){
+export function HourToMin(hour){
     return parseFloat(hour||0)*60;
 }
 export function calculation(){
-var shiftLength=HourToMen(8);//minutes
+var shiftLength=HourToMin(8);//minutes
 var breakTime=60;//minutes
 var downTime=47//minutes
 var idealCycleTime=1;//seconds

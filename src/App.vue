@@ -15,8 +15,6 @@
       <v-spacer></v-spacer>
 
 <div style="margin-right:10px">Machine</div> 
-<!-- {{$store.state.setup.checkMachine}} -->
-{{currentTime}}{{$store.state.setup.watchMachine}}
 
 <div style="background:white;padding:10px;">
 <v-icon  v-if="$store.state.setup.checkEmbededDevice" style="color:green">mdi-power-plug</v-icon>

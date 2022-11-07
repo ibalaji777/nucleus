@@ -30,11 +30,18 @@ Save
 </v-btn>
 </v-toolbar-items>
 </v-toolbar>
-<div style="padding:10px;display:flex">
+<div style="padding:10px;">
 
-<div  style="width:50vw">
+<div  style="width:100vw">
 <h4>Machine Detail</h4>
-<table class="employeeTable">
+<div style="padding:10px;margin:10px;background:lightgrey;">
+<b>id</b>:{{$store.state.setup.selected_machine.id}}<br>
+<b>Code</b>:{{$store.state.setup.selected_machine.Code}}<br>
+<b>name</b>:{{$store.state.setup.selected_machine.name}}<br>
+<b>detail</b>:{{$store.state.setup.selected_machine.detail}}<br>
+<b>hours</b>:{{$store.state.setup.selected_machine.hours}}<br>
+</div>
+<!-- <table class="employeeTable">
     <tr>
         <td>id</td>
         <td>Code</td>
@@ -51,7 +58,7 @@ Save
     <td>{{$store.state.setup.selected_machine.hours}}</td>
   </tr>
 
-</table>
+</table> -->
 <h4>Sheduled Breaks</h4>
 
 <b>Planned Time:</b>{{$store.state.setup.selected_machine.hours}} Hours({{plannedProductionMinutes}}Min)<br>
@@ -59,7 +66,16 @@ Save
 <br>
 <b>Planned Production Time :</b>  {{plannedProductionMinutes-totalBreak}}  minutes
 
-<table class="employeeTable">
+
+
+
+</div>
+
+<div style="width:100vw;display:flex">
+
+<div style="padding:10px">
+  <h4 style="padding:10px">Breaks</h4>
+  <table class="employeeTable">
     <tr>
         <td>Name</td>
         <td>Type</td>
@@ -74,15 +90,12 @@ Save
 
 
 </table>
-
-
 </div>
+<div style="padding:10px">
 
-<div style="width:50vw">
+<h4 style="padding:10px">DownTimes</h4>
 
-<h4>DownTimes</h4>
-
-<table class="employeeTable">
+<table  class="employeeTable">
     <tr>
         <td>Name</td>
         <td>Description</td>
@@ -93,6 +106,7 @@ Save
   </tr>
 
 </table>
+</div>
 </div>
 </div>
 </v-card>
@@ -125,7 +139,7 @@ return  _.reduce($vm.$store.state.db.breaks, function(result, x) {
     },
     plannedProductionMinutes(){
 var $vm=this;
-      return oee.HourToMen($vm.$store.state.setup.selected_machine.hours||0)
+      return oee.HourToMin($vm.$store.state.setup.selected_machine.hours||0)
     }
   }
 
