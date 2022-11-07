@@ -4,7 +4,7 @@ import Vue from 'vue'
 const mutations={
 
   createShift(state,payload){
-    console.log("--shift---",payload)
+    // console.log("--shift---",payload)
     state.setup.shifts.push(payload)
 
   },
@@ -34,11 +34,10 @@ password:payload.password
       }
   },
  setMachineStatus(state,value){
-  // console.log("setMachineStatus",value)
-  state.setup.checkMachine=value
+   state.setup.checkMachine=value
  } ,
  setEmbededStatus(state,value){
-  // console.log("setMachineStatus",value)
+  
   state.setup.checkEmbededDevice=value
  } ,
  setDialog(state,payload)
@@ -55,7 +54,7 @@ machineLiveData(state,value){
 }
 ,
 setShift(state,value){
-console.log("value",value)
+// console.log("value",value)
 if(state.setup.autoShift){
 Vue.set(state.setup,'selected_shift',{
   id:value.id,

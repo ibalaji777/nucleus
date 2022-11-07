@@ -4,10 +4,12 @@ const state={
 
 
     dialog:{
+        demoMachineDialog:false,
         selectMachineDialog:false,
 operatorLoginDialog:false,
 selectEmployeeWidget:false,
 selectProductDialog:false,
+isDemoPlugin:false,
 
     },
 db:{
@@ -245,6 +247,8 @@ down_time:[
 
 },
 setup:{
+
+
 autoShift:true,
 watchMachine:false,
 machineLiveData:{},

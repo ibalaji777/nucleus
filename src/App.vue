@@ -1,34 +1,27 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="#43386A"
-      dark
-    >
-    <!-- <v-icon @click="$router.go(-1)">mdi-arrow-left-thick</v-icon>
-        <v-icon @click="$router.go(-1)">mdi-arrow-left-thick</v-icon> -->
-      <!-- <div class="d-flex align-center">
+    <v-app>
+        <v-app-bar app color="#43386A" dark>
+               <img  @click="$store.commit('setDialog',{key:'demoMachineDialog',value:true})" style="max-width: 65px;cursor:pointer" src="logo.png" alt="" />
+                <!-- <img  style="max-width: 65px;" src="logo.png" alt="" /> -->
+            <v-spacer></v-spacer>
+
    
-      </div> -->
+            <div style="background: white; padding: 10px;">
+                <v-icon v-if="$store.state.setup.checkEmbededDevice" style="color: green;">mdi-power-plug</v-icon>
+                <v-icon v-else style="color: red;">mdi-power-plug-off</v-icon>
+                <span style="color: black;">|</span>
+                <v-icon v-if="$store.state.setup.checkMachine" style="color: green;">mdi-power</v-icon>
+                <v-icon v-else style="color: red;">mdi-power</v-icon>
+            </div>
+        </v-app-bar>
 
-<img style="max-width:65px" src="logo.png" alt="">
-      <v-spacer></v-spacer>
-
-<div style="margin-right:10px">Machine</div> 
-
-<div style="background:white;padding:10px;">
-<v-icon  v-if="$store.state.setup.checkEmbededDevice" style="color:green">mdi-power-plug</v-icon>
-<v-icon v-else style="color:red">mdi-power-plug-off</v-icon>
-<v-icon  v-if="$store.state.setup.checkMachine" style="color:green">mdi-power</v-icon>
-<v-icon v-else style="color:red">mdi-power</v-icon>
-        </div>
-    </v-app-bar>
-
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+        <v-main>
+            <router-view />
+        </v-main>
+              <demo-machine-dialog></demo-machine-dialog>
+    </v-app>
 </template>
+
 
 <script>
 /*eslint-disable*/
@@ -97,16 +90,14 @@ socket.on("readData", async (data) => {
 var dataset=JSON.parse(data);
 var machineStatus=dataset.machine==1?true:false
 var result={...dataset,machine:machineStatus}
+//machine in continues mode and signal
 $vm.$store.commit('setMachineStatus',result.machine)
-// console.log("embeded",result)
+//serial port started read
 $vm.$store.commit('setEmbededStatus',true)
+//live data from machine 
 $vm.$store.commit('machineLiveData',result)
-//----------watch machine  on/off changes-------
-// if($vm.$store.state.watchMachine!=result.machineStatus)
-// {
-//   liveMachine.push({...result,date:moment()})
-//   $vm.$store.commit('watchMachine',result.machineStatus)
-// }
+// console.log("embeded",result)
+
 
 })
 

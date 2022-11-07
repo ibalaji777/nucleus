@@ -191,5 +191,6 @@ const config = {
 .graphContainer2{
     padding:10px;
     // background:lightgrey;
+    border: 1px solid black;
 }
 </style>

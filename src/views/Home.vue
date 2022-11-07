@@ -16,6 +16,7 @@
                 <widget-navbar></widget-navbar>
             </div>
         </div>
+
     </div>
 </template>
 <script>
@@ -34,6 +35,8 @@ export default {
  max-width: 100% !important;
  flex-wrap:wrap;
  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
+ border: 2px solid;
+
 }
 
 .timeChart{
@@ -94,7 +97,8 @@ export default {
 
     margin: 1px;
     padding: 13px;
-
+background: #2f4f6f;
+    color: white;
 
 }
 .widgetGroup{
