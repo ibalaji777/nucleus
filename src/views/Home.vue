@@ -1,38 +1,27 @@
 <template>
- <div class="home">
-  
-<widget-header></widget-header>
-<div style="display:flex;padding:10px;margin:25px 0;background:cornflowerblue">
-
-<div style="width:77vw;">
-    <div style="margin-right:20px">
-      <div class="timeChart">
-<time-chart-status2></time-chart-status2>
-</div>
-<oee-panel></oee-panel>
-</div>
-</div>
-<div style="width:19vw">
-
-<widget-navbar></widget-navbar>
-</div>
-</div>
- </div>
+    <div class="home">
+        <widget-header></widget-header>
+        <div style="display: flex; padding: 10px; margin: 25px 0; background: cornflowerblue;">
+            <div style="width: 77vw;">
+                <div style="margin-right: 20px;">
+                    <div class="timeChart">
+                        <time-chart-status2></time-chart-status2>
+                    </div>
+                    <oee-panel></oee-panel>
+                </div>
+            </div>
+            <div style="width: 19vw;">
+                <widget-navbar></widget-navbar>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 /*eslint-disable*/
-// import io from 'socket.io-client'
-
-
 export default {
  name: "Home",
  mounted(){
-//   const socket = io("http://127.0.0.1:4444");
 
-//   socket.on("readData", async (data) => {
-
-// console.log("socket",data)
-//  })
  }
 };
 </script>

@@ -1,59 +1,59 @@
 <template>
-    <div style="    margin: 10px 0;">
- <div class="widgetContainer" style="    margin: 10px 0;">
-<div  @click="$store.commit('setDialog',{key:'selectMachineDialog',value:true})" class="widgetGroup" style="width:32vw">
-  <h5 class="widgetTitle">Planned Production Time</h5>
-  <div class="widgetGroupContainer">
-    <div class="widget">
-    <div class="widgetHeader">Planned Time</div>:
-    <div class="widgetContent">{{$store.state.setup.selected_machine.hours}} Hrs</div>
-  </div>
-   <div class="widget">
-    <div class="widgetHeader">Breaks </div>:
-     <div class="widgetContent">{{totalBreak}} Min</div>
+    <div style="margin: 10px 0;">
+        <div class="widgetContainer" style="margin: 10px 0;">
+            <div @click="$store.commit('setDialog',{key:'selectMachineDialog',value:true})" class="widgetGroup" style="width: 32vw;">
+                <h5 class="widgetTitle">Planned Production Time</h5>
+                <div class="widgetGroupContainer">
+                    <div class="widget">
+                        <div class="widgetHeader">Planned Time</div>
+                        :
+                        <div class="widgetContent">{{$store.state.setup.selected_machine.hours}} Hrs</div>
+                    </div>
+                    <div class="widget">
+                        <div class="widgetHeader">Breaks</div>
+                        :
+                        <div class="widgetContent">{{totalBreak}} Min</div>
+                    </div>
+                </div>
+            </div>
+            <div @click="$store.commit('setDialog',{key:'selectEmployeeWidget',value:true})" class="widgetGroup" style="width: 32vw;">
+                <h5 class="widgetTitle">User Detail</h5>
+                <div class="widgetGroupContainer">
+                    <div class="widget">
+                        <div class="widgetHeader">Username</div>
+                        :<br />
+                        <div class="widgetContent">{{$store.state.setup.selected_employee.username}}</div>
+                    </div>
+                    <div class="widget">
+                        <div class="widgetHeader">
+                            Shift
+                        </div>
+                        :
+                        <div class="widgetContent">{{$store.state.setup.selected_shift.name}}</div>
+                    </div>
+                </div>
+            </div>
 
-  </div>
-  </div>
-  </div>
-  <div @click="$store.commit('setDialog',{key:'selectEmployeeWidget',value:true})" class="widgetGroup"  style="width:32vw">
-  <h5 class="widgetTitle">User Detail</h5>
-  <div class="widgetGroupContainer">
-    <div class="widget">
-    <div class="widgetHeader">Username</div>:<br>
-    <div class="widgetContent">{{$store.state.setup.selected_employee.username}}</div>
+            <div @click="$store.commit('setDialog',{key:'selectProductDialog',value:true})" class="widgetGroup" style="width: 32vw;">
+                <h5 class="widgetTitle">Item/Product</h5>
+                <div class="widgetGroupContainer">
+                    <div class="widget">
+                        <div class="widgetHeader">Part No</div>
+                        :
+                        <div class="widgetContent">{{$store.state.setup.selected_product.part_no}}</div>
+                    </div>
+                    <div class="widget">
+                        <div class="widgetHeader">Material Code</div>
+                        :
+                        <div class="widgetContent">{{$store.state.setup.selected_product.material_code}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  </div>
-   <div class="widget">
-    <div class="widgetHeader">
-      Shift
-      </div>:
-            <div class="widgetContent">    {{$store.state.setup.selected_shift.name}}
-</div>
-
-  </div>
-  </div>
-  </div>
-
-    <div  @click="$store.commit('setDialog',{key:'selectProductDialog',value:true})" class="widgetGroup"  style="width:32vw">
-  <h5 class="widgetTitle">Item/Product</h5>
-  <div class="widgetGroupContainer">
-    <div class="widget">
-    <div class="widgetHeader">Part No</div>:
-   <div class="widgetContent">{{$store.state.setup.selected_product.part_no}}</div>
-
-  </div>
-   <div class="widget">
-    <div class="widgetHeader">Material Code </div>:
-   <div class="widgetContent">{{$store.state.setup.selected_product.material_code}}</div>
-
-  </div>
-  </div>
-  </div>
- </div>
-    
-    <select-employee-widget></select-employee-widget>
-    <select-machine></select-machine>
-    <select-product></select-product>
+        <select-employee-widget></select-employee-widget>
+        <select-machine></select-machine>
+        <select-product></select-product>
     </div>
 </template>
 <script>
