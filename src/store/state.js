@@ -169,7 +169,8 @@ down_time:[
         company_id:1,
         name:'Hardware Fixing',
         description:'',
-           group:'',
+        group:'',
+        type:'break'
 
 
     }

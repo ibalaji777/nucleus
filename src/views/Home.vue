@@ -1,8 +1,10 @@
 <template>
     <div class="home">
         <widget-header></widget-header>
-        <div style="display: flex; padding: 10px; margin: 25px 0; background: cornflowerblue;">
-            <div style="width: 77vw;">
+      <h1 style="margin:0;padding:0;text-align:center">Live Status</h1>
+          
+        <div style="display: flex; padding: 10px; margin: 10px 0; background: cornflowerblue;">
+          <div style="width: 77vw;">
                 <div style="margin-right: 20px;">
                     <div class="timeChart">
                         <time-chart-status2></time-chart-status2>
