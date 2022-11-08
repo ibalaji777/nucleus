@@ -93,6 +93,17 @@ shifts:[
 
     }
 ],
+//OK
+branches:[
+    {
+        id:1,
+        name:'Chennai'
+    },
+    {
+        id:2,
+        name:'Bangalore'
+    }
+],
 //ok-------
 employee:[
     {
@@ -254,7 +265,8 @@ uiTimeFormat:"hh:mm a",
 bgTimeFormat:"HH:mm",
 uiDateFormat:"DD-MM-YYYY",
 bgDateFormat:"YYYY-MM-DD",
-
+machineSessionId:{},
+machineActivities:[],
 createMachineEntryParent:{},
 createMachineEntryChild:[],
 
@@ -264,6 +276,11 @@ machineLiveData:{},
 checkEmbededDevice:false,
 checkMachine:false,
 
+//ok
+selected_branch:{
+    id:1,
+    name:'Chennai'
+},
 //ok
 selected_group:'',
 //ok

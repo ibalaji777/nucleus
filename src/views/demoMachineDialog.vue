@@ -17,17 +17,17 @@
 
 Plugin  
 <div  v-if="$store.state.dialog.isDemoPlugin">
-off
+ON
 </div>
-<div v-else>On</div>
+<div v-else>OFF</div>
 </v-btn>
 
 <v-btn dark color="primary" @click="switchMachine">
 machine
 <div  v-if="machine">
-off
+ON
 </div>
-<div v-else>On</div>
+<div v-else>OFF</div>
 
 </v-btn>
 
@@ -42,31 +42,45 @@ Clear
 {{machineLogs}}
 </pre>
 </div>
-machin entry parent
+machineSessionId
 <div style="height:500px;overflow:scroll">
-<div v-for="(item,index) in $store.state.setup.createMachineEntryParent" :key="'parent'+index">
-
-{{item}}
-
+<pre>{{$store.state.setup.machineSessionId}}</pre>
 </div>
-</div>
-machin entry child {{$store.state.setup.createMachineEntryChild.length}}
+machin entry child {{$store.state.setup.machineActivities.length}}
 
 watch:
 Live status
 {{$store.state.setup.checkEmbededDevice}}
 {{$store.state.setup.checkMachine}}
+<h4>Machine Client Id:{{$store.state.setup.machineSessionId.machine_client_id}}</h4>
+<h4>Running/Runned Product:{{globalRunningProducts}}</h4>
+<h4>Running/Runned Shift:{{globalRunningShifts}}</h4>
+<h4>Running Employee:{{globalRunningEmps}}</h4>
+<h4>How Many ON's(Active):{{globalRunningOn.length}}</h4>
+<h4>How Many OFF's(Stoppes):{{globalRunningOff.length}}</h4>
 
-<div style="height:500px;overflow:scroll">
-<div v-for="(item,index) in $store.state.setup.createMachineEntryChild" :key="'child'+index">
+<h4>Planned Stops:{{globalPlannedStops.length}}</h4>
+<h4>UnPlannned Stops:{{globalUnPlannedStops.length}}</h4>
+<h4>Max Stroke:{{globalMaxStroke.stroke}}</h4>
 
-{{item}}
+<div style="width:100vw;overflow:scroll">
+<table class="demoMachinTable" >
+<tr v-for="(item,index) in [$store.state.setup.machineActivities[0]]" :key="'child-'+index">
+<td v-for="(cell,key,cell_index) in item" :key="'celdl'+cell_index">
+{{key}}
+</td>
+    
+<tr v-for="(item,index) in $store.state.setup.machineActivities" :key="'child'+index">
+<td v-for="(cell,cell_index) in item" :key="'cell'+cell_index+index">
+{{cell}}
+</td>
+<!-- {{item}} -->
+
+</tr>
+
+</table>
 
 </div>
-
-</div>
-
-
                 </div>
             </v-card>
         </v-dialog>
@@ -125,5 +139,21 @@ $vm.stroke=parseFloat($vm.stroke||0)+1;
 }
 </script>
 <style lang="scss">
-    
+    .demoMachinTable{
+     width: 100%;
+    height: 500px;
+    overflow: scroll;
+    border-collapse: collapse;
+    }
+    .demoMachinTable tr,td{
+        border:1px solid black;
+        padding:10px;
+    }
+        .demoMachinTable tr:nth-child(odd){
+            background: lightblue;
+        }
+        .demoMachinTable tr:nth-child(even){
+            background: grey;
+        }
+
 </style>

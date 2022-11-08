@@ -58,27 +58,40 @@ export function tracker($vm) {
         //
 
 
-        if (_.isEmpty($vm.$store.state.setup.machineSessionId))
+        if (_.isEmpty($vm.$store.state.setup.createMachineEntryParent))
 
     {
 //k
-        var machineSessionId = {
+        var createMachineEntryParent = {
+            id:1,
+            company_id: $vm.$store.state.setup.selected_company.id,//OK
+            branch_id: $vm.$store.state.setup.selected_branch.id,//OK
             machine_client_id: $vm.$store.state.setup.selected_machine.id + new Date().valueOf(),//ok random
+            machine_id: $vm.$store.state.setup.selected_machine.id,//k
+            machine_name: $vm.$store.state.setup.selected_machine.name,//k
+            selectedStrokeType: 'manual',//k //auto or manual
+            production_per_stroke_auto: '',//k
+            production_per_stroke_manual: '',//k
+            planned_hours: 8,
+            ...shift,
+            ...selected_employee,
             start_time: moment().format($vm.$store.state.setup.bgTimeFormat), //must
             end_time:  moment().format($vm.$store.state.setup.bgTimeFormat), //must
             isClosed:false,
             date: moment().format($vm.$store.state.setup.bgDateFormat),
+
         };
 
-        $vm.$store.commit('machineSessionId', machineSessionId)
+        $vm.$store.commit('createMachineEntryParent', createMachineEntryParent)
 
     }
 
-    if (_.isEmpty($vm.$store.state.setup.machineSessionId)) {
+    if (_.isEmpty($vm.$store.state.setup.createMachineEntryParent)) {
 
         return;
     }
 
+//create part no with machine id
 
 
 
@@ -87,7 +100,7 @@ export function tracker($vm) {
     //CHECKING PLANNED
     var currentMachine = {
         stroke: parseFloat(runningMachine.stroke).toFixed(2),
-        machine_client_id: $vm.$store.state.setup.machineSessionId.machine_client_id,
+        machine_client_id: $vm.$store.state.setup.createMachineEntryParent.client_id,
         machine_id: $vm.$store.state.setup.selected_machine.id,
         machine_name: $vm.$store.state.setup.selected_machine.name,
         machine_date: new moment().format("YYYY-MM-DD"),
@@ -110,7 +123,7 @@ export function tracker($vm) {
     }
     liveMachine.push(prepare)
     liveMachine = _.uniqBy(liveMachine, 'stroke')
-    $vm.$store.commit('machineActivities', prepare)
+    $vm.$store.commit('createMachineEntryChild', prepare)
 
     console.log("Live Machine", liveMachine)
 }

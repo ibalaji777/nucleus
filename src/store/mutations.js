@@ -72,11 +72,23 @@ createMachineEntryParent(state,value){
   state.setup.createMachineEntryParent=value
 
 }
+,
+machineSessionId(state,value){
+
+  state.setup.machineSessionId=value
+
+}
 
 ,
 createMachineEntryChild(state,value){
 
   state.setup.createMachineEntryChild.push(value)
+
+},
+
+machineActivities(state,value){
+
+  state.setup.machineActivities.push(value)
 
 }
 

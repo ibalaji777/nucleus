@@ -109,12 +109,9 @@ export default {
 }
 </script>
 <style lang="scss">
-  
-.employeeTable{
-
+ .employeeTable{
   width:45vw;
   border-collapse: collapse;
-
 }
 .employeeTable td,th{
 border:1px solid black;
