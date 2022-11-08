@@ -67,7 +67,18 @@ globalRunningShifts(){
    return (value)=> {
     return moment(String(value),$vm.$store.state.setup.bgDateFormat).format($vm.$store.state.setup.uiDateFormat)}
   
-      }
+      },
+      //------------------mixin------
+      globalBtnBgColor(){
+
+       return  this.$store.state.style.btnBgColor;
+    },
+    globalStyle(){
+
+        return 'color:'+this.$store.state.style.btnTxtColor;
+    }
+
+
     }
     
   })

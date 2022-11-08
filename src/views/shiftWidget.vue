@@ -3,18 +3,18 @@
 
 <v-dialog
 width="700"
-v-model="$store.state.dialog.productWidgetDialog">
+v-model="$store.state.dialog.shiftWidgetDialog">
 <v-card>
     <v-toolbar
 dark
 color="primary"
 >
-<v-toolbar-title>Select Product/part No</v-toolbar-title>
+<v-toolbar-title>Shift</v-toolbar-title>
 <v-spacer></v-spacer>
 <v-btn
 icon
 dark
-@click="$store.commit('setDialog',{key:'productWidgetDialog',value:false})"
+@click="$store.commit('setDialog',{key:'shiftWidgetDialog',value:false})"
 >
 <v-icon>mdi-close</v-icon>
 </v-btn>
@@ -28,12 +28,12 @@ dark
 
     <v-autocomplete
     outlined
-     :items="$store.state.db.products"
+     :items="$store.state.db.shifts"
      attach
      item-text='name'
      return-object
      v-model="name"
-     label="Search Products"
+     label="Search Shifts"
      required
      @change="selectProduct"
      >
@@ -71,7 +71,7 @@ var $vm=this;
 $vm.selected=value
 console.log("selected",value)
 
-$vm.$store.commit('setProduct',value)
+$vm.$store.commit('setShiftManually',value)
         }
     }
 }

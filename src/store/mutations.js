@@ -12,7 +12,6 @@ const mutations={
         state.setup.date=moment().format('YYYY-MM-DD')
       },
   
-
     setTimeEverySecond(state){
       state.setup.time=moment().format('hh:mm')
     }
@@ -91,7 +90,29 @@ machineActivities(state,value){
   state.setup.machineActivities.push(value)
 
 }
+,
+//--------------------change widget----------
+setProduct(state,payload){
+  state.setup.selected_product.id=payload.id
+  state.setup.selected_product.part_no=payload.part_no
+  state.setup.selected_product.material_code=payload.material_code
+  state.setup.selected_product.grn_no=payload.grn_no
+  state.setup.selected_product.name=payload.name
+  state.setup.selected_product.group=payload.group
+  state.setup.selected_product.other_detail=payload.other_detail
+  state.setup.selected_product.other=payload.other
+},
+setShiftManually(state,payload){
 
+state.setup.selected_shift.id=payload.id;
+state.setup.selected_shift.name=payload.name;
+state.setup.selected_shift.group=payload.group;
+state.setup.selected_shift.creator_id=payload.creator_id;
+state.setup.selected_shift.creator_role=payload.creator_role;
+state.setup.selected_shift.start_time=payload.start_time;
+state.setup.selected_shift.end_time=payload.end_time;
+
+}
 
 
 

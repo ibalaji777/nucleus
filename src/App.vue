@@ -21,6 +21,9 @@
               <demo-machine-dialog></demo-machine-dialog>
               <!-- --dialog-- -->
               <product-widget></product-widget>
+              <shift-widget></shift-widget>
+              <emp-login-widget></emp-login-widget>
+              <machine-widget></machine-widget>
     </v-app>
 </template>
 

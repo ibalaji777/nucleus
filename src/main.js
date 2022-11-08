@@ -29,7 +29,17 @@ import oeePanel from './views/oeePanel.vue'
 Vue.use(VueSimpleAlert);
 
 import productWidget from './views/productWidget.vue' 
+import shiftWidget from './views/shiftWidget.vue' 
+import empLoginWidget from './views/empLoginWidget.vue' 
+import machineWidget from './views/machineWidget.vue' 
+
+Vue.component('shiftWidget',shiftWidget);
+Vue.component('empLoginWidget',empLoginWidget);
+Vue.component('machineWidget',machineWidget);
 Vue.component('productWidget',productWidget);
+
+
+
 
 Vue.component('heatMap',heatMap);
 

@@ -4,8 +4,12 @@ const state={
 
 
     dialog:{
+        machineWidgetDialog:false,
+        empLoginWidgetDialog:false,
+        shiftWidgetDialog:false,
         productWidgetDialog:false,
         demoMachineDialog:false,
+
         selectMachineDialog:false,
 operatorLoginDialog:false,
 selectEmployeeWidget:false,
@@ -13,6 +17,12 @@ selectProductDialog:false,
 isDemoPlugin:false,
 
     },
+style:{
+btnBgColor:'primary',
+btnTxtColor:'white',
+
+},
+
 db:{
 
 // default:{

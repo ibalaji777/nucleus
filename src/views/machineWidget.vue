@@ -3,18 +3,18 @@
 
 <v-dialog
 width="700"
-v-model="$store.state.dialog.productWidgetDialog">
+v-model="$store.state.dialog.machineWidgetDialog">
 <v-card>
     <v-toolbar
 dark
 color="primary"
 >
-<v-toolbar-title>Select Product/part No</v-toolbar-title>
+<v-toolbar-title>Machine</v-toolbar-title>
 <v-spacer></v-spacer>
 <v-btn
 icon
 dark
-@click="$store.commit('setDialog',{key:'productWidgetDialog',value:false})"
+@click="$store.commit('setDialog',{key:'machineWidgetDialog',value:false})"
 >
 <v-icon>mdi-close</v-icon>
 </v-btn>

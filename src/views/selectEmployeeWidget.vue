@@ -23,8 +23,9 @@ dark
 <v-toolbar-items>
 </v-toolbar-items>
 </v-toolbar>
-<div style="padding:10px;display:flex">
 <change-widget></change-widget>
+
+<div style="padding:10px;display:flex">
 <div  style="width:50vw">
 <table class="employeeTable">
   <tr>
