@@ -76,16 +76,26 @@ export default {
 
         login(){
             var $vm=this;
+//check in array
+if($vm.employee.username==''&&$vm.employee.password=='')
+{
+    $vm.$alert("Please Fill Login Detail")
+    return;
+}
+var user=_.find($vm.$store.state.db.employee,(x)=>x.username==$vm.employee.username&&$vm.employee.password==x.password)
 
-            if($vm.employee.username=='admin'&&$vm.employee.password=='admin'){
+if(_.isEmpty(user))
+{
+    $vm.$alert("Login Failed")
+return;
 
-                $vm.$store.dispatch('setemployee',{id:1,username:'admin',password:'admin'})
 
-                $vm.$router.push("/home")
+}
+$vm.$alert("Logged Success")
+$vm.$store.dispatch('setEmployee',user)
+$vm.$store.commit('setDialog',{key:'empLoginWidgetDialog',value:false})
 
-            }
-
-        }
+}
     }
 }
 </script>

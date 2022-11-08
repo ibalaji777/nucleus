@@ -28,7 +28,7 @@ dark
 
     <v-autocomplete
     outlined
-     :items="$store.state.db.products"
+     :items="$store.state.db.machines"
      attach
      item-text='name'
      return-object
@@ -71,7 +71,7 @@ var $vm=this;
 $vm.selected=value
 console.log("selected",value)
 
-$vm.$store.commit('setProduct',value)
+$vm.$store.commit('setMachine',value)
         }
     }
 }

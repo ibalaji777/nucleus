@@ -112,6 +112,40 @@ state.setup.selected_shift.creator_role=payload.creator_role;
 state.setup.selected_shift.start_time=payload.start_time;
 state.setup.selected_shift.end_time=payload.end_time;
 
+},
+setEmployee(state,payload)
+{
+  state.setup.selected_employee.id=payload.id;
+  state.setup.selected_employee.branch=payload.branch;
+  state.setup.selected_employee.company_id=payload.company_id;
+  state.setup.selected_employee.creator_id=payload.creator_id;
+  state.setup.selected_employee.creator_role=payload.creator_role;
+  state.setup.selected_employee.name=payload.name;
+  state.setup.selected_employee.username=payload.username;
+  state.setup.selected_employee.password=payload.password;
+  state.setup.selected_employee.email=payload.email;
+  state.setup.selected_employee.role=payload.role;
+  state.setup.selected_employee.phone=payload.phone;
+  state.setup.selected_employee.id_card=payload.id_card;
+  state.setup.selected_employee.other=payload.other;
+
+},
+setMachine(state,payload)
+{
+  state.setup.selected_machine.id=payload.id
+  state.setup.selected_machine.name=payload.name
+  state.setup.selected_machine.code=payload.code
+  state.setup.selected_machine.detail=payload.detail
+  state.setup.selected_machine.group=payload.group
+  state.setup.selected_machine.company_id=payload.company_id
+  state.setup.selected_machine.creator_id=payload.creator_id
+  state.setup.selected_machine.creator_role=payload.creator_role
+  state.setup.selected_machine.branch=payload.branch
+  state.setup.selected_machine.hours=payload.hours
+  state.setup.selected_machine.description=payload.description
+  state.setup.selected_machine.other=payload.other
+
+
 }
 
 

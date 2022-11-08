@@ -76,7 +76,7 @@ var currentShift=_.filter($vm.$store.state.db.shifts,(x)=>{
 if(x.start_time <= currentTime&&x.end_time >= currentTime) return true;
 return false;
 })
-if(currentShift.length!=0)
+if(currentShift.length!=0&&$vm.$store.state.setup.selected_shift.id!=currentShift[0].id)
 $vm.$store.commit('setShift',currentShift[0])
 
 },700)
@@ -134,7 +134,29 @@ deep:true
     var $vm=this;
     tracker.tracker($vm)
   },deep:true
+},
+"$store.state.setup.selected_shift":{
+  handler(value){
+    var $vm=this;
+    tracker.tracker($vm)
+  },deep:true
 }
+,
+"$store.state.setup.selected_employee":{
+  handler(value){
+    var $vm=this;
+    tracker.tracker($vm)
+  },deep:true
+}
+,
+"$store.state.setup.selected_product":{
+  handler(value){
+    var $vm=this;
+    tracker.tracker($vm)
+  },deep:true
+}
+
+
   },
 
   methods:{

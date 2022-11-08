@@ -160,6 +160,24 @@ employee:[
         other:'',
 
     },
+    {
+        id:1,
+        group:'',
+        company_id:1,
+        creator_id:1, 
+        creator_role:'',//supervisor or company
+        name:'sathish',
+        branch:'',//ok
+        username:'op1',
+        password:'op1',
+        email:'',
+        role:'',//superviser or operator
+        phone:'',
+        id_card:'',
+        other:'',
+
+    },
+
 
 ],
 //ok--------

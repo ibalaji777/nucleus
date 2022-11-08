@@ -70,7 +70,7 @@ export function tracker($vm) {
             date: moment().format($vm.$store.state.setup.bgDateFormat),
         };
 
-        $vm.$store.commit('machineSessionId', machineSessionId)
+        $vm.$store.commit('machineSessionId',_.cloneDeep(machineSessionId))
 
     }
 
@@ -110,7 +110,7 @@ export function tracker($vm) {
     }
     liveMachine.push(prepare)
     liveMachine = _.uniqBy(liveMachine, 'stroke')
-    $vm.$store.commit('machineActivities', prepare)
+    $vm.$store.commit('machineActivities',_.cloneDeep(prepare))
 
     console.log("Live Machine", liveMachine)
 }

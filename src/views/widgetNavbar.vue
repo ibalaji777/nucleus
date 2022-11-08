@@ -4,29 +4,25 @@
             <div class="widgetGroup">
                 <h5 class="widgetBlueTitle">Planned Production Time</h5>
                 <div class="widgetGroupContainer" style="flex-direction: column;">
-                    <div class="widget">
-                        <div>Started</div>
+                   <div class="widget">
+                        <div>Loading Material: {{globalRunningProducts.length}}</div>
+
                     </div>
-                    <div class="widget">
-                        <div>Total Stoppage</div>
+                     <div class="widget">
+                        <div>Total Staffs:{{globalRunningOff.length}}</div>
                     </div>
 
                     <div class="widget">
-                        <div>Total Stroke</div>
+                        <div>Running Shifts: {{globalRunningShifts.length}}</div>
                     </div>
 
+
+
                     <div class="widget">
-                        <div>Total Production</div>
+                        <div>Total Stops:{{globalRunningOff.length}}</div>
                     </div>
-                    <div class="widget">
-                        <div>Total Good Count</div>
-                    </div>
-                    <div class="widget">
-                        <div>Total Reject Count</div>
-                    </div>
-                    <div class="widget">
-                        <div>Total Ideal Count</div>
-                    </div>
+
+
                     <!-- <div class="widget">
     <div>Planned Time</div>
   </div> -->
