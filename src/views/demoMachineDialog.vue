@@ -60,7 +60,7 @@ Live status
 <h4>How Many OFF's(Stoppes):{{globalRunningOff.length}}</h4>
 
 <h4>Planned Stops:{{globalPlannedStops.length}}</h4>
-<h4>UnPlannned Stops:{{globalUnPlannedStops.length}}</h4>
+<h4>UnPlannned Stops/DownTimes:{{globalUnPlannedStops.length}}</h4>
 <h4>Max Stroke:{{globalMaxStroke.stroke}}</h4>
 
 <div style="width:100vw;overflow:scroll">

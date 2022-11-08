@@ -4,6 +4,7 @@ const state={
 
 
     dialog:{
+        productWidgetDialog:false,
         demoMachineDialog:false,
         selectMachineDialog:false,
 operatorLoginDialog:false,
@@ -56,6 +57,32 @@ db:{
 // breaks:[
 
 // ],
+//ok----
+products:[
+    {
+        id:1,
+        company_id:'',
+        branch:'',
+        part_no:'11',
+        material_code:'11',
+        grn_no:'11',
+        name:'sample 1',
+        group:'',
+        other_detail:'',
+        other:{}
+    },
+    {
+        id:1,
+        part_no:'12',
+        branch:'',
+        material_code:'12',
+        grn_no:'12',
+        name:'sample 2',
+        group:'',
+        other_detail:'',
+        other:{}
+    }
+],
 
 //ok-----
 shifts:[

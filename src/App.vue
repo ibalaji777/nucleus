@@ -19,6 +19,8 @@
             <router-view />
         </v-main>
               <demo-machine-dialog></demo-machine-dialog>
+              <!-- --dialog-- -->
+              <product-widget></product-widget>
     </v-app>
 </template>
 

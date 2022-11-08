@@ -6,7 +6,7 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import * as globalMixin from './globalMixin.js'
 import stackbarChart from './views/stackbarChart.vue'
-
+import changeWidget from './views/changeWidget.vue'
 import timeChart from './views/timeChart.vue'
 import timeChartStatus from './views/timeChartStatus.vue'
 import timeChartStatus2 from './views/timeChartStatus2.vue'
@@ -27,8 +27,13 @@ import selectProduct from './views/selectProduct.vue'
 import widgetNavbar from './views/widgetNavbar.vue' 
 import oeePanel from './views/oeePanel.vue' 
 Vue.use(VueSimpleAlert);
+
+import productWidget from './views/productWidget.vue' 
+Vue.component('productWidget',productWidget);
+
 Vue.component('heatMap',heatMap);
 
+Vue.component('changeWidget',changeWidget);
 Vue.component('demoMachineDialog',demoMachineDialog);
 Vue.component('selectProduct',selectProduct);
 Vue.component('selectEmployeeWidget',selectEmployeeWidget);
