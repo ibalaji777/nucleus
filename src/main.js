@@ -1,9 +1,10 @@
+/*eslint-disable*/
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify'
-
+import * as globalMixin from './globalMixin.js'
 import stackbarChart from './views/stackbarChart.vue'
 
 import timeChart from './views/timeChart.vue'
@@ -45,6 +46,8 @@ Vue.component('widgetHeader',widgetHeader);
 Vue.component('oeePanel',oeePanel);
 
 Vue.config.productionTip = false
+
+
 
 new Vue({
   store,

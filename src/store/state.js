@@ -66,8 +66,8 @@ shifts:[
         creator_id:1, 
         creator_role:'',//supervisor or company
         group:'',
-        start_time:moment().format('hh:mm'),
-        end_time:moment().add(8,'hours').format('hh:mm'),
+        start_time:moment().format('HH:mm'),
+        end_time:moment().add(8,'hours').format('HH:mm'),
     },
     {
         id:2,
@@ -77,8 +77,8 @@ shifts:[
         creator_role:'',//supervisor or company
         group:'',
         start_time:moment().add(8,'hours')
-        .format('hh:mm'),
-        end_time:moment().add(16,'hours').format('hh:mm'),
+        .format('HH:mm'),
+        end_time:moment().add(16,'hours').format('HH:mm'),
     },
     {
         id:3,
@@ -88,8 +88,8 @@ shifts:[
         creator_role:'',//supervisor or company
         group:'',
         start_time:moment().add(16,'hours')
-        .format('hh:mm'),
-        end_time:moment().add(24,'hours').format('hh:mm'),
+        .format('HH:mm'),
+        end_time:moment().add(24,'hours').format('HH:mm'),
 
     }
 ],
@@ -247,6 +247,14 @@ down_time:[
 
 },
 setup:{
+
+time:moment().format("HH:mm"),
+date:moment().format("YYYY-MM-DD"),
+uiTimeFormat:"hh:mm a",
+bgTimeFormat:"HH:mm",
+uiDateFormat:"DD-MM-YYYY",
+bgDateFormat:"YYYY-MM-DD",
+
 createMachineEntryParent:{},
 createMachineEntryChild:[],
 
@@ -255,8 +263,7 @@ watchMachine:false,
 machineLiveData:{},
 checkEmbededDevice:false,
 checkMachine:false,
-time:moment().format("hh:mm"),
-date:moment().format("dddd"),
+
 //ok
 selected_group:'',
 //ok

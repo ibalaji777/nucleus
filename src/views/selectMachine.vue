@@ -21,13 +21,7 @@ dark
 <v-toolbar-title>Machine Plan</v-toolbar-title>
 <v-spacer></v-spacer>
 <v-toolbar-items>
-<v-btn
-dark
-text
-@click="$store.commit('setDialog',{key:'selectMachineDialog',value:false})"
->
-Save
-</v-btn>
+
 </v-toolbar-items>
 </v-toolbar>
 <div style="padding:10px;">
@@ -35,7 +29,7 @@ Save
 <div  style="width:100vw">
 <h4>Machine Detail</h4>
 <div style="padding:10px;margin:10px;background:lightgrey;">
-<b>id</b>:{{$store.state.setup.selected_machine.id}}<br>
+<b>Id</b>:{{$store.state.setup.selected_machine.id}}<br>
 <b>Code</b>:{{$store.state.setup.selected_machine.Code}}<br>
 <b>name</b>:{{$store.state.setup.selected_machine.name}}<br>
 <b>detail</b>:{{$store.state.setup.selected_machine.detail}}<br>
@@ -85,8 +79,8 @@ Save
   <tr v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">
     <td>{{item.name}}</td>
         <td>{{item.type}}</td>
-    <td>{{item.start_time}}</td>
-     <td>{{item.end_time}}</td>  </tr>
+  <td>{{guiTimeFormat(item.start_time)}}</td>
+     <td>{{guiTimeFormat(item.end_time)}}</td>  </tr>
 
 
 </table>

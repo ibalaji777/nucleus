@@ -21,13 +21,6 @@ dark
 <v-toolbar-title>User Detail</v-toolbar-title>
 <v-spacer></v-spacer>
 <v-toolbar-items>
-<v-btn
-dark
-text
-@click="$store.commit('setDialog',{key:'selectEmployeeWidget',value:false})"
->
-Save
-</v-btn>
 </v-toolbar-items>
 </v-toolbar>
 <div style="padding:10px;display:flex">
@@ -64,11 +57,11 @@ Save
   <table class="employeeTable" style="margin:10px 0">
     <tr>
       <td><b>Today Date:</b></td>
-      <td>{{$store.state.setup.date}}</td>
+      <td>{{guiDateFormat($store.state.setup.date)}}</td>
     </tr>
     <tr>
       <td><b>Current Time:</b></td>
-      <td>{{$store.state.setup.time}}</td>
+      <td>{{guiTimeFormat($store.state.setup.time)}}</td>
     </tr>
     <tr>
       <td><b>Running Shift:</b></td>
@@ -92,8 +85,8 @@ Save
 <tr  v-for="(shift,index) in $store.state.db.shifts" :key="'shift'+index">
   <td>{{index+1}}</td>
 <td>{{shift.name}}</td>
-<td>{{shift.start_time}}</td>
- <td>{{shift.end_time}}</td>
+<td>{{guiTimeFormat(shift.start_time)}}</td>
+ <td>{{guiTimeFormat(shift.end_time)}}</td>
 </tr>
 
 </table>
@@ -105,12 +98,13 @@ Save
 </v-row>
 </template>
 <script>
+/*eslint-disable*/
+import moment from 'moment'
 export default {
   data(){
     return {
-      currentTime:''
     }
-  }
+  },
 
 }
 </script>
