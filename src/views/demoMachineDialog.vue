@@ -53,14 +53,14 @@ Live status
 {{$store.state.setup.checkEmbededDevice}}
 {{$store.state.setup.checkMachine}}
 <h4>Machine Client Id:{{$store.state.setup.machineSessionId.machine_client_id}}</h4>
-<h4>Running/Runned Product:{{globalRunningProducts}}</h4>
-<h4>Running/Runned Shift:{{globalRunningShifts}}</h4>
-<h4>Running Employee:{{globalRunningEmps}}</h4>
-<h4>How Many ON's(Active):{{globalRunningOn.length}}</h4>
-<h4>How Many OFF's(Stoppes):{{globalRunningOff.length}}</h4>
+<h4>Running/Runned Product:{{globalRunningProducts.count}}</h4>
+<h4>Running/Runned Shift:{{globalRunningShifts.count}}</h4>
+<h4>Running Employee:{{globalRunningEmps.count}}</h4>
+<h4>How Many ON's(Active):{{globalRunningOn.count}}</h4>
+<h4>How Many OFF's(Stoppes):{{globalRunningOff.count}}</h4>
 
-<h4>Planned Stops:{{globalPlannedStops.length}}</h4>
-<h4>UnPlannned Stops/DownTimes:{{globalUnPlannedStops.length}}</h4>
+<h4>Planned Stops:{{globalPlannedStops.count}}</h4>
+<h4>UnPlannned Stops/DownTimes:{{globalUnPlannedStops.count}}</h4>
 <h4>Max Stroke:{{globalMaxStroke.stroke}}</h4>
 
 <div style="width:100vw;overflow:scroll">

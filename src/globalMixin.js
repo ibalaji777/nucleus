@@ -4,38 +4,72 @@ import _ from 'lodash'
 
 Vue.mixin({
     computed:{
+
+        globalMachineLive(){
+
+  return  this.$store.state.setup.machineLiveData
+},
+
 globalRunningProducts(){
 var $vm=this;
-return _.uniq(_.map($vm.$store.state.setup.machineActivities, 'product_id'))
+var datasets=_.uniq(_.map($vm.$store.state.setup.machineActivities, 'product_id'))
+return {
+count:datasets.length,
+datasets
+}
 },
 globalRunningShifts(){
     var $vm=this;
-    return _.uniq(_.map($vm.$store.state.setup.machineActivities, 'shift_id'))
+var datasets= _.uniq(_.map($vm.$store.state.setup.machineActivities, 'shift_id'))
+    return {
+        count:datasets.length,
+        datasets
+   
+    }
     },
     globalRunningEmps(){
         var $vm=this;
-        return _.uniq(_.map($vm.$store.state.setup.machineActivities, 'emp_id'))
+        var datasets=_.uniq(_.map($vm.$store.state.setup.machineActivities, 'emp_id'));
+        return {
+            count:datasets.length,
+            datasets
+        }
     
     },    
     globalRunningOn(){
         var $vm=this;
-        return _.filter($vm.$store.state.setup.machineActivities, (x)=>x.machine_active_status=='ON')
+var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.machine_active_status=='ON')
+        return{
+            count:datasets.count,
+            datasets
+        } 
     
     },    
     globalRunningOff(){
         var $vm=this;
-        return _.filter($vm.$store.state.setup.machineActivities, (x)=>x.machine_active_status=='OFF')
+var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.machine_active_status=='OFF')
+        return{
+            count:datasets.length,
+            datasets
+        } 
     
     },    
     globalPlannedStops(){
         var $vm=this;
-        return _.filter($vm.$store.state.setup.machineActivities, (x)=>x.break_type=='PLANNED'&&x.machine_active_status=='OFF')
-    
+
+    var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.break_type=='PLANNED'&&x.machine_active_status=='OFF')
+    return{
+       count:datasets.length,
+       datasets
+    }
     },    
     globalUnPlannedStops(){
         var $vm=this;
-        return _.filter($vm.$store.state.setup.machineActivities, (x)=>x.break_type=='UNPLANNED'&&x.machine_active_status=='OFF')
-    
+    var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.break_type=='UNPLANNED'&&x.machine_active_status=='OFF')
+    return{
+        count:datasets.length,
+        datasets
+    }
     },    
     globalMaxStroke(){
         var $vm=this;

@@ -49,7 +49,9 @@ watchMachine(state,value){
 }
 ,
 machineLiveData(state,value){
-  state.setup.machineLiveData=value;
+  console.log("machine Live Data",value)
+  // state.setup.machineLiveData=value;
+  Vue.set(state.setup,'machineLiveData',value)
 }
 ,
 setShift(state,value){

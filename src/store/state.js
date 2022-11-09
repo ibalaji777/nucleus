@@ -327,7 +327,12 @@ createMachineEntryChild:[],
 
 autoShift:true,
 watchMachine:false,
-machineLiveData:{},
+machineLiveData:{
+    rpm:'',
+    stroke:0,
+    machine:false,
+    inputStatus:false,
+},
 checkEmbededDevice:false,
 checkMachine:false,
 

@@ -4,25 +4,37 @@
             <div class="widgetGroup">
                 <h5 class="widgetBlueTitle">Planned Production Time</h5>
                 <div class="widgetGroupContainer" style="flex-direction: column;">
+
+
                    <div class="widget">
-                        <div>Loading Material: {{globalRunningProducts.length}}</div>
+                        <div>Live Stroke: {{globalMachineLive.stroke}}</div>
+                    </div>
+
+
+                   <div class="widget">
+                        <div>Loading Material: {{globalRunningProducts.count}}</div>
 
                     </div>
                      <div class="widget">
-                        <div>Total Staffs:{{globalRunningOff.length}}</div>
+                        <div>Staffs:{{globalRunningEmps.count}}</div>
                     </div>
 
                     <div class="widget">
-                        <div>Running Shifts: {{globalRunningShifts.length}}</div>
+                        <div>Shifts: {{globalRunningShifts.count}}</div>
                     </div>
 
 
 
                     <div class="widget">
-                        <div>Total Stops:{{globalRunningOff.length}}</div>
+                        <div>Total Stops:{{globalRunningOff.count}}</div>
+                    </div>
+                    <div class="widget">
+                        <div>Planned Stops:{{globalPlannedStops.count}}</div>
                     </div>
 
-
+                <div class="widget">
+                        <div>Unplaneed Stops:{{globalUnPlannedStops.count}}</div>
+                    </div>
                     <!-- <div class="widget">
     <div>Planned Time</div>
   </div> -->
@@ -33,7 +45,7 @@
 </template>
 <script>
 export default {
-    
+
 }
 </script>
 <style lang="scss">
