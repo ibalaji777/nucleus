@@ -415,9 +415,9 @@ selected_shift:{
 
     },
     selected_company:{
-        id:'',
-        email:'',
-        password:''
+        id:'1',
+        email:'test@gmail.com',
+        password:'test'
 
     },
 

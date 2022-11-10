@@ -13,6 +13,7 @@
 
                    <div class="widget">
                         <div>Loading Material: {{globalRunningProducts.count}}</div>
+                        {{globalRunningProducts}}
 
                     </div>
                      <div class="widget">

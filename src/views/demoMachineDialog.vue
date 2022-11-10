@@ -53,7 +53,7 @@ Live status
 {{$store.state.setup.checkEmbededDevice}}
 {{$store.state.setup.checkMachine}}
 <h4>Machine Client Id:{{$store.state.setup.machineSessionId.machine_client_id}}</h4>
-<h4>Running/Runned Product:{{globalRunningProducts.count}}</h4>
+<h4>Running/Runned Product:{{globalRunningProducts}}||</h4>
 <h4>Running/Runned Shift:{{globalRunningShifts.count}}</h4>
 <h4>Running Employee:{{globalRunningEmps.count}}</h4>
 <h4>How Many ON's(Active):{{globalRunningOn.count}}</h4>

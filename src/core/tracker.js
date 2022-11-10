@@ -3,15 +3,13 @@ import _ from 'lodash'
 var liveMachine = [];
 export function tracker($vm) {
     //ok
+    var company={
+        company_id:$vm.$store.state.setup.selected_company.id
+    }
+    //ok
     var shift = {
         shift_id: $vm.$store.state.setup.selected_shift.id,
         shift_name: $vm.$store.state.setup.selected_shift.name,
-    }
-    //ok
-    var selected_machine = {
-        machine_id: '',
-        machine_name: '',
-
     }
     //ok
     var selected_product = {
@@ -99,8 +97,8 @@ export function tracker($vm) {
         // break_id:runningMachine.machine?'Tea Break':'UNPLANNED',
     }
     var prepare = {
+        ...company,
         ...shift,
-        ...selected_machine,
         ...selected_product,
         ...selected_employee,
         ...currentMachine,
@@ -111,6 +109,10 @@ export function tracker($vm) {
     liveMachine.push(prepare)
     liveMachine = _.uniqBy(liveMachine, 'stroke')
     $vm.$store.commit('machineActivities',_.cloneDeep(prepare))
-
+    // $vm.$store.dispatch('createMachineActivity',{company_id:1,..._.cloneDeep(prepare)})
+//-------------------database---------------
+    $vm.$store.dispatch('SK_IO_CREATE_MACHINE_ACTIVITY',{..._.cloneDeep(prepare)})
+    $vm.$store.dispatch('SK_IO_INSERT_MACHINE_PART_NO',{products:$vm.globalRunningProducts,prepare:_.cloneDeep(prepare)})
+    $vm.$store.dispatch('SK_IO_INSERT_MACHINE_MAIN',{prepare:_.cloneDeep(prepare)})
     console.log("Live Machine", liveMachine)
 }

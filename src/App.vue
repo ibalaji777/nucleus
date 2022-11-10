@@ -31,9 +31,11 @@
 <script>
 /*eslint-disable*/
 import * as tracker from '../src/core/tracker'
-import io from 'socket.io-client'
+import * as socketConfig from '../src/core/socketConfig'
+
 var moment = require('moment');
 import lodash from 'lodash'
+import * as config from '../src/core/config.js'
 // import { Chart, registerables } from 'chart.js';
 // Chart.register(...registerables);
 /*eslint-disable*/
@@ -52,73 +54,17 @@ export default {
 
   mounted(){
     var $vm=this;
-             // Synchronous message emmiter and handler
-        //  console.log(ipcRenderer.sendSync('shedule', 'sync ping')) 
-
-        //  // Async message handler
         console.log($vm.$store.state.db)
-if($vm.$store.state.dialog.isDemoPlugin){
-  const socket = io("http://127.0.0.1:4444");
-
-$vm.$store.commit('setEmbededStatus',false)
-$vm.$store.commit('setMachineStatus',false)
-
-socket.on('connect_failed', function(){
-  
-    console.log('Connection Failed');
-});
-
-setInterval(()=>{
-$vm.$store.commit('setTimeEverySecond')
-$vm.$store.commit('setDate')
-var currentTime=$vm.$store.state.setup.time;
-var currentShift=_.filter($vm.$store.state.db.shifts,(x)=>{
-if(x.start_time <= currentTime&&x.end_time >= currentTime) return true;
-return false;
-})
-if(currentShift.length!=0&&$vm.$store.state.setup.selected_shift.id!=currentShift[0].id)
-$vm.$store.commit('setShift',currentShift[0])
-
-},700)
-
-function handleErrors(err)
-{
-$vm.$store.commit('setEmbededStatus',false)
-$vm.$store.commit('setMachineStatus',false)
-  console.log("Failed to connect")
-}
-socket.on('connect_error', err => handleErrors(err))
-socket.on('connect_failed', err => handleErrors(err))
-socket.on('disconnect', err => handleErrors(err))
-socket.on("readData", async (data) => {
+//----------------socket config-------------------
 
 
-var dataset=JSON.parse(data);
-var machineStatus=dataset.machine==1?true:false
-var result={...dataset,machine:machineStatus}
-//machine in continues mode and signal
-$vm.$store.commit('setMachineStatus',result.machine)
-//serial port started read
-$vm.$store.commit('setEmbededStatus',true)
-//live data from machine 
-$vm.$store.commit('machineLiveData',result)
-// console.log("embeded",result)
+socketConfig.initSerialPort($vm)
+//----------------socket config-------------------
 
-
-})
-}
-//end socket finished
-// console.log("live machine",liveMachine)
- 
          ipcRenderer.on('shedule', (event, arg) => {
             console.log(arg)
          })
-oee.calculation()
-         // Async message sender
-        //  ipcRenderer.send('asynchronous-message', 'async ping')
-
-// $vm.$store.commit('setDate')
-// $vm.setTimeEverySecond()
+          oee.calculation()
   },
   watch:{
 currentTime:{
