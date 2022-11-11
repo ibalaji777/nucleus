@@ -15,7 +15,7 @@ var $vm=this;
 var datasets=_.uniq(_.map($vm.$store.state.setup.machineActivities, 'product_id'))
 var products=_.reduce(datasets,
     (result,product_id)=>{
-    var product=_.find($vm.$store.state.db.products,(product)=>product.id==product_id||{})
+    var product=_.find($vm.$store.state.db.products,(product)=>product.id==product_id)||{}
     if(!_.isEmpty(product)){
         result.push(product)
     }

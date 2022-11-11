@@ -87,7 +87,7 @@ products:[
         branch:'',
         material_code:'12',
         grn_no:'12',
-        name:'sample 2',
+        name:'sample 12',
         group:'',
         other_detail:'',
         other:{}
