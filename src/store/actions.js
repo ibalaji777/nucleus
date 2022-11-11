@@ -22,53 +22,54 @@ createMachineActivity(context,payload){
 
 
 },
-SK_IO_CREATE_MACHINE_ACTIVITY(context,payload){
-console.log("SK_IO_CREATE_MACHINE_ACTIVITY",payload)
-// socketConfig.createMachineActivity({data:payload})
-socketConfig.SK_IO_INSERT_MACHINE_ACTIVITY({data:payload})
+// SK_IO_CREATE_MACHINE_ACTIVITY(context,payload){
+// // console.log("SK_IO_CREATE_MACHINE_ACTIVITY",payload)
+// // socketConfig.createMachineActivity({data:payload})
+// socketConfig.SK_IO_INSERT_MACHINE_ACTIVITY({data:payload})
 
-},
-SK_IO_INSERT_MACHINE_PART_NO(context,payload){
-
-    _.map(payload.products,(product)=>{
-        var dataset={
-            part_no:product.part_no,
-            product_id:product.id,
-            company_id:context.state.setup.selected_company.id,
-            shift_id: context.state.setup.selected_shift.id,
-            emp_id: context.state.setup.selected_employee.id,
-            machine_client_id:payload.prepare.machine_client_id,
-            machine_id: context.state.setup.selected_machine.id,
-            total_count:0,
-            good_count:0,
-            reject_count:0,
-            ideal_cycle:1,
-            machine_date:payload.prepare.machine_date,
-            machine_time:payload.prepare.machine_time
-        }
+// },
+// SK_IO_INSERT_MACHINE_PART_NO(context,payload){
+// console.log("----payload----")
+// console.log(payload)
+//     _.map(payload.products,(product)=>{
+//         var dataset={
+//             part_no:product.part_no,
+//             product_id:product.id,
+//             company_id:context.state.setup.selected_company.id,
+//             shift_id: context.state.setup.selected_shift.id,
+//             emp_id: context.state.setup.selected_employee.id,
+//             machine_client_id:payload.prepare.machine_client_id,
+//             machine_id: context.state.setup.selected_machine.id,
+//             total_count:0,
+//             good_count:0,
+//             reject_count:0,
+//             ideal_cycle:1,
+//             machine_date:payload.prepare.machine_date,
+//             machine_time:payload.prepare.machine_time
+//         }
         
-        socketConfig.SK_IO_INSERT_MACHINE_PART_NO({data:dataset})
+//         socketConfig.SK_IO_INSERT_MACHINE_PART_NO({data:dataset})
 
-    })
+//     })
 
-},
-SK_IO_INSERT_MACHINE_MAIN(context,payload){
+// },
+// SK_IO_INSERT_MACHINE_MAIN(context,payload){
 
-    var dataset={
-        company_id:context.state.setup.selected_company.id,
-        shift_id: context.state.setup.selected_shift.id,
-        emp_id: context.state.setup.selected_employee.id,
-        machine_client_id:payload.prepare.machine_client_id,
-        machine_id: context.state.setup.selected_machine.id,
-        machine_date:payload.prepare.machine_date,
-        machine_time:payload.prepare.machine_time,
-        machine_active_status:payload.prepare.machine_active_status
-    }
+//     var dataset={
+//         company_id:context.state.setup.selected_company.id,
+//         shift_id: context.state.setup.selected_shift.id,
+//         emp_id: context.state.setup.selected_employee.id,
+//         machine_client_id:payload.prepare.machine_client_id,
+//         machine_id: context.state.setup.selected_machine.id,
+//         machine_date:payload.prepare.machine_date,
+//         machine_time:payload.prepare.machine_time,
+//         machine_active_status:payload.prepare.machine_active_status
+//     }
     
-    socketConfig.SK_IO_INSERT_MACHINE_MAIN({data:dataset})
+//     socketConfig.SK_IO_INSERT_MACHINE_MAIN({data:dataset})
 
 
-},
+// },
 //------------------api----------------------------
     createShift(context,payload){
         context.commit('createShift',payload)

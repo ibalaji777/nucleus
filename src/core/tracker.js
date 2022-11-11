@@ -1,7 +1,7 @@
 var moment = require('moment')
 import _ from 'lodash'
 var liveMachine = [];
-export function tracker($vm) {
+export function tracker($vm,callback) {
     //ok
     var company={
         company_id:$vm.$store.state.setup.selected_company.id
@@ -111,8 +111,62 @@ export function tracker($vm) {
     $vm.$store.commit('machineActivities',_.cloneDeep(prepare))
     // $vm.$store.dispatch('createMachineActivity',{company_id:1,..._.cloneDeep(prepare)})
 //-------------------database---------------
-    $vm.$store.dispatch('SK_IO_CREATE_MACHINE_ACTIVITY',{..._.cloneDeep(prepare)})
-    $vm.$store.dispatch('SK_IO_INSERT_MACHINE_PART_NO',{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)})
-    $vm.$store.dispatch('SK_IO_INSERT_MACHINE_MAIN',{prepare:_.cloneDeep(prepare)})
+    // $vm.$store.dispatch('SK_IO_CREATE_MACHINE_ACTIVITY',{..._.cloneDeep(prepare)})
+    // $vm.$store.dispatch('SK_IO_INSERT_MACHINE_PART_NO',{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)})
+    // $vm.$store.dispatch('SK_IO_INSERT_MACHINE_MAIN',{prepare:_.cloneDeep(prepare)})
     console.log("Live Machine", liveMachine)
+
+
+
+    callback({
+        SK_IO_INSERT_MACHINE_MAIN:SK_IO_INSERT_MACHINE_MAIN($vm,{prepare:_.cloneDeep(prepare)}),
+        SK_IO_INSERT_MACHINE_PART_NO:SK_IO_INSERT_MACHINE_PART_NO($vm,{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)}),
+        SK_IO_CREATE_MACHINE_ACTIVITY:{data:_.cloneDeep(prepare)}
+       
+    })
 }
+
+function SK_IO_INSERT_MACHINE_PART_NO($vm,payload){
+    console.log("----payload----")
+    console.log(payload)
+   return     _.map(payload.products,(product)=>{
+            var dataset={
+                part_no:product.part_no,
+                product_id:product.id,
+                company_id:$vm.$store.state.setup.selected_company.id,
+                shift_id: $vm.$store.state.setup.selected_shift.id,
+                emp_id: $vm.$store.state.setup.selected_employee.id,
+                machine_client_id:payload.prepare.machine_client_id,
+                machine_id: $vm.$store.state.setup.selected_machine.id,
+                total_count:0,
+                good_count:0,
+                reject_count:0,
+                ideal_cycle:1,
+                machine_date:payload.prepare.machine_date,
+                machine_time:payload.prepare.machine_time
+            }
+            
+    return {data:dataset};
+        })
+    
+    }
+
+function  SK_IO_INSERT_MACHINE_MAIN($vm,payload){
+
+        var dataset={
+            company_id:$vm.$store.state.setup.selected_company.id,
+            shift_id: $vm.$store.state.setup.selected_shift.id,
+            emp_id: $vm.$store.state.setup.selected_employee.id,
+            machine_client_id:payload.prepare.machine_client_id,
+            machine_id: $vm.$store.state.setup.selected_machine.id,
+            machine_date:payload.prepare.machine_date,
+            machine_time:payload.prepare.machine_time,
+            is_closed:false,
+            // machine_active_status:payload.prepare.machine_active_status
+        }
+        
+        return {data:dataset};
+    
+    
+    }
+    

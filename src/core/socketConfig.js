@@ -1,24 +1,23 @@
 
 /*eslint-disable*/
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 import * as config from './config'
 import _ from 'lodash'
-const bgSocket = io(config.backend);
-const serialPortSocket = io(config.serialPortUrl);
+// const bgSocket = io(config.backend);
 
 
 // export function createMachineActivity(data){
 // bgSocket.emit('FN_INSERT_MACHINE_ACTIVITY',data);
 // }
-export function SK_IO_INSERT_MACHINE_ACTIVITY(data){
-  bgSocket.emit('SK_IO_INSERT_MACHINE_ACTIVITY',data);
-  }
-export function SK_IO_INSERT_MACHINE_PART_NO(data){
-bgSocket.emit('SK_IO_INSERT_MACHINE_PART_NO',data);
-}
-export function SK_IO_INSERT_MACHINE_MAIN(data){
-bgSocket.emit('SK_IO_INSERT_MACHINE_MAIN',data);
-}
+// export function SK_IO_INSERT_MACHINE_ACTIVITY(data){
+//   bgSocket.emit('SK_IO_INSERT_MACHINE_ACTIVITY',data);
+//   }
+// export function SK_IO_INSERT_MACHINE_PART_NO(data){
+// bgSocket.emit('SK_IO_INSERT_MACHINE_PART_NO',data);
+// }
+// export function SK_IO_INSERT_MACHINE_MAIN(data){
+// bgSocket.emit('SK_IO_INSERT_MACHINE_MAIN',data);
+// }
 
 export function initSerialPort($vm){
 

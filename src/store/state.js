@@ -82,7 +82,7 @@ products:[
         other:{}
     },
     {
-        id:1,
+        id:2,
         part_no:'12',
         branch:'',
         material_code:'12',
