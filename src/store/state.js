@@ -387,7 +387,7 @@ selected_shift:{
     },
   
     selected_machine:{
-        id:'1',
+        id:1,
         name:'m1',
         code:'ia11',
         detail:'some',
@@ -415,7 +415,7 @@ selected_shift:{
 
     },
     selected_company:{
-        id:'1',
+        id:1,
         email:'test@gmail.com',
         password:'test'
 

@@ -7,9 +7,12 @@ const bgSocket = io(config.backend);
 const serialPortSocket = io(config.serialPortUrl);
 
 
-export function createMachineActivity(data){
-bgSocket.emit('FN_INSERT_MACHINE_ACTIVITY',data);
-}
+// export function createMachineActivity(data){
+// bgSocket.emit('FN_INSERT_MACHINE_ACTIVITY',data);
+// }
+export function SK_IO_INSERT_MACHINE_ACTIVITY(data){
+  bgSocket.emit('SK_IO_INSERT_MACHINE_ACTIVITY',data);
+  }
 export function SK_IO_INSERT_MACHINE_PART_NO(data){
 bgSocket.emit('SK_IO_INSERT_MACHINE_PART_NO',data);
 }

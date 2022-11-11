@@ -112,7 +112,7 @@ export function tracker($vm) {
     // $vm.$store.dispatch('createMachineActivity',{company_id:1,..._.cloneDeep(prepare)})
 //-------------------database---------------
     $vm.$store.dispatch('SK_IO_CREATE_MACHINE_ACTIVITY',{..._.cloneDeep(prepare)})
-    $vm.$store.dispatch('SK_IO_INSERT_MACHINE_PART_NO',{products:$vm.globalRunningProducts,prepare:_.cloneDeep(prepare)})
+    $vm.$store.dispatch('SK_IO_INSERT_MACHINE_PART_NO',{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)})
     $vm.$store.dispatch('SK_IO_INSERT_MACHINE_MAIN',{prepare:_.cloneDeep(prepare)})
     console.log("Live Machine", liveMachine)
 }

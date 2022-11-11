@@ -23,8 +23,10 @@ createMachineActivity(context,payload){
 
 },
 SK_IO_CREATE_MACHINE_ACTIVITY(context,payload){
+console.log("SK_IO_CREATE_MACHINE_ACTIVITY",payload)
+// socketConfig.createMachineActivity({data:payload})
+socketConfig.SK_IO_INSERT_MACHINE_ACTIVITY({data:payload})
 
-socketConfig.createMachineActivity({data:payload})
 },
 SK_IO_INSERT_MACHINE_PART_NO(context,payload){
 
@@ -59,10 +61,11 @@ SK_IO_INSERT_MACHINE_MAIN(context,payload){
         machine_client_id:payload.prepare.machine_client_id,
         machine_id: context.state.setup.selected_machine.id,
         machine_date:payload.prepare.machine_date,
-        machine_time:payload.prepare.machine_time
+        machine_time:payload.prepare.machine_time,
+        machine_active_status:payload.prepare.machine_active_status
     }
     
-    socketConfig.SK_IO_INSERT_MACHINE_PART_NO({data:dataset})
+    socketConfig.SK_IO_INSERT_MACHINE_MAIN({data:dataset})
 
 
 },
