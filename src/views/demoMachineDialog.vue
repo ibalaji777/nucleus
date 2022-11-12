@@ -11,6 +11,7 @@
                     <v-toolbar-items> </v-toolbar-items>
                 </v-toolbar>
                 <div style="padding: 10px;">
+                    {{globalDownTime}}
 <change-widget></change-widget>
 <div style="display:flex;justify-content:space-even">
 <v-btn dark color="primary"   @click="$store.commit('setDialog',{key:'isDemoPlugin',value:!$store.state.dialog.isDemoPlugin})">

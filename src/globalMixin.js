@@ -72,7 +72,39 @@ var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.machine_
        count:datasets.length,
        datasets
     }
-    },    
+    },
+        
+    globalDownTime(){
+    var $vm=this;
+    var arrangeOrderByTime=_.orderBy($vm.$store.state.setup.machineActivities, ['machine_time'], ['asc']);
+    console.log("arrangeOrderByTime",arrangeOrderByTime)
+
+   var downTimes=[]
+    for(var i=0;i<arrangeOrderByTime.length;i++){
+     var object=arrangeOrderByTime[i];
+    
+     var next=i+1
+     var objectNext=arrangeOrderByTime[next];
+     console.log(object)
+     console.log(objectNext)
+     console.log(typeof objectNext!='undefined',object.break_type=='UNPLANNED',object.machine_active_status=='OFF')
+     console.log(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
+     if(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
+     {  
+        downTimes.push({...object,start_time:object.machine_time,end_time:objectNext.machine_time})
+     }
+    }
+    // console.log("downTimes",downTimes)
+    var takenTime= _.reduce(downTimes, function(result, x) {
+        console.log()
+    return parseFloat(result)+parseFloat(moment.utc(moment(x.end_time, "HH:mm").diff(moment(x.start_time, "HH:mm"))).format("mm"));
+  }, 0);
+    return {
+        count:downTimes.length,
+        datasets:downTimes,
+        takenTime
+    }
+    },
     globalUnPlannedStops(){
         var $vm=this;
     var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.break_type=='UNPLANNED'&&x.machine_active_status=='OFF')

@@ -22,7 +22,9 @@ btnBgColor:'primary',
 btnTxtColor:'white',
 
 },
-
+global:{
+LOCAL_SK_IO_MACHINE_PART_NO:[]
+},
 db:{
 
 // default:{
@@ -188,8 +190,8 @@ breaks:[
         type:'PLANNED',//PLANNED/UNLPLANNED
         groupe:'',
         discription:'shift A',
-        start_time:moment().format('HH:mm'),
-        end_time:moment() .add(15, 'minutes').format('HH:mm')//.add(15,'minutes'),
+        start_time:moment().add(50, 'minutes').format('HH:mm'),
+        end_time:moment() .add(66, 'minutes').format('HH:mm')//.add(15,'minutes'),
     }
 ],
 //ok-----

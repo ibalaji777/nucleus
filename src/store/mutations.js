@@ -148,8 +148,12 @@ setMachine(state,payload)
   state.setup.selected_machine.other=payload.other
 
 
-}
+},
+LOCAL_SK_IO_MACHINE_PART_NO(state,payload)
+{
+  Vue.set(state.global,'LOCAL_SK_IO_MACHINE_PART_NO',payload)
 
+}
 
 
 

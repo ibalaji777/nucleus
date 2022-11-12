@@ -170,7 +170,11 @@ tracker(){
   bgSocket.emit('SK_IO_INSERT_MACHINE_PART_NO',data);
     })
   bgSocket.emit('SK_IO_INSERT_MACHINE_MAIN',data.SK_IO_INSERT_MACHINE_MAIN);
-    });
+  $vm.$store.commit('LOCAL_SK_IO_MACHINE_PART_NO',data.SK_IO_INSERT_MACHINE_PART_NO)
+
+ //new oee 
+ oee.oeeCalculation($vm)
+ });
 
 }
 
