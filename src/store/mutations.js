@@ -25,7 +25,7 @@ const mutations={
     createGroup(state,payload){
 state.db.groups.push(payload)
     },
-    setCompany(state,payload){
+setCompany(state,payload){
 state.setup.company={
 id:payload.id,
 email:payload.email,
@@ -132,23 +132,79 @@ setEmployee(state,payload)
   state.setup.selected_employee.other=payload.other;
 
 },
-setMachine(state,payload)
-{
-  state.setup.selected_machine.id=payload.id
-  state.setup.selected_machine.name=payload.name
-  state.setup.selected_machine.code=payload.code
-  state.setup.selected_machine.detail=payload.detail
-  state.setup.selected_machine.group=payload.group
-  state.setup.selected_machine.company_id=payload.company_id
-  state.setup.selected_machine.creator_id=payload.creator_id
-  state.setup.selected_machine.creator_role=payload.creator_role
-  state.setup.selected_machine.branch=payload.branch
-  state.setup.selected_machine.hours=payload.hours
-  state.setup.selected_machine.description=payload.description
-  state.setup.selected_machine.other=payload.other
+// setMachine(state,payload)
+// {
+//   state.setup.selected_machine.id=payload.id
+//   state.setup.selected_machine.name=payload.name
+//   state.setup.selected_machine.code=payload.code
+//   state.setup.selected_machine.detail=payload.detail
+//   state.setup.selected_machine.group=payload.group
+//   state.setup.selected_machine.company_id=payload.company_id
+//   state.setup.selected_machine.creator_id=payload.creator_id
+//   state.setup.selected_machine.creator_role=payload.creator_role
+//   state.setup.selected_machine.branch=payload.branch
+//   state.setup.selected_machine.hours=payload.hours
+//   state.setup.selected_machine.description=payload.description
+//   state.setup.selected_machine.other=payload.other
 
+
+// },
+SET_MACHINE(state,data){
+  if(_.isEmpty(data)) return;
+  state.setup.selected_machine.id=data.id
+  state.setup.selected_machine.code=data.code
+  state.setup.selected_machine.branch=data.branch
+  state.setup.selected_machine.name=data.name
+  state.setup.selected_machine.group=data.group
+  state.setup.selected_machine.hours=data.hours
+  state.setup.selected_machine.detail=data.detail
+  state.setup.selected_machine.description=data.description
+  state.setup.selected_machine.other=data.other
+},
+
+MACHINE_LOGOUT(state){
+state.setup.selected_machine.id=""
+state.setup.selected_machine.code=""
+state.setup.selected_machine.branch=""
+state.setup.selected_machine.name=""
+state.setup.selected_machine.group=""
+state.setup.selected_machine.hours=""
+state.setup.selected_machine.detail=""
+state.setup.selected_machine.description=""
+state.setup.selected_machine.other=""
+},
+CLEAR_COMPANY(state)
+{
+state.setup.selected_company.id=""
+state.setup.selected_company.name=""
+state.setup.selected_company.email=""
+},
+
+SET_COMPANY(state,data)
+{
+  if(_.isEmpty(data))return;
+state.setup.selected_company.id=data.id
+state.setup.selected_company.name=data.name
+state.setup.selected_company.email=data.email
+},
+SET_SHIFT(state,data)
+{
+  if(_.isEmpty(data))return;
+state.db.shifts=data
+},
+SET_DOWNTIME(state,data)
+{
+  if(_.isEmpty(data))return;
+state.db.down_time=data
+},
+SET_BREAK(state,data)
+{
+  if(_.isEmpty(data))return;
+  state.db.breaks=data
 
 },
+
+
 LOCAL_SK_IO_MACHINE_PART_NO(state,payload)
 {
   Vue.set(state.global,'LOCAL_SK_IO_MACHINE_PART_NO',payload)

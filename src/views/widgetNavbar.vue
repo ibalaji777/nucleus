@@ -9,11 +9,10 @@
                    <div class="widget">
                         <div>Live Stroke: {{globalMachineLive.stroke}}</div>
                     </div>
-
-
-                   <div class="widget">
+                  <div 
+                   @click="$store.commit('setDialog',{key:'loadMaterialDialog',value:true})"                    class="widget">
                         <div>Loading Material: {{globalRunningProducts.count}}</div>
-                        {{globalRunningProducts}}
+                        <!-- {{globalRunningProducts}} -->
 
                     </div>
                      <div class="widget">

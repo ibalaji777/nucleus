@@ -1,5 +1,5 @@
 <template>
-<v-row justify="center">
+<div>
 <v-dialog
 v-model="$store.state.dialog.selectMachineDialog"
 fullscreen
@@ -25,12 +25,14 @@ dark
 </v-toolbar-items>
 </v-toolbar>
 <div style="padding:10px;">
-
+<h4>Company Detail</h4>
+<h5> Name:{{$store.state.setup.selected_company.name}}</h5>
+<h5>Email:{{$store.state.setup.selected_company.email}}</h5>
 <div  style="width:100vw">
 <h4>Machine Detail</h4>
 <div style="padding:10px;margin:10px;background:lightgrey;">
 <b>Id</b>:{{$store.state.setup.selected_machine.id}}<br>
-<b>Code</b>:{{$store.state.setup.selected_machine.Code}}<br>
+<b>Code</b>:{{$store.state.setup.selected_machine.code}}<br>
 <b>name</b>:{{$store.state.setup.selected_machine.name}}<br>
 <b>detail</b>:{{$store.state.setup.selected_machine.detail}}<br>
 <b>hours</b>:{{$store.state.setup.selected_machine.hours}}<br>
@@ -72,13 +74,11 @@ dark
   <table class="employeeTable">
     <tr>
         <td>Name</td>
-        <td>Type</td>
         <td>Start Time</td>
         <td>End Time</td>
     </tr>
   <tr v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">
     <td>{{item.name}}</td>
-        <td>{{item.type}}</td>
   <td>{{guiTimeFormat(item.start_time)}}</td>
      <td>{{guiTimeFormat(item.end_time)}}</td>  </tr>
 
@@ -105,7 +105,7 @@ dark
 </div>
 </v-card>
 </v-dialog>
-</v-row>
+</div>
 </template>
 <script>
 /*eslint-disable*/

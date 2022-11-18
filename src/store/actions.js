@@ -3,7 +3,10 @@ const axios = require('axios').default;
 import { _ } from 'core-js';
 import * as socketConfig from '../../src/core/socketConfig.js'
 var url='http://127.0.0.1:3333/'
+var api='http://127.0.0.1:3333/api/'
 var createMachineActivityApi=url+'machine_activity';
+
+var apiMachineLogin=api+'machine_login'
 const actions={
 
 //------------------api----------------------------
@@ -85,7 +88,22 @@ createMachineActivity(context,payload){
     },
     setCompany(context,payload){
         context.commit('setCompany',payload)
-    }
+    },
+   
+
+async   MACHINE_LOGIN(context,payload){
+var result=await axios.post(apiMachineLogin,{data:payload})
+if(result.data.success){
+
+    context.commit('SET_MACHINE',result.data.data.machine)
+    context.commit('SET_COMPANY',result.data.data.company)
+    context.commit('SET_SHIFT',result.data.data.shift)
+    context.commit('SET_DOWNTIME',result.data.data.down_ime)
+    context.commit('SET_BREAK',result.data.data.breaks)
+}
+console.log(result) 
+return result;
+}
 
 
 }

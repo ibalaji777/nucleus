@@ -14,8 +14,8 @@ globalRunningProducts(){
 var $vm=this;
 var datasets=_.uniq(_.map($vm.$store.state.setup.machineActivities, 'product_id'))
 var products=_.reduce(datasets,
-    (result,product_id)=>{
-    var product=_.find($vm.$store.state.db.products,(product)=>product.id==product_id)||{}
+(result,product_id)=>{
+var product=_.find($vm.$store.state.db.products,(product)=>product.id==product_id)||{}
     if(!_.isEmpty(product)){
         result.push(product)
     }
@@ -85,10 +85,10 @@ var datasets= _.filter($vm.$store.state.setup.machineActivities, (x)=>x.machine_
     
      var next=i+1
      var objectNext=arrangeOrderByTime[next];
-     console.log(object)
-     console.log(objectNext)
-     console.log(typeof objectNext!='undefined',object.break_type=='UNPLANNED',object.machine_active_status=='OFF')
-     console.log(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
+    //  console.log(object)
+    //  console.log(objectNext)
+    //  console.log(typeof objectNext!='undefined',object.break_type=='UNPLANNED',object.machine_active_status=='OFF')
+    //  console.log(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
      if(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
      {  
         downTimes.push({...object,start_time:object.machine_time,end_time:objectNext.machine_time})

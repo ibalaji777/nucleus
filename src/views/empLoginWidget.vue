@@ -1,5 +1,5 @@
 <template>
-<v-row justify="center" style="background:white">
+<div  style="background:white">
 
 <v-dialog
 width="700"
@@ -57,7 +57,7 @@ dark
     </div>
 </v-card>
 </v-dialog>
-</v-row>
+</div>
 </template>
 <script>
 /*eslint-disable*/

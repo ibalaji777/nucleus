@@ -28,11 +28,14 @@ import widgetNavbar from './views/widgetNavbar.vue'
 import oeePanel from './views/oeePanel.vue' 
 Vue.use(VueSimpleAlert);
 
+import loadMaterialDialog from './views/loadMaterialDialog.vue'
 import productWidget from './views/productWidget.vue' 
 import shiftWidget from './views/shiftWidget.vue' 
 import empLoginWidget from './views/empLoginWidget.vue' 
 import machineWidget from './views/machineWidget.vue' 
 
+
+Vue.component('loadMaterialDialog',loadMaterialDialog);
 Vue.component('shiftWidget',shiftWidget);
 Vue.component('empLoginWidget',empLoginWidget);
 Vue.component('machineWidget',machineWidget);

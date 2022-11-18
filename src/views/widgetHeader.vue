@@ -51,9 +51,7 @@
             </div>
         </div>
 
-        <select-employee-widget></select-employee-widget>
-        <select-machine></select-machine>
-        <select-product></select-product>
+
     </div>
 </template>
 <script>

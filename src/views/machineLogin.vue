@@ -1,25 +1,26 @@
 <template>
     <div>
 
-<img class="fullBg" src="/login.png" alt="">
 <div class="xyCenter">
        <div>
-        <!-- <img style="max-height:150px"  src="/login.gif" alt=""> -->
-{{$store.state.setup.company}}
+    
+    <h4 style="text-align:center">    MACHINE LOGIN</h4>
+
+<!-- {{$store.state.setup.company}} -->
          <v-text-field
          outlined
          style="text-align:center"
           label="Username(*)"
-          v-model="company.username"
+          v-model="company.company_username"
           required
          ></v-text-field>
         </div>
         <div>
          <v-text-field
          outlined
-         type="password"
-          label="Password(*)"
-          v-model="company.password"
+          label="Machine Code(*)"
+          type="password"
+          v-model="company.machine_code"
           required
          ></v-text-field>
         </div>
@@ -38,23 +39,29 @@ export default {
     data(){
         return{
             company:{
-                username:'',
-                password:''
+                company_username:'',
+                machine_code:''
             }
         }
     },
     methods:{
 
-        login(){
+async        login(){
             var $vm=this;
-
-            if($vm.company.username=='admin'&&$vm.company.password=='admin'){
-
-                $vm.$store.dispatch('setCompany',{id:1,username:'admin',password:'admin'})
-
-                $vm.$router.push("/home")
-
-            }
+if($vm.company.company_username==''){
+    $vm.$alert("Please Fill Company Username")
+    return;
+}
+if($vm.company.machine_code==''){
+    $vm.$alert("Please Fill Machine Code")
+    return;
+}
+var result=await $vm.$store.dispatch('MACHINE_LOGIN',$vm.company)
+if(result.data.success){
+$vm.$router.push({name:'home'})
+}
+$vm.$alert(result.data.msg)
+// $vm.$router.push("/home")
 
         }
     }
@@ -74,11 +81,10 @@ position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: cornsilk;
+    // background: cornsilk;
     width: 30vw;
-    height: 20vw;
     padding: 10px;
-    border: 2px solid cadetblue;
+    // border: 2px solid cadetblue;
     box-shadow: 9px 4px 32px 7px;
 }
 </style>

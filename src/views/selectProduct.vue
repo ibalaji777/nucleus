@@ -1,5 +1,5 @@
 <template>
-<v-row justify="center">
+<div>
 <v-dialog
 v-model="$store.state.dialog.selectProductDialog"
 fullscreen
@@ -48,7 +48,7 @@ dark
 </div>
 </v-card>
 </v-dialog>
-</v-row>
+</div>
 </template>
 <script>
 export default {

@@ -1,6 +1,6 @@
 <template>
  <v-app>
-  <v-app-bar app color="#43386A" dark>
+  <v-app-bar v-if="!['machineLogin'].includes($route.name)" app color="#43386A" dark>
    <img
     @click="
      $store.commit('setDialog', { key: 'demoMachineDialog', value: true })
@@ -22,7 +22,8 @@
      >mdi-power</v-icon
     >
     <v-icon v-else style="color: red">mdi-power</v-icon>
-   </div>
+      </div>
+<v-btn text @click="machineLogout">Logout</v-btn>
   </v-app-bar>
 
   <v-main>
@@ -34,6 +35,10 @@
   <shift-widget></shift-widget>
   <emp-login-widget></emp-login-widget>
   <machine-widget></machine-widget>
+  <load-material-dialog></load-material-dialog>
+  <select-employee-widget></select-employee-widget>
+  <select-machine></select-machine>
+  <select-product></select-product>
  </v-app>
 </template>
 
@@ -161,6 +166,16 @@ export default {
  },
 
  methods: {
+  machineLogout(){
+var $vm=this;
+$vm.$confirm("Do You Want to logout from Machine?")
+.then(()=>{
+$vm.$store.commit('MACHINE_LOGOUT')
+$vm.$store.commit('CLEAR_COMPANY')
+$vm.$router.push({name:'machineLogin'})
+})
+
+  },
 tracker(){
   var $vm =this;
    tracker.tracker($vm,(data)=>{

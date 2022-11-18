@@ -12,25 +12,31 @@ import createShift from '../views/createShift.vue'
 import dashboardMachine from '../views/dashboardMachine.vue'
 import createCompany from '../views/createCompany.vue'
 import createGroup from '../views/createGroup.vue'
-import login from '../views/login.vue'
+import machineLogin from '../views/machineLogin.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home
+    name: 'machineLogin',
+    component: machineLogin
+  },
+
+  {//ok
+    path: '/machineLogin',
+    name: 'machineLogin',
+    component: machineLogin
   },
   {
     path: '/home',
     name: 'home',
     component: Home
   },
-  {
-    path: '/login',
-    name: 'login',
-    component: login
-  },
+  // {
+  //   path: '/login',
+  //   name: 'login',
+  //   component: login
+  // },
   {
     path: '/createCompany',
     name: 'createCompany',

@@ -21,6 +21,17 @@ setup:{
   //   email:state.setup.selected_company.email,
   //   password:state.setup.selected_company.password,
   // },
+  selected_machine:{
+    id:state.setup.selected_machine.id,
+    code:state.setup.selected_machine.code,
+    branch:state.setup.selected_machine.branch,
+    name:state.setup.selected_machine.name,
+    group:state.setup.selected_machine.group,
+    hours:state.setup.selected_machine.hours,
+    detail:state.setup.selected_machine.detail,
+    description:state.setup.selected_machine.description,
+    other:state.setup.selected_machine.other,
+  },
   shifts:state.setup.shifts,
 }
 
