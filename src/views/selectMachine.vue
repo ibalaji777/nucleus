@@ -94,7 +94,7 @@ dark
         <td>Name</td>
         <td>Description</td>
     </tr>
-  <tr v-for="(item,index) in $store.state.db.down_time" :key="'break'+index">
+  <tr v-for="(item,index) in $store.state.db.down_time" :key="'downtime'+index">
     <td>{{item.name}}</td>
         <td>{{item.Description}}</td>
   </tr>

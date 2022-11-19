@@ -14,6 +14,9 @@ const vuexPersist = new VuexPersistence({
     db:{
 companies:state.db.companies,
 groups:[],
+shifts:state.db.shifts,
+down_time:state.db.down_time,
+breaks:state.db.breaks
     },
 setup:{
   // selected_company:{

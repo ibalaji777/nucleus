@@ -1,6 +1,5 @@
 <template>
 <div  style="background:white">
-
 <v-dialog
 width="700"
 v-model="$store.state.dialog.empLoginWidgetDialog">
@@ -29,8 +28,6 @@ dark
 
 <div >
        <div>
-        <!-- <img style="max-height:150px"  src="/login.gif" alt=""> -->
-<!-- {{$store.state.setup.employee}} -->
          <v-text-field
          outlined
          style="text-align:center"
@@ -49,7 +46,7 @@ dark
          ></v-text-field>
         </div>
         <div style="text-align:center">
-      <v-btn outlined style="width:100%;background:#43386A;color:white" @click="login">LOGIN</v-btn>
+      <v-btn outlined style="width:100%;background:#43386A;color:white" @click="employeeLogin">LOGIN</v-btn>
         </div>
  </div>
 
@@ -74,7 +71,7 @@ export default {
     },
     methods:{
 
-        login(){
+      async  employeeLogin(){
             var $vm=this;
 //check in array
 if($vm.employee.username==''&&$vm.employee.password=='')
@@ -82,19 +79,13 @@ if($vm.employee.username==''&&$vm.employee.password=='')
     $vm.$alert("Please Fill Login Detail")
     return;
 }
-var user=_.find($vm.$store.state.db.employee,(x)=>x.username==$vm.employee.username&&$vm.employee.password==x.password)
-
-if(_.isEmpty(user))
-{
-    $vm.$alert("Login Failed")
-return;
-
-
+var result=await $vm.$store.dispatch('EMPLOYEE_SIGNIN',$vm.employee)
+ $vm.$alert(result.data.msg)
+if(result.data.success){
+    $vm.employee.username==''
+    $vm.employee.password==''
+    $vm.$store.dispatch('dialog',{key:'empLoginWidgetDialog',value:false})
 }
-$vm.$alert("Logged Success")
-$vm.$store.dispatch('setEmployee',user)
-$vm.$store.commit('setDialog',{key:'empLoginWidgetDialog',value:false})
-
 }
     }
 }

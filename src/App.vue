@@ -172,6 +172,8 @@ $vm.$confirm("Do You Want to logout from Machine?")
 .then(()=>{
 $vm.$store.commit('MACHINE_LOGOUT')
 $vm.$store.commit('CLEAR_COMPANY')
+$vm.$store.commit('CLEAR_EMPLOYEE')
+
 $vm.$router.push({name:'machineLogin'})
 })
 

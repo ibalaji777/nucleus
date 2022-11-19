@@ -115,21 +115,35 @@ state.setup.selected_shift.start_time=payload.start_time;
 state.setup.selected_shift.end_time=payload.end_time;
 
 },
-setEmployee(state,payload)
+SET_EMPLOYEE(state,payload)
 {
-  state.setup.selected_employee.id=payload.id;
-  state.setup.selected_employee.branch=payload.branch;
-  state.setup.selected_employee.company_id=payload.company_id;
-  state.setup.selected_employee.creator_id=payload.creator_id;
-  state.setup.selected_employee.creator_role=payload.creator_role;
-  state.setup.selected_employee.name=payload.name;
-  state.setup.selected_employee.username=payload.username;
-  state.setup.selected_employee.password=payload.password;
-  state.setup.selected_employee.email=payload.email;
-  state.setup.selected_employee.role=payload.role;
-  state.setup.selected_employee.phone=payload.phone;
+  if(_.isEmpty(payload)) return;
+  state.setup.selected_employee.id=payload.id;//
+  state.setup.selected_employee.branch=payload.branch;//
+  state.setup.selected_employee.company_id=payload.company_id;//
+  state.setup.selected_employee.name=payload.name;//
+  state.setup.selected_employee.password=payload.password;//
+  state.setup.selected_employee.email=payload.email;//
+  state.setup.selected_employee.role=payload.role;//
+  state.setup.selected_employee.phone=payload.phone;//
   state.setup.selected_employee.id_card=payload.id_card;
-  state.setup.selected_employee.other=payload.other;
+  state.setup.selected_employee.other=payload.other;//
+
+},
+CLEAR_EMPLOYEE(state,payload)
+{
+  if(_.isEmpty(payload)) return;
+  state.setup.selected_employee.id=""
+  state.setup.selected_employee.branch=""
+  state.setup.selected_employee.company_id="";//
+  state.setup.selected_employee.name=""
+  state.setup.selected_employee.password=""
+  state.setup.selected_employee.email=""
+  state.setup.selected_employee.role=""
+  state.setup.selected_employee.phone=""
+  state.setup.selected_employee.id_card="";
+  state.setup.selected_employee.other=""
+  
 
 },
 // setMachine(state,payload)
