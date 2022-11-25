@@ -1,7 +1,19 @@
 import Vue from 'vue'
 import moment from 'moment'
 import _ from 'lodash'
+import store from '../src/store/index.js'
 
+
+Vue.filter('global_date_format', function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return moment(value,store.state.setup.bgDateFormat).format(store.state.setup.uiDateFormat)
+  })
+  Vue.filter('global_time_format', function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return moment(value,store.state.setup.bgTimeFormat).format(store.state.setup.uiTimeFormat)
+  })
 Vue.mixin({
     computed:{
 
@@ -16,7 +28,7 @@ var datasets=_.uniq(_.map($vm.$store.state.setup.machineActivities, 'product_id'
 var products=_.reduce(datasets,
 (result,product_id)=>{
 var product=_.find($vm.$store.state.db.products,(product)=>product.id==product_id)||{}
-    if(!_.isEmpty(product)){
+ if(!_.isEmpty(product)){
         result.push(product)
     }
     return result;

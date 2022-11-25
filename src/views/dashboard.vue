@@ -21,7 +21,7 @@
 </div>
 
 
-x
+
          <time-chart-status></time-chart-status>
     <!-- <stackbar-chart></stackbar-chart>     -->
         <time-chart></time-chart>    

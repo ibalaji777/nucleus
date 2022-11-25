@@ -23,21 +23,23 @@ dark
 </v-toolbar-items>
 </v-toolbar>
 
-
+<div style="display:flex;justify-content:flex-end;padding:10px">
+<v-icon style="cursor:pointer"  @click="$store.dispatch('GET_PRODUCTS')">mdi-refresh</v-icon>
+</div>
 <div style="height:400px;background:white;padding:10px;margin:5px"> 
 
-    <v-autocomplete
+<v-autocomplete
     outlined
-     :items="$store.state.db.products"
-     attach
-     item-text='name'
-     return-object
-     v-model="name"
-     label="Search Products"
-     required
-     @change="selectProduct"
-     >
-    </v-autocomplete>        
+    :items="$store.state.db.products"
+    attach
+    item-text='name'
+    return-object
+    v-model="name"
+    label="Search Products"
+    required
+    @change="selectProduct"
+>
+</v-autocomplete>        
 
 <div style="text-align:center">
     <v-btn @click="submit" :style="globalStyle" :color="globalBtnBgColor">Submit</v-btn>
@@ -69,7 +71,7 @@ if(!_.isEmpty($vm.selected))
 selectProduct(value){
 var $vm=this;
 $vm.selected=value
-console.log("selected",value)
+// console.log("selected",value)
 
 $vm.$store.commit('setProduct',value)
         }

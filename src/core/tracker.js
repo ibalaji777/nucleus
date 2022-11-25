@@ -56,12 +56,12 @@ export function tracker($vm,callback) {
         //
 
 
-        if (_.isEmpty($vm.$store.state.setup.machineSessionId))
+        if ($vm.$store.state.setup.machineSessionId.machine_client_id=='')
 
     {
 //k
         var machineSessionId = {
-            machine_client_id: $vm.$store.state.setup.selected_machine.id + new Date().valueOf(),//ok random
+            machine_client_id:new Date().valueOf() + $vm.$store.state.setup.selected_machine.id ,//ok random
             start_time: moment().format($vm.$store.state.setup.bgTimeFormat), //must
             end_time:  moment().format($vm.$store.state.setup.bgTimeFormat), //must
             isClosed:false,
@@ -106,8 +106,10 @@ export function tracker($vm,callback) {
         // machine_date:new moment().format("YYYY-MM-DD"),
         // machine_time:new moment().format("hh:mm:ss")
     }
+
+    // console.log("prepare",prepare)
     liveMachine.push(prepare)
-    liveMachine = _.uniqBy(liveMachine, 'stroke')
+    // liveMachine = _.uniqBy(liveMachine, 'stroke')
     $vm.$store.commit('machineActivities',_.cloneDeep(prepare))
     // $vm.$store.dispatch('createMachineActivity',{company_id:1,..._.cloneDeep(prepare)})
 //-------------------database---------------

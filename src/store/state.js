@@ -10,15 +10,20 @@ const state = {
         shiftWidgetDialog: false,
         productWidgetDialog: false,
         demoMachineDialog: false,
-
         selectMachineDialog: false,
         operatorLoginDialog: false,
         selectEmployeeWidget: false,
         selectProductDialog: false,
         isDemoPlugin: false,
+        historyDialog:false,
 
     },
-    style: {
+    running:{
+        MACHINE_RUNNING_MAIN:[],
+        MACHINE_RUNNING_PART_NO:[],
+        MACHINE_RUNNING_ACTIVITY:[]
+    },
+style: {
         btnBgColor: 'primary',
         btnTxtColor: 'white',
 
@@ -30,29 +35,29 @@ const state = {
 
         //ok----
         products: [
-            {
-                id: 1,
-                company_id: '',
-                branch: '',
-                part_no: '11',
-                material_code: '11',
-                grn_no: '11',
-                name: 'sample 1',
-                group: '',
-                other_detail: '',
-                other: {}
-            },
-            {
-                id: 2,
-                part_no: '12',
-                branch: '',
-                material_code: '12',
-                grn_no: '12',
-                name: 'sample 12',
-                group: '',
-                other_detail: '',
-                other: {}
-            }
+            // {
+            //     id: 1,
+            //     company_id: '',
+            //     branch: '',
+            //     part_no: '11',
+            //     material_code: '11',
+            //     grn_no: '11',
+            //     name: 'sample 1',
+            //     group: '',
+            //     other_detail: '',
+            //     other: {}
+            // },
+            // {
+            //     id: 2,
+            //     part_no: '12',
+            //     branch: '',
+            //     material_code: '12',
+            //     grn_no: '12',
+            //     name: 'sample 12',
+            //     group: '',
+            //     other_detail: '',
+            //     other: {}
+            // }
         ],
          //ok---------
          down_time: [
@@ -256,7 +261,13 @@ const state = {
         bgTimeFormat: "HH:mm",
         uiDateFormat: "DD-MM-YYYY",
         bgDateFormat: "YYYY-MM-DD",
-        machineSessionId: {},
+        machineSessionId: {
+            machine_client_id: '',//ok random
+            start_time:'' , //must
+            end_time:  '', //must
+            isClosed:false,
+            date: '',
+        },
         machineActivities: [],
         createMachineEntryParent: {},
         createMachineEntryChild: [],
@@ -324,15 +335,15 @@ const state = {
         },
 
         selected_machine: {
-            id: 1,
-            code: 'ia11',
-            branch: '',//ok
-            name: 'm1',
-            group: '',
-            hours: 8,
-            detail: 'some',
-            description: '',
-            other: '',
+            // id: 1,
+            // code: 'ia11',
+            // branch: '',//ok
+            // name: 'm1',
+            // group: '',
+            // hours: 8,
+            // detail: 'some',
+            // description: '',
+            // other: '',
         },
         selected_product: {
             id: 1,

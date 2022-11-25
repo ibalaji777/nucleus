@@ -12,18 +12,14 @@ const vuexPersist = new VuexPersistence({
   storage: localStorage,
   reducer: (state) => ({ 
     db:{
-companies:state.db.companies,
-groups:[],
 shifts:state.db.shifts,
 down_time:state.db.down_time,
-breaks:state.db.breaks
+breaks:state.db.breaks,
+products:state.db.products
     },
 setup:{
-  // selected_company:{
-  //   id:state.setup.selected_company.id,
-  //   email:state.setup.selected_company.email,
-  //   password:state.setup.selected_company.password,
-  // },
+  machineSessionId:state.setup.machineSessionId,
+  selected_product:state.setup.selected_product,
   selected_machine:{
     id:state.setup.selected_machine.id,
     code:state.setup.selected_machine.code,
@@ -35,7 +31,11 @@ setup:{
     description:state.setup.selected_machine.description,
     other:state.setup.selected_machine.other,
   },
-  shifts:state.setup.shifts,
+  selected_company:{
+    id:state.setup.selected_company.id,
+    name:state.setup.selected_company.name,
+    email:state.setup.selected_company.email,
+ },
 }
 
 

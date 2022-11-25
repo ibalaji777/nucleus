@@ -35,6 +35,10 @@
                 <div class="widget">
                         <div>Unplaneed Stops:{{globalUnPlannedStops.count}}</div>
                     </div>
+               <div class="widget" @click="$store.commit('setDialog',{key:'historyDialog',value:true})">
+                        <div>History</div>
+                    </div>
+
                     <!-- <div class="widget">
     <div>Planned Time</div>
   </div> -->

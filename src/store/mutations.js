@@ -75,9 +75,9 @@ createMachineEntryParent(state,value){
 }
 ,
 machineSessionId(state,value){
-
-  state.setup.machineSessionId=value
-
+console.log("machine set id||||||",value)
+  // state.setup.machineSessionId=value
+Vue.set(state.setup,'machineSessionId',value)
 }
 
 ,
@@ -86,7 +86,9 @@ createMachineEntryChild(state,value){
   state.setup.createMachineEntryChild.push(value)
 
 },
-
+removeMainActivities(state){
+  state.setup.machineActivities=[]
+},
 machineActivities(state,value){
 
   state.setup.machineActivities.push(value)
@@ -113,6 +115,12 @@ state.setup.selected_shift.creator_id=payload.creator_id;
 state.setup.selected_shift.creator_role=payload.creator_role;
 state.setup.selected_shift.start_time=payload.start_time;
 state.setup.selected_shift.end_time=payload.end_time;
+
+},
+GET_PRODUCTS(state,payload){
+  console.log("set Products",payload,Array.isArray(payload))
+if(Array.isArray(payload)) 
+Vue.set(state.db,'products',payload)
 
 },
 SET_EMPLOYEE(state,payload)
@@ -223,7 +231,25 @@ LOCAL_SK_IO_MACHINE_PART_NO(state,payload)
 {
   Vue.set(state.global,'LOCAL_SK_IO_MACHINE_PART_NO',payload)
 
+},
+
+GET_MACHINE_RUNNING_PART_NO(state,payload)
+{  console.log(payload)
+  Vue.set(state.running,'MACHINE_RUNNING_PART_NO',payload)
+  
+},
+GET_MACHINE_RUNNING_MAIN(state,payload)
+{  console.log(payload)
+  Vue.set(state.running,'MACHINE_RUNNING_MAIN',payload)
+   
 }
+,
+GET_MACHINE_RUNNING_ACTIVITY(state,payload)
+{  console.log(payload)
+  Vue.set(state.running,'MACHINE_RUNNING_ACTIVITY',payload)
+   
+}
+
 
 
 

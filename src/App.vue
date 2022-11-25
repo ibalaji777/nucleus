@@ -39,6 +39,7 @@
   <select-employee-widget></select-employee-widget>
   <select-machine></select-machine>
   <select-product></select-product>
+  <history-dialog></history-dialog>
  </v-app>
 </template>
 
@@ -50,6 +51,16 @@ import * as config from '../src/core/config'
 
 import _ from 'lodash'
 const bgSocket = io(config.backend);
+
+
+var moment = require("moment");
+import lodash from "lodash";
+const ipcRenderer = window.require("electron").ipcRenderer;
+import * as oee from "../src/core/oee";
+import { v4 as uuidv4 } from "uuid";
+import historyDialog from './views/historyDialog.vue';
+// var isMachineStatus=false;
+var liveMachine = [];
 export function initSerialPort($vm){
 
     if($vm.$store.state.dialog.isDemoPlugin){
@@ -59,7 +70,7 @@ export function initSerialPort($vm){
       $vm.$store.commit('setMachineStatus',false)
       
       socket.on('connect_failed', function(){
-        
+       
           console.log('Connection Failed');
       });
       
@@ -98,15 +109,8 @@ export function initSerialPort($vm){
       })
       }
 }
-
-var moment = require("moment");
-import lodash from "lodash";
-const ipcRenderer = window.require("electron").ipcRenderer;
-import * as oee from "../src/core/oee";
-import { v4 as uuidv4 } from "uuid";
-// var isMachineStatus=false;
-var liveMachine = [];
 export default {
+  components: { historyDialog },
  name: "App",
 
  data: () => ({
@@ -124,6 +128,7 @@ export default {
   ipcRenderer.on("shedule", (event, arg) => {
    console.log(arg);
   });
+   $vm.$store.dispatch('GET_PRODUCTS')
   oee.calculation();
  },
  watch: {
@@ -138,6 +143,7 @@ export default {
   "$store.state.setup.checkMachine": {
    handler(value) {
     var $vm = this;
+    console.log(value)
  $vm.tracker()
    },
    deep: true,
@@ -173,13 +179,14 @@ $vm.$confirm("Do You Want to logout from Machine?")
 $vm.$store.commit('MACHINE_LOGOUT')
 $vm.$store.commit('CLEAR_COMPANY')
 $vm.$store.commit('CLEAR_EMPLOYEE')
-
 $vm.$router.push({name:'machineLogin'})
 })
 
   },
 tracker(){
   var $vm =this;
+  //it only allows the shift and employee 
+  // if($vm.$store.state.setup.checkEmbededDevice){
    tracker.tracker($vm,(data)=>{
   console.log("tracker",data)
   bgSocket.emit('SK_IO_INSERT_MACHINE_ACTIVITY',data.SK_IO_CREATE_MACHINE_ACTIVITY);
@@ -188,11 +195,17 @@ tracker(){
     })
   bgSocket.emit('SK_IO_INSERT_MACHINE_MAIN',data.SK_IO_INSERT_MACHINE_MAIN);
   $vm.$store.commit('LOCAL_SK_IO_MACHINE_PART_NO',data.SK_IO_INSERT_MACHINE_PART_NO)
-
+   
  //new oee 
- oee.oeeCalculation($vm)
- });
 
+$vm.$store.dispatch('GET_MACHINE_RUNNING_PART_NO')
+$vm.$store.dispatch('GET_MACHINE_RUNNING_MAIN')
+$vm.$store.dispatch('GET_MACHINE_RUNNING_ACTIVITY')
+
+
+oee.oeeCalculation($vm)
+ });
+  // }
 }
 
  },

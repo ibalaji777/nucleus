@@ -33,8 +33,10 @@ import productWidget from './views/productWidget.vue'
 import shiftWidget from './views/shiftWidget.vue' 
 import empLoginWidget from './views/empLoginWidget.vue' 
 import machineWidget from './views/machineWidget.vue' 
+import date from '../src/views/date.vue'
 
 
+Vue.component('date',date);
 Vue.component('loadMaterialDialog',loadMaterialDialog);
 Vue.component('shiftWidget',shiftWidget);
 Vue.component('empLoginWidget',empLoginWidget);

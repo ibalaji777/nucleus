@@ -24,7 +24,9 @@
 export default {
  name: "Home",
  mounted(){
+var $vm=this;
 
+ $vm.$store.dispatch('GET_PRODUCTS')
  }
 };
 </script>

@@ -1,116 +1,177 @@
 /*eslint-disable*/
 const axios = require('axios').default;
-import { _ } from 'core-js';
+import {
+    _
+} from 'core-js';
+
 import * as socketConfig from '../../src/core/socketConfig.js'
-var url='http://127.0.0.1:3333/'
-var api='http://127.0.0.1:3333/api/'
-var createMachineActivityApi=url+'machine_activity';
-var apiEmployeeLogin=api+'machine_employee_signin'
-var apiMachineLogin=api+'machine_login'
-const actions={
+var url = 'http://127.0.0.1:3333/'
+var api = 'http://127.0.0.1:3333/api/'
+var createMachineActivityApi = url + 'machine_activity';
+var apiEmployeeLogin = api + 'machine_employee_signin'
+var apiMachineLogin = api + 'machine_login'
+var apiGetProducts = api + 'get_products ';
+var apiGetMachineStatusByDate = api + 'get_machines_main_status_by_date'
 
-//------------------api----------------------------
+var apiGetMachineRunningPartNo = api + 'get_machine_running_part_no'
+var apiGetMachineRunningMain = api + 'get_machine_running_main'
+var apiGetMachineRunningActivity = api + 'get_machine_running_activity'
+const actions = {
 
-createMachineActivity(context,payload){
+    //------------------api----------------------------
 
-    axios.post(createMachineActivityApi,{data:payload})
-    .then((data)=>{
+    createMachineActivity(context, payload) {
 
-        console.log(data)
+        axios.post(createMachineActivityApi, {
+                data: payload
+            })
+            .then((data) => {
+
+                console.log(data)
+            })
+            .catch((err) => {
+                console.log(err)
+
+            })
+
+
+    },
+
+    //------------------api----------------------------
+    createShift(context, payload) {
+        context.commit('createShift', payload)
+    },
+    createCompany(context, payload) {
+        context.commit('createCompany', payload)
+    },
+    checkCompany(context, payload) {
+        context.commit('checkCompany', payload)
+    },
+    createGroup(context, payload) {
+        context.commit('createGroup', payload)
+    },
+    setCompany(context, payload) {
+        context.commit('setCompany', payload)
+    },
+
+    async GET_MACHINE_RUNNING_PART_NO(context){
+return new Promise((resolve,reject)=>{
+    var machine_client_id=context.state.setup.machineSessionId.machine_client_id
+    var machine_id=context.state.setup.selected_machine.id
+
+    console.log("get machine running part no ")
+        var result = axios.post(apiGetMachineRunningPartNo, {
+            data: {machine_id,machine_client_id}
+        }).then((result)=>{
+
+
+            context.commit('GET_MACHINE_RUNNING_PART_NO',result.data.data)
+        resolve(result)
+        })
+        .catch(()=>{
+reject();
+        });
+
+        return result;
     })
-    .catch((err)=>{
-        console.log(err)
-
-    })
-
-
-},
-// SK_IO_CREATE_MACHINE_ACTIVITY(context,payload){
-// // console.log("SK_IO_CREATE_MACHINE_ACTIVITY",payload)
-// // socketConfig.createMachineActivity({data:payload})
-// socketConfig.SK_IO_INSERT_MACHINE_ACTIVITY({data:payload})
-
-// },
-// SK_IO_INSERT_MACHINE_PART_NO(context,payload){
-// console.log("----payload----")
-// console.log(payload)
-//     _.map(payload.products,(product)=>{
-//         var dataset={
-//             part_no:product.part_no,
-//             product_id:product.id,
-//             company_id:context.state.setup.selected_company.id,
-//             shift_id: context.state.setup.selected_shift.id,
-//             emp_id: context.state.setup.selected_employee.id,
-//             machine_client_id:payload.prepare.machine_client_id,
-//             machine_id: context.state.setup.selected_machine.id,
-//             total_count:0,
-//             good_count:0,
-//             reject_count:0,
-//             ideal_cycle:1,
-//             machine_date:payload.prepare.machine_date,
-//             machine_time:payload.prepare.machine_time
-//         }
+    },
+    async GET_MACHINE_RUNNING_MAIN(context){
+        return new Promise((resolve,reject)=>{
+            var machine_client_id=context.state.setup.machineSessionId.machine_client_id
+            var machine_id=context.state.setup.selected_machine.id
         
-//         socketConfig.SK_IO_INSERT_MACHINE_PART_NO({data:dataset})
+            console.log("get machine running MAIN ")
+                var result = axios.post(apiGetMachineRunningMain, {
+                    data: {machine_id,machine_client_id}
+                }).then((result)=>{
+        
+        
+                    context.commit('GET_MACHINE_RUNNING_MAIN',result.data.data)
+                resolve(result)
+                })
+                .catch(()=>{
+        reject();
+                });
+        
+                return result;
+            })
+            },
+            async GET_MACHINE_RUNNING_ACTIVITY(context){
+                return new Promise((resolve,reject)=>{
+                    var machine_client_id=context.state.setup.machineSessionId.machine_client_id
+                    var machine_id=context.state.setup.selected_machine.id
+                
 
-//     })
+                        var result = axios.post(apiGetMachineRunningActivity, {
+                            data: {machine_id,machine_client_id}
+                        }).then((result)=>{
+                
+               
+                            context.commit('GET_MACHINE_RUNNING_ACTIVITY',result.data.data)
+                        resolve(result)
+                        })
+                        .catch(()=>{
+                reject();
+                        });
+                
+                        return result;
+                    })
+                    },
+    async GET_MACHINE_STATUS_BY_DATE(context, payload) {
 
-// },
-// SK_IO_INSERT_MACHINE_MAIN(context,payload){
+        console.log("get machine status by date ", payload)
+        var result = await axios.post(apiGetMachineStatusByDate, {
+            data: payload
+        });
 
-//     var dataset={
-//         company_id:context.state.setup.selected_company.id,
-//         shift_id: context.state.setup.selected_shift.id,
-//         emp_id: context.state.setup.selected_employee.id,
-//         machine_client_id:payload.prepare.machine_client_id,
-//         machine_id: context.state.setup.selected_machine.id,
-//         machine_date:payload.prepare.machine_date,
-//         machine_time:payload.prepare.machine_time,
-//         machine_active_status:payload.prepare.machine_active_status
-//     }
-    
-//     socketConfig.SK_IO_INSERT_MACHINE_MAIN({data:dataset})
+        return result;
 
+    },
+    GET_PRODUCTS(context, payload) {
+        return new Promise((resolve, reject) => {
+                axios.post(apiGetProducts, {
+                        data: {
+                             company_id: context.state.setup.selected_company.id
+                        }
+                    })
+                    .then((result) => {
+                            context.commit('GET_PRODUCTS', result.data)
+                    })
 
-// },
-//------------------api----------------------------
-    createShift(context,payload){
-        context.commit('createShift',payload)
+                resolve()
+            })
+            .catch(() => {
+                reject()
+            })
+
     },
-    createCompany(context,payload){
-        context.commit('createCompany',payload)
-    },
-    checkCompany(context,payload){
-        context.commit('checkCompany',payload)
-    },
-    createGroup(context,payload){
-        context.commit('createGroup',payload)
-    },
-    setCompany(context,payload){
-        context.commit('setCompany',payload)
-    },
-  async EMPLOYEE_SIGNIN(context,payload){
-        var result=await axios.post(apiEmployeeLogin,{data:payload})
-        if(result.data.success){
-          context.commit('SET_EMPLOYEE',result.data.data)
+
+    async EMPLOYEE_SIGNIN(context, payload) {
+        var result = await axios.post(apiEmployeeLogin, {
+            data: payload
+        })
+        if (result.data.success) {
+            context.commit('SET_EMPLOYEE', result.data.data)
         }
-console.log("EMPLOYEE_SIGNIN",result)
+        console.log("EMPLOYEE_SIGNIN", result)
         return result
-        
-    },
-async   MACHINE_LOGIN(context,payload){
-var result=await axios.post(apiMachineLogin,{data:payload})
-if(result.data.success){
 
-    context.commit('SET_MACHINE',result.data.data.machine)
-    context.commit('SET_COMPANY',result.data.data.company)
-    context.commit('SET_SHIFT',result.data.data.shift)
-    context.commit('SET_DOWNTIME',result.data.data.down_time)
-    context.commit('SET_BREAK',result.data.data.breaks)
-}
-console.log(result) 
-return result;
-}
+    },
+    async MACHINE_LOGIN(context, payload) {
+        var result = await axios.post(apiMachineLogin, {
+            data: payload
+        })
+        if (result.data.success) {
+
+            context.commit('SET_MACHINE', result.data.data.machine)
+            context.commit('SET_COMPANY', result.data.data.company)
+            context.commit('SET_SHIFT', result.data.data.shift)
+            context.commit('SET_DOWNTIME', result.data.data.down_time)
+            context.commit('SET_BREAK', result.data.data.breaks)
+        }
+        console.log(result)
+        return result;
+    }
 
 
 }

@@ -35,6 +35,9 @@ ON
 <v-btn dark color="primary" @click="clear">
 Clear
 </v-btn>
+<v-btn dark color="primary" @click="remove">
+Remove
+</v-btn>
 
 </div>
 <br>
@@ -108,6 +111,11 @@ this.stroke=0,
 this.rpm="",
 this.machine=false,
 this.inputState=false
+
+},
+remove(){
+var $vm=this;
+$vm.$store.commit('removeMainActivity')
 
 },
 switchMachine(){
