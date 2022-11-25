@@ -29,11 +29,7 @@
       :search="search"
     ></v-data-table>
 
-    <v-data-table
-      :headers="runningPartNoHeader"
-      :items="$store.state.running.MACHINE_RUNNING_PART_NO"
-      :search="search"
-    ></v-data-table>
+
 
 </div> -->
 <div style="padding:10px">
@@ -51,9 +47,29 @@
 </div>
 <v-row>
     <v-spacer></v-spacer>
-    <v-btn color="primary">close shift</v-btn>
+    <v-btn @click="selectShift" color="primary">close shift</v-btn>
     </v-row>
+<!--     
+    <v-data-table
+      :headers="runningPartNoHeader"
+      :items="$store.state.runned.MACHINE_RUNNED_MAIN"
+      :search="search"
+    ></v-data-table> -->
+ {{$store.state.runned.MACHINE_RUNNED_MAIN}}
+    <v-data-table
+      :headers="headerRunningMain"
+      :items="$store.state.runned.MACHINE_RUNNED_MAIN"
+      :search="search"
+    >
+     <template v-slot:item.machine_date="{ item }">
+    <span>{{ item.machine_date | global_date_format }}</span>
+ </template>
+ <template v-slot:item.machine_time="{ item }">
+    <span>{{ item.machine_time | global_time_format }}</span>
+ </template>
+ 
 
+    </v-data-table>
 <h4 style="text-align:center">RUNNING  STATUS OF MACHINE</h4>
     <v-data-table
       :headers="headerRunningMain"
@@ -112,7 +128,7 @@
 <script>
 import moment from 'moment';
 /* eslint-disable*/
-
+import * as utils from '../core/utils.js'
 export default {
 data(){
     return{
@@ -171,10 +187,18 @@ from_date:moment().format(this.$store.state.setup.bgDateFormat)
     }
 },    
 methods:{
+selectShift(){
+ var $vm=this;
+utils.selected_runned_part_no($vm,
+$vm.$store.state.running.MACHINE_RUNNING_MAIN,
+$vm.$store.state.running.MACHINE_RUNNING_PART_NO,
+$vm.$store.state.running.MACHINE_RUNNING_ACTIVITY
+)
 
+},
 async    submit(){
         var $vm=this;
-var machine_id=$vm.$store.state.setup.selected_machine.id;
+// var machine_id=$vm.$store.state.setup.selected_machine.id;
 var result=await $vm.$store.dispatch("GET_MACHINE_STATUS_BY_DATE",{machine_id,...$vm.date})
 $vm.machineStatusResult=result.data.data;
 

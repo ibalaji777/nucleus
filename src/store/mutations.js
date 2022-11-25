@@ -75,12 +75,33 @@ createMachineEntryParent(state,value){
 }
 ,
 machineSessionId(state,value){
-console.log("machine set id||||||",value)
-  // state.setup.machineSessionId=value
-Vue.set(state.setup,'machineSessionId',value)
+  // console.log("machine set id||||||",value)
+    // state.setup.machineSessionId=value
+  Vue.set(state.setup,'machineSessionId',value)
+  }
+,  
+clearMachineSessionId(state){
+Vue.set(state.setup.machineSessionId,'machine_client_id','')
+Vue.set(state.setup.machineSessionId,'start_time','')
+Vue.set(state.setup.machineSessionId,'end_time','')
+Vue.set(state.setup.machineSessionId,'isClosed','')
+Vue.set(state.setup.machineSessionId,'date','')
 }
 
 ,
+
+
+// selected_machine_runned_main(state,value){
+
+//   state.setup.selected_machine_runned_main=value
+
+// },
+// selected_runned_part_no(state,value){
+
+//   state.setup.selected_runned_part_no=value
+
+// },
+
 createMachineEntryChild(state,value){
 
   state.setup.createMachineEntryChild.push(value)
@@ -232,7 +253,18 @@ LOCAL_SK_IO_MACHINE_PART_NO(state,payload)
   Vue.set(state.global,'LOCAL_SK_IO_MACHINE_PART_NO',payload)
 
 },
+runned(state,value){
 
+  state.runned.MACHINE_RUNNED_MAIN=value.MACHINE_RUNNED_MAIN
+  state.runned.MACHINE_RUNNED_PART_NO=value.MACHINE_RUNNED_PART_NO
+  state.runned.MACHINE_RUNNED_ACTIVITY=value.MACHINE_RUNNED_ACTIVITY
+
+},
+MACHINE_RUNNED_MAIN(state,payload)
+{  console.log("MACHINE_RUNNED_MAIN++",payload)
+  Vue.set(state.runned,'MACHINE_RUNNED_MAIN',payload)
+  
+},
 GET_MACHINE_RUNNING_PART_NO(state,payload)
 {  console.log(payload)
   Vue.set(state.running,'MACHINE_RUNNING_PART_NO',payload)

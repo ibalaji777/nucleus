@@ -40,6 +40,7 @@
   <select-machine></select-machine>
   <select-product></select-product>
   <history-dialog></history-dialog>
+  <close-shift-widget></close-shift-widget>
  </v-app>
 </template>
 
@@ -51,7 +52,7 @@ import * as config from '../src/core/config'
 
 import _ from 'lodash'
 const bgSocket = io(config.backend);
-
+import * as utils from './core/utils.js'
 
 var moment = require("moment");
 import lodash from "lodash";
@@ -117,7 +118,7 @@ export default {
   currentTime: new moment().format("hh:mm"),
  }),
 
- mounted() {
+async mounted() {
   var $vm = this;
   console.log($vm.$store.state.db);
   //----------------socket config-------------------
@@ -129,7 +130,9 @@ export default {
    console.log(arg);
   });
    $vm.$store.dispatch('GET_PRODUCTS')
-  oee.calculation();
+   utils.getRunningMachineData($vm)
+  await $vm.$store.dispatch("GET_MACHINE_STATUS_BY_DATE")
+    oee.calculation();
  },
  watch: {
   currentTime: {
@@ -196,12 +199,8 @@ tracker(){
   bgSocket.emit('SK_IO_INSERT_MACHINE_MAIN',data.SK_IO_INSERT_MACHINE_MAIN);
   $vm.$store.commit('LOCAL_SK_IO_MACHINE_PART_NO',data.SK_IO_INSERT_MACHINE_PART_NO)
    
- //new oee 
-
-$vm.$store.dispatch('GET_MACHINE_RUNNING_PART_NO')
-$vm.$store.dispatch('GET_MACHINE_RUNNING_MAIN')
-$vm.$store.dispatch('GET_MACHINE_RUNNING_ACTIVITY')
-
+//new oee 
+utils.getRunningMachineData($vm)
 
 oee.oeeCalculation($vm)
  });

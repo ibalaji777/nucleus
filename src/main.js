@@ -34,7 +34,7 @@ import shiftWidget from './views/shiftWidget.vue'
 import empLoginWidget from './views/empLoginWidget.vue' 
 import machineWidget from './views/machineWidget.vue' 
 import date from '../src/views/date.vue'
-
+import closeShiftWidget from '../src/views/closeShiftWidget.vue'
 
 Vue.component('date',date);
 Vue.component('loadMaterialDialog',loadMaterialDialog);
@@ -42,7 +42,7 @@ Vue.component('shiftWidget',shiftWidget);
 Vue.component('empLoginWidget',empLoginWidget);
 Vue.component('machineWidget',machineWidget);
 Vue.component('productWidget',productWidget);
-
+Vue.component('closeShiftWidget',closeShiftWidget);
 
 
 

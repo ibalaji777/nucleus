@@ -1,5 +1,6 @@
 /*eslint-disable*/
 const axios = require('axios').default;
+import moment from 'moment'
 import {
     _
 } from 'core-js';
@@ -16,9 +17,27 @@ var apiGetMachineStatusByDate = api + 'get_machines_main_status_by_date'
 var apiGetMachineRunningPartNo = api + 'get_machine_running_part_no'
 var apiGetMachineRunningMain = api + 'get_machine_running_main'
 var apiGetMachineRunningActivity = api + 'get_machine_running_activity'
+
+var apiCloseShift = api + 'close_shift';
 const actions = {
 
     //------------------api----------------------------
+async CLOSE_SHIFT(context,payload){
+
+var machine_client_id=context.state.setup.machineSessionId.machine_client_id
+var machine_id=context.state.setup.selected_machine.id
+var prepare={
+    machine_id,
+    machine_client_id,
+    MACHINE_RUNNED_MAIN:payload.MACHINE_RUNNED_MAIN,
+    MACHINE_RUNNED_PART_NO:payload.MACHINE_RUNNED_PART_NO
+}
+var result=await   axios.post(apiCloseShift, {
+        data: prepare
+    })
+
+ return result;
+},
 
     createMachineActivity(context, payload) {
 
@@ -58,7 +77,7 @@ const actions = {
 return new Promise((resolve,reject)=>{
     var machine_client_id=context.state.setup.machineSessionId.machine_client_id
     var machine_id=context.state.setup.selected_machine.id
-
+if(machine_client_id=="") return;
     console.log("get machine running part no ")
         var result = axios.post(apiGetMachineRunningPartNo, {
             data: {machine_id,machine_client_id}
@@ -79,7 +98,7 @@ reject();
         return new Promise((resolve,reject)=>{
             var machine_client_id=context.state.setup.machineSessionId.machine_client_id
             var machine_id=context.state.setup.selected_machine.id
-        
+            if(machine_client_id=="") return;        
             console.log("get machine running MAIN ")
                 var result = axios.post(apiGetMachineRunningMain, {
                     data: {machine_id,machine_client_id}
@@ -101,7 +120,9 @@ reject();
                     var machine_client_id=context.state.setup.machineSessionId.machine_client_id
                     var machine_id=context.state.setup.selected_machine.id
                 
-
+                
+                    if(machine_client_id=="") return;        
+        
                         var result = axios.post(apiGetMachineRunningActivity, {
                             data: {machine_id,machine_client_id}
                         }).then((result)=>{
@@ -118,12 +139,18 @@ reject();
                     })
                     },
     async GET_MACHINE_STATUS_BY_DATE(context, payload) {
-
+var machine_id=context.state.setup.selected_machine.id
+var from_date=moment().format(context.state.setup.bgDateFormat)
+var to_date=moment().format(context.state.setup.bgDateFormat)
+       
+        // const {
+       
+        // }=payload
         console.log("get machine status by date ", payload)
         var result = await axios.post(apiGetMachineStatusByDate, {
-            data: payload
+            data: {from_date,to_date,machine_id}
         });
-
+         context.commit('MACHINE_RUNNED_MAIN',result.data.data)
         return result;
 
     },

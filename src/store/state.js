@@ -16,7 +16,13 @@ const state = {
         selectProductDialog: false,
         isDemoPlugin: false,
         historyDialog:false,
+        closeShiftDialog:false,
 
+    },
+    runned:{
+        MACHINE_RUNNED_MAIN:[],
+        MACHINE_RUNNED_PART_NO:[],
+        MACHINE_RUNNED_ACTIVITY:[]
     },
     running:{
         MACHINE_RUNNING_MAIN:[],
@@ -282,7 +288,16 @@ style: {
         },
         checkEmbededDevice: false,
         checkMachine: false,
-
+        //ok
+        // runned:{
+        //     machine_runned_main:[],
+        //     //ok used select and edit update
+        //     selected_runned_part_no:[],
+            
+        // },
+        // selected_machine_runned_main:[],
+        // //ok used select and edit update
+        // selected_runned_part_no:[],
         //ok
         selected_branch: {
             id: 1,
