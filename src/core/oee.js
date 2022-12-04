@@ -95,6 +95,13 @@ function _downTime($vm){
 // }
 
 
+function oeePreset($vm){
+// var machineActivities=$vm.$store.state.setup.machineActivities;
+// var sortmachineActivities=$vm.$store.state.setup.machineActivities;
+
+}
+
+
 function oeeData(payload){
 
 console.log("oeeData",payload)

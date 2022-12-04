@@ -11,16 +11,16 @@
          outlined
          style="text-align:center"
           label="Username(*)"
-          v-model="company.company_username"
+          v-model="company.username"
           required
          ></v-text-field>
         </div>
         <div>
          <v-text-field
          outlined
-          label="Machine Code(*)"
+          label="Password(*)"
           type="password"
-          v-model="company.machine_code"
+          v-model="company.password"
           required
          ></v-text-field>
         </div>
@@ -39,8 +39,8 @@ export default {
     data(){
         return{
             company:{
-                company_username:'',
-                machine_code:''
+                username:'',
+                password:''
             }
         }
     },
@@ -48,11 +48,11 @@ export default {
 
 async        login(){
             var $vm=this;
-if($vm.company.company_username==''){
+if($vm.company.username==''){
     $vm.$alert("Please Fill Company Username")
     return;
 }
-if($vm.company.machine_code==''){
+if($vm.company.password==''){
     $vm.$alert("Please Fill Machine Code")
     return;
 }

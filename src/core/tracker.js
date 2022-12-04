@@ -123,7 +123,8 @@ export function tracker($vm,callback) {
     callback({
         SK_IO_INSERT_MACHINE_MAIN:SK_IO_INSERT_MACHINE_MAIN($vm,{prepare:_.cloneDeep(prepare)}),
         SK_IO_INSERT_MACHINE_PART_NO:SK_IO_INSERT_MACHINE_PART_NO($vm,{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)}),
-        SK_IO_CREATE_MACHINE_ACTIVITY:{data:_.cloneDeep(prepare)}
+        SK_IO_CREATE_MACHINE_ACTIVITY:{data:{..._.cloneDeep(prepare),                machine_date_time:moment().format($vm.$store.state.setup.bgDateTimeFormat),
+    }}
        
     })
 }
@@ -145,7 +146,9 @@ function SK_IO_INSERT_MACHINE_PART_NO($vm,payload){
                 reject_count:0,
                 ideal_cycle:1,
                 machine_date:payload.prepare.machine_date,
-                machine_time:payload.prepare.machine_time
+                machine_time:payload.prepare.machine_time,
+                machine_date_time:moment().format($vm.$store.state.setup.bgDateTimeFormat),
+
             }
             
     return {data:dataset};
@@ -163,6 +166,8 @@ function  SK_IO_INSERT_MACHINE_MAIN($vm,payload){
             machine_id: $vm.$store.state.setup.selected_machine.id,
             machine_date:payload.prepare.machine_date,
             machine_time:payload.prepare.machine_time,
+            machine_date_time:moment().format($vm.$store.state.setup.bgDateTimeFormat),
+
             is_closed:false,
             // machine_active_status:payload.prepare.machine_active_status
         }

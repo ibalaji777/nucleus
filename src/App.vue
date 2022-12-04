@@ -47,10 +47,9 @@
 <script>
 /*eslint-disable*/
 import * as tracker from "../src/core/tracker";
-import io from 'socket.io-client'
 import * as config from '../src/core/config'
-
 import _ from 'lodash'
+import io from 'socket.io-client'
 const bgSocket = io(config.backend);
 import * as utils from './core/utils.js'
 
