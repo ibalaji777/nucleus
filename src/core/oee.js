@@ -1,6 +1,6 @@
 
 /*eslint-disable*/
-import _, { result } from 'lodash'
+import _ from 'lodash'
 import moment from 'moment'
 
 export function Availability(runTime,plannedProductionTime){
@@ -52,9 +52,9 @@ var plannedProductionTime=PlannedProductionTime(shiftLength,breakTime)//ok
 var runTime=RunTime(plannedProductionTime,downTime)//ok
 var goodCount=GoodCount(totalCount,rejectCount)//ok
 
-console.log("plannedProductionTime",plannedProductionTime)
-console.log("runTime",runTime)
-console.log("goodCount",goodCount)
+// console.log("plannedProductionTime",plannedProductionTime)
+// console.log("runTime",runTime)
+// console.log("goodCount",goodCount)
 
 
 //***********OEE Calculation*********** */
@@ -67,15 +67,15 @@ var performanceToHundered=performance*100;
 var qualityToHundered=quality*100;
 var availibiltyToHundered=availability*100;
 var oeeToHundered=oee*100;
-console.log("performance",performance,)//ok
-console.log("quality",quality)//ok
-console.log("availability",availability)//ok
-console.log("OEE",oee)//ok
+// console.log("performance",performance,)//ok
+// console.log("quality",quality)//ok
+// console.log("availability",availability)//ok
+// console.log("OEE",oee)//ok
 
-console.log("performanceToHundered",performanceToHundered,)//ok
-console.log("qualityToHundered",qualityToHundered)//ok
-console.log("availibiltyToHundered",availibiltyToHundered)//ok
-console.log("oeeToHundered",oeeToHundered)//ok
+// console.log("performanceToHundered",performanceToHundered,)//ok
+// console.log("qualityToHundered",qualityToHundered)//ok
+// console.log("availibiltyToHundered",availibiltyToHundered)//ok
+// console.log("oeeToHundered",oeeToHundered)//ok
 
 
 }
@@ -94,11 +94,55 @@ function _downTime($vm){
 
 // }
 
+function findNextOnStatus(i,sortmachineActivities){
+var next=i+1;
+var objectNext=sortmachineActivities[next];
+if(typeof objectNext!='undefined'&&objectNext.machine_active_status=='ON')
+{
+  return objectNext;
+}
+if(next!=sortmachineActivities.length)
+findNextOnStatus(next,sortmachineActivities)
 
-function oeePreset($vm){
-// var machineActivities=$vm.$store.state.setup.machineActivities;
-// var sortmachineActivities=$vm.$store.state.setup.machineActivities;
+return undefined;
+}
+ 
+function _downTimeN($vm,sortmachineActivities){
+    var downTimes=[]
+    for(var i=0;i<sortmachineActivities.length;i++){
+     var object=sortmachineActivities[i];
+     if(object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
+     {  var objectNext=findNextOnStatus(i,sortmachineActivities);
+        if(typeof objectNext!='undefined')
+               downTimes.push({...object,start_time:object.machine_date_time,end_time:objectNext.machine_date_time})
+     }
+    }
+    var takenTime= _.reduce(downTimes, function(result, x) {
+    return parseFloat(result)+parseFloat(moment.utc(moment(x.end_time, "HH:mm").diff(moment(x.start_time, "HH:mm"))).format("mm"));
+  }, 0);
+    return {
+        count:downTimes.length,
+        datasets:downTimes,
+        takenTime
+    }
+}
+export function oeePreset($vm){
+var machineActivities=$vm.$store.state.setup.machineActivities;
+var sortmachineActivities=_.orderBy(machineActivities, ['machine_date_time'], ['asc']);
 
+if(1<sortmachineActivities.length){
+var start_time=moment(sortmachineActivities[0]['machine_date_time'])
+var end_time=moment(sortmachineActivities[sortmachineActivities.length-1]['machine_date_time'])
+var duration = moment.duration(end_time.diff(start_time));
+var hours = duration.asHours();
+var plannedProductionTime=hours;
+var breaks=_breaks($vm)
+var downtime=_downTimeN($vm,sortmachineActivities);
+console.log("check+++",sortmachineActivities)
+console.log("plannedProductionTime",plannedProductionTime)
+console.log("breaks",breaks,'downtime',downtime.takenTime)
+console.log(downtime)
+}
 }
 
 
@@ -119,9 +163,9 @@ console.log("oeeData",payload)
 //***********formula preparation*********** */
 var goodCount=GoodCount(totalCount,rejectCount)//ok
 
-console.log("plannedProductionTime",plannedProductionTime)
-console.log("runTime",runTime)
-console.log("goodCount",goodCount)
+// console.log("plannedProductionTime",plannedProductionTime)
+// console.log("runTime",runTime)
+// console.log("goodCount",goodCount)
 
 
 //***********OEE Calculation*********** */
@@ -188,7 +232,7 @@ var totalCount=_.reduce($vm.$store.state.global.LOCAL_SK_IO_MACHINE_PART_NO,(res
     result+=parseFloat(totalCount||0);
     return result;
         },0)
-console.log("qt+++=",goodCount,totalCount)
+// console.log("qt+++=",goodCount,totalCount)
         var result=parseFloat(goodCount)/parseFloat(totalCount)
 return isNaN(result)?0:result;
 }
@@ -206,14 +250,14 @@ var performance=parseFloat(_idealTime_productionCount($vm)||0)*parseFloat(runTim
 var quality=addMultipleQualityIntoSingle($vm)
 
 //may differ based on part no===================
-console.log("=======eecalculation========")
-console.log("availability",availability)
-console.log("performance",performance)
-console.log("quality",quality)
+// console.log("=======eecalculation========")
+// console.log("availability",availability)
+// console.log("performance",performance)
+// console.log("quality",quality)
 
-console.log(_idealTime_productionCount($vm))
-console.log(addMultipleQualityIntoSingle($vm))
-console.log($vm.$store.state.global.LOCAL_SK_IO_MACHINE_PART_NO)
+// console.log(_idealTime_productionCount($vm))
+// console.log(addMultipleQualityIntoSingle($vm))
+// console.log($vm.$store.state.global.LOCAL_SK_IO_MACHINE_PART_NO)
 
 
 

@@ -110,26 +110,24 @@ export function tracker($vm,callback) {
     // console.log("prepare",prepare)
     liveMachine.push(prepare)
     // liveMachine = _.uniqBy(liveMachine, 'stroke')
-    $vm.$store.commit('machineActivities',{..._.cloneDeep(prepare),   
-             machine_date_time:moment().format($vm.$store.state.setup.bgDateTimeFormat)
-    }    )
     // $vm.$store.dispatch('createMachineActivity',{company_id:1,..._.cloneDeep(prepare)})
 //-------------------database---------------
     // $vm.$store.dispatch('SK_IO_CREATE_MACHINE_ACTIVITY',{..._.cloneDeep(prepare)})
     // $vm.$store.dispatch('SK_IO_INSERT_MACHINE_PART_NO',{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)})
     // $vm.$store.dispatch('SK_IO_INSERT_MACHINE_MAIN',{prepare:_.cloneDeep(prepare)})
-    // console.log("Live Machine", liveMachine)
+    console.log("Live Machine", liveMachine)
 
+    $vm.$store.commit('machineActivities',SK_IO_CREATE_MACHINE_ACTIVITY($vm,prepare))
 
 
     callback({
         SK_IO_INSERT_MACHINE_MAIN:SK_IO_INSERT_MACHINE_MAIN($vm,{prepare:_.cloneDeep(prepare)}),
         SK_IO_INSERT_MACHINE_PART_NO:SK_IO_INSERT_MACHINE_PART_NO($vm,{products:$vm.globalRunningProducts.products,prepare:_.cloneDeep(prepare)}),
         SK_IO_CREATE_MACHINE_ACTIVITY:SK_IO_CREATE_MACHINE_ACTIVITY($vm,prepare),
-
        
     })
 }
+
 function SK_IO_CREATE_MACHINE_ACTIVITY($vm,prepare){
 
     return  {
@@ -139,8 +137,8 @@ function SK_IO_CREATE_MACHINE_ACTIVITY($vm,prepare){
 }
 
 function SK_IO_INSERT_MACHINE_PART_NO($vm,payload){
-    // console.log("----payload----")
-    // console.log(payload)
+    console.log("----payload----")
+    console.log(payload)
    return     _.map(payload.products,(product)=>{
             var dataset={
                 part_no:product.part_no,

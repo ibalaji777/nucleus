@@ -200,7 +200,7 @@ tracker(){
    
 //new oee 
 utils.getRunningMachineData($vm)
-
+oee.oeePreset($vm)
 oee.oeeCalculation($vm)
  });
   // }

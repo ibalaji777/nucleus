@@ -49,7 +49,7 @@ watchMachine(state,value){
 }
 ,
 machineLiveData(state,value){
-  console.log("machine Live Data",value)
+  // console.log("machine Live Data",value)
   // state.setup.machineLiveData=value;
   Vue.set(state.setup,'machineLiveData',value)
 }
@@ -139,7 +139,7 @@ state.setup.selected_shift.end_time=payload.end_time;
 
 },
 GET_PRODUCTS(state,payload){
-  console.log("set Products",payload,Array.isArray(payload))
+  // console.log("set Products",payload,Array.isArray(payload))
 if(Array.isArray(payload)) 
 Vue.set(state.db,'products',payload)
 
@@ -261,23 +261,24 @@ runned(state,value){
 
 },
 MACHINE_RUNNED_MAIN(state,payload)
-{  console.log("MACHINE_RUNNED_MAIN++",payload)
+{ 
+  //  console.log("MACHINE_RUNNED_MAIN++",payload)
   Vue.set(state.runned,'MACHINE_RUNNED_MAIN',payload)
   
 },
 GET_MACHINE_RUNNING_PART_NO(state,payload)
-{  console.log(payload)
+{  //console.log(payload)
   Vue.set(state.running,'MACHINE_RUNNING_PART_NO',payload)
   
 },
 GET_MACHINE_RUNNING_MAIN(state,payload)
-{  console.log(payload)
+{ // console.log(payload)
   Vue.set(state.running,'MACHINE_RUNNING_MAIN',payload)
    
 }
 ,
 GET_MACHINE_RUNNING_ACTIVITY(state,payload)
-{  console.log(payload)
+{  //console.log(payload)
   Vue.set(state.running,'MACHINE_RUNNING_ACTIVITY',payload)
    
 }
