@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 10px 0;">
-        <div class="widgetContainer" style="margin: 10px 0;border:2px solid #334999">
+        <div class="widgetContainer" style="margin: 10px 0;">
             <div @click="$store.commit('setDialog',{key:'selectMachineDialog',value:true})" class="widgetGroup" style="width: 32vw;">
                 <h5 class="widgetTitle">Planned Production Time</h5>
                 <div class="widgetGroupContainer">

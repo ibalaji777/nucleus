@@ -2,8 +2,10 @@ import moment from "moment/moment";
 
 const state = {
 
+    machineHistory:[],
 
     dialog: {
+        machineActionDialog:false,
         loadMaterialDialog: false,
         machineWidgetDialog: false,
         empLoginWidgetDialog: false,
@@ -15,21 +17,21 @@ const state = {
         selectEmployeeWidget: false,
         selectProductDialog: false,
         isDemoPlugin: false,
-        historyDialog:false,
-        closeShiftDialog:false,
+        historyDialog: false,
+        closeShiftDialog: false,
 
     },
-    runned:{
-        MACHINE_RUNNED_MAIN:[],
-        MACHINE_RUNNED_PART_NO:[],
-        MACHINE_RUNNED_ACTIVITY:[]
+    runned: {
+        MACHINE_RUNNED_MAIN: [],
+        MACHINE_RUNNED_PART_NO: [],
+        MACHINE_RUNNED_ACTIVITY: []
     },
-    running:{
-        MACHINE_RUNNING_MAIN:[],
-        MACHINE_RUNNING_PART_NO:[],
-        MACHINE_RUNNING_ACTIVITY:[]
+    running: {
+        MACHINE_RUNNING_MAIN: [],
+        MACHINE_RUNNING_PART_NO: [],
+        MACHINE_RUNNING_ACTIVITY: []
     },
-style: {
+    style: {
         btnBgColor: 'primary',
         btnTxtColor: 'white',
 
@@ -39,6 +41,26 @@ style: {
     },
     db: {
 
+        shedule: [
+{
+    name:'a1',
+    description:"a1",
+    minutues:15
+},
+{
+    name:'a2',
+    description:"a2",
+    minutues:15
+}
+,
+{
+    name:'a3',
+    description:"a3",
+    minutues:15
+}
+
+
+        ],
         //ok----
         products: [
             // {
@@ -65,8 +87,8 @@ style: {
             //     other: {}
             // }
         ],
-         //ok---------
-         down_time: [
+        //ok---------
+        down_time: [
             // {
             //     id: 1,
             //     company_id: 1,
@@ -189,7 +211,7 @@ style: {
                 other: '',
             }
         ],
-       
+
 
 
         // machine_track:,
@@ -261,18 +283,19 @@ style: {
     },
     setup: {
 
+        shiftName:'',
         time: moment().format("HH:mm"),
         date: moment().format("YYYY-MM-DD"),
         uiTimeFormat: "hh:mm a",
         bgTimeFormat: "HH:mm",
         uiDateFormat: "DD-MM-YYYY",
         bgDateFormat: "YYYY-MM-DD",
-        bgDateTimeFormat:'YYYY-MM-DD HH:mm',
+        bgDateTimeFormat: 'YYYY-MM-DD HH:mm',
         machineSessionId: {
             machine_client_id: '',//ok random
-            start_time:'' , //must
-            end_time:  '', //must
-            isClosed:false,
+            start_time: '', //must
+            end_time: '', //must
+            isClosed: false,
             date: '',
         },
         machineActivities: [],
@@ -294,7 +317,7 @@ style: {
         //     machine_runned_main:[],
         //     //ok used select and edit update
         //     selected_runned_part_no:[],
-            
+
         // },
         // selected_machine_runned_main:[],
         // //ok used select and edit update
@@ -377,7 +400,7 @@ style: {
         },
         selected_company: {
             id: '',
-            name:'',
+            name: '',
             email: '',
 
         },

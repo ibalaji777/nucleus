@@ -5,12 +5,17 @@
                 <h5 class="widgetBlueTitle">Planned Production Time</h5>
                 <div class="widgetGroupContainer" style="flex-direction: column;">
 
+                   <div 
+                                      @click="$store.commit('setDialog',{key:'machineActionDialog',value:true})"    class="widget">
+                   
+                        <div>Machine Action</div>
+                    </div>
 
                    <div class="widget">
                         <div>Live Stroke: {{globalMachineLive.stroke}}</div>
                     </div>
                   <div 
-                   @click="$store.commit('setDialog',{key:'loadMaterialDialog',value:true})"                    class="widget">
+                   @click="$store.commit('setDialog',{key:'loadMaterialDialog',value:true})"    class="widget">
                         <div>Loading Material: {{globalRunningProducts.count}}</div>
                         <!-- {{globalRunningProducts}} -->
 

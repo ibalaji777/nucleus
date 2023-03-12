@@ -15,7 +15,8 @@ const vuexPersist = new VuexPersistence({
 shifts:state.db.shifts,
 down_time:state.db.down_time,
 breaks:state.db.breaks,
-products:state.db.products
+products:state.db.products,
+shedule:state.db.shedule
     },
 setup:{
   machineSessionId:state.setup.machineSessionId,

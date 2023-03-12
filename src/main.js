@@ -35,6 +35,19 @@ import empLoginWidget from './views/empLoginWidget.vue'
 import machineWidget from './views/machineWidget.vue' 
 import date from '../src/views/date.vue'
 import closeShiftWidget from '../src/views/closeShiftWidget.vue'
+import machineActionDialog from './views/machineActionDialog.vue' 
+
+import history from './views/tables/history.vue' 
+
+import wave from './views/widget/wave.vue' 
+
+
+Vue.component('wave',wave);
+
+
+Vue.component('history',history);
+
+Vue.component('machineActionDialog',machineActionDialog);
 
 Vue.component('date',date);
 Vue.component('loadMaterialDialog',loadMaterialDialog);

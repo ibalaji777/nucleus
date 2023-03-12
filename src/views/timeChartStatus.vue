@@ -6,12 +6,10 @@
  </div>
 </template>
 <script>
-// import d from '../core/chart2'
 /*eslint-disable*/
 var moment = require("moment");
 const Chart = require("chart.js/auto").default;
 import "chartjs-adapter-moment";
-// import "chartjs-plugin-labels"
 export default {
  mounted() {
   var $vm = this;
@@ -23,7 +21,6 @@ export default {
   console.log(todayStartTime);
   console.log(todayEndTime);
   //----date----------------------
-  // var time = "15:30:00";
   var data = {
    datasets: [
     {
@@ -61,34 +58,7 @@ export default {
           label: ["T0","T1","T2"],
      backgroundColor: ["red","blue","yellow"]
     },
-    // {
-    //  label: "T",
 
-    //  data: [
-    //   {
-    //    x: [
-    //   moment(todayStartTime).add(1, "hours"),
-    //   moment(todayStartTime).add(2.5, "hours"),
-    //    ],
-    //    y: 0,
-    //   },
-    //  ],
-    //  backgroundColor: "blue",
-    // },
-    // {
-    //  label: "T",
-    //  data: [
-    //   {
-    //    x: [
-    //   moment(todayStartTime).add(2.5, "hours"),
-    //   moment(todayStartTime).add(9, "hours"),
-    //    ],
-    //    y: 0,
-    //   },
-    //  ],
-    //  backgroundColor: "red",
-    //  borderColor: "red",
-    // },
    ],
   };
 
@@ -99,21 +69,14 @@ export default {
    options: {
     animation:{
     
-        onComplete: function () {
-          console.log(this)
-            var chartInstance = this;
-            var ctx = chartInstance.ctx;
-          
-// ctx.fillText("tet adf", 200,90);
-
-// ctx.fillText("tet adf", 200,130);
+onComplete: function () {
+var chartInstance = this;
+var ctx = chartInstance.ctx;
+         
 var bars=[]
 this.data.datasets.forEach(function (dataset, i) {
-                var meta = myChart.getDatasetMeta(i);
+var meta = myChart.getDatasetMeta(i);
 var bar=meta.data[i]
-// console.log(i,bar.x,'meta',meta)
-
-// console.log("meta",meta)
 meta.data.forEach(function (bar, index) {
 var data = dataset.data[index];
 console.log("data",data)
@@ -162,28 +125,6 @@ ctx.stroke();
 })
 
 
-//             Chart.each(this.data.datasets.forEach(function (dataset, i) {
-//                 var meta = myChart.getDatasetMeta(i);
-//                console.log("meta",meta)
-//                Chart.each(meta.data.forEach(function (bar, index) {
-//                     data = dataset.data[index];
-//                     // console.log("bar",bar,index,bar.y)
-//                    var countXaxis=0
-//                     if(i==0){
-// ctx.fillText("tet", 10,10);
-// ctx.textAlign = "start";
-// // ctx.fillText("datatt", bar._model.x-countXaxis, 60);
-// ctx.fillText("tesst", 10,10);
-//                     } else {
-//                       ctx.fillText("tete", 10,10);
-//                         // ctx.fillText(data, bar._model.x-25, bar._model.y+4);
-//                        // Show the different textAlign values
-// ctx.textAlign = "start";
-// // ctx.fillText(data, bar._model.x-countXaxis, 60);
-            
-//                     }
-//                 }),this)
-//             }),this);
         }
     },
     responsive: true,
@@ -200,7 +141,6 @@ ctx.stroke();
       min: moment(String(todayStartTime)),
       max: moment(String(todayEndTime)),
 
-      // max:  moment().add(8, 'hours')
      },
      y: {
       stacked: true,

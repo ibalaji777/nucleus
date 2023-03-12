@@ -1,4 +1,5 @@
 import _ from 'lodash'
+var moment = require("moment");
 export function validation(action,value){
 
     if(action=='time'){
@@ -33,3 +34,57 @@ $vm.$store.dispatch('GET_MACHINE_RUNNING_MAIN')
 $vm.$store.dispatch('GET_MACHINE_RUNNING_ACTIVITY')
 
 }
+
+export function chartTimeStatus($vm){
+    var machineActivities=$vm.$store.state.setup.machineActivities;
+    var sortmachineActivities=_.orderBy(machineActivities, ['machine_date_time'], ['asc']);
+    var datasets = _.map(machineActivities,(x)=>{
+
+        return {
+            label: "T1",
+            data: [{
+              x: moment(x.machine_date_time).add(0,'hours'),
+              y: 0,
+              label:x.break_type,
+             count:x.stroke 
+      
+            }],
+            backgroundColor: x.machine_active_status=='OFF'?'red':'green'
+          }
+     })
+    if(1<sortmachineActivities.length){
+    var todayStartTime=moment(sortmachineActivities[0]['machine_date_time'])
+    var todayEndTime=moment(sortmachineActivities[sortmachineActivities.length-1]['machine_date_time'])
+//--------------------------format----------------------
+
+    // {
+    //     label: "T1" + moment(todayStartTime).add(0.5, 'hours'),
+    //     data: [{
+    //       x: moment(todayStartTime).add(0.5, 'hours'),
+    //       y: 0,
+    //           label:'a1',
+    //   count:3 
+  
+    //     }],
+    //     backgroundColor: "red"
+    //   },
+
+return {
+    todayStartTime,
+    todayEndTime,
+    datasets
+    
+
+
+}
+}
+return {
+    todayStartTime:moment(),
+    todayEndTime:moment().add(8),
+    datasets
+    
+
+
+}
+    }
+    

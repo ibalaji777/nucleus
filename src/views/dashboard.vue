@@ -22,9 +22,9 @@
 
 
 
-         <time-chart-status></time-chart-status>
+         <!-- <time-chart-status></time-chart-status> -->
     <!-- <stackbar-chart></stackbar-chart>     -->
-        <time-chart></time-chart>    
+        <!-- <time-chart></time-chart>     -->
 
 <!-- <time-chart-status></time-chart-status> -->
 <div class="oeeContainer">

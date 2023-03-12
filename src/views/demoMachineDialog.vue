@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="$store.state.dialog.demoMachineDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-dialog v-model="$store.state.dialog.demoMachineDialog" fullscreen hide-overlay transition="dialog-bottom-transition" persistent>
             <v-card>
                 <v-toolbar dark color="primary">
                     <v-btn icon dark @click="$store.commit('setDialog',{key:'demoMachineDialog',value:false})">
@@ -11,7 +11,23 @@
                     <v-toolbar-items> </v-toolbar-items>
                 </v-toolbar>
                 <div style="padding: 10px;">
+
+
+<div v-for="(items, index) in $store.state.db.shedule" :key="index+'shedile'">
+{{items}}
+</div>
+
+
+<div>
+    <div>a1</div>
+    <div>a2</div>
+</div>
+
+
+
                     {{globalDownTime}}
+
+
 <change-widget></change-widget>
 <div style="display:flex;justify-content:space-even">
 <v-btn dark color="primary"   @click="$store.commit('setDialog',{key:'isDemoPlugin',value:!$store.state.dialog.isDemoPlugin})">
@@ -84,6 +100,14 @@ Live status
 
 </table>
 
+<div v-for="(item,index) in shedule" :key="'ss'+index">
+
+<v-btn @click="SheduleOperation(item,'start')">start</v-btn>
+<v-btn @click="SheduleOperation(item,'stop')">stop</v-btn>
+</div>
+
+
+
 </div>
                 </div>
             </v-card>
@@ -97,6 +121,20 @@ export default {
 data(){
     return{
 
+shedule:[
+    {
+        id:1,
+        name:'Tool setting',
+        description:'',
+        tme:"30"
+    },
+    {
+        id:2,
+        name:'Tool setting 2',
+        description:'',
+        time:"30"
+    }
+],
 machineLogs:{},
 
 stroke:0,
@@ -106,6 +144,9 @@ inputState:false
     }
 },    
 methods:{
+    SheduleOperation(){
+
+    },
 clear(){
 this.stroke=0,
 this.rpm="",

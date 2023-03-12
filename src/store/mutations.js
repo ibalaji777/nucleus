@@ -3,6 +3,40 @@ import _ from 'lodash'
 import Vue from 'vue'
 const mutations={
 
+
+  
+ setMachineStatus(state,value){
+   state.setup.checkMachine=value
+ } ,
+ setEmbededStatus(state,value){
+  
+  state.setup.checkEmbededDevice=value
+ } ,
+ machineLiveData(state,value){
+   Vue.set(state.setup,'machineLiveData',value)
+ },
+ setShiftName(state,value){
+  Vue.set(state.setup,'shiftName',value)
+},
+ 
+ setShift(state,value){
+ if(state.setup.autoShift){
+ Vue.set(state.setup,'selected_shift',{
+   id:value.id,
+   name:value.name,
+   group:value.group,
+   start_time:value.start_time,
+   end_time:value.end_time
+   })
+ }
+ },
+ 
+  machineHistory(state,history){
+
+  if(Array.isArray(history))
+    state.machineHistory=history;
+
+  },
   createShift(state,payload){
     // console.log("--shift---",payload)
     state.setup.shifts.push(payload)
@@ -31,14 +65,8 @@ id:payload.id,
 email:payload.email,
 password:payload.password
       }
-  },
- setMachineStatus(state,value){
-   state.setup.checkMachine=value
- } ,
- setEmbededStatus(state,value){
-  
-  state.setup.checkEmbededDevice=value
- } ,
+  }
+ ,
  setDialog(state,payload)
 {
   Vue.set(state.dialog,payload.key,payload.value)
@@ -46,25 +74,6 @@ password:payload.password
 
 watchMachine(state,value){
   state.setup.watchMachine=value;
-}
-,
-machineLiveData(state,value){
-  // console.log("machine Live Data",value)
-  // state.setup.machineLiveData=value;
-  Vue.set(state.setup,'machineLiveData',value)
-}
-,
-setShift(state,value){
-// console.log("value",value)
-if(state.setup.autoShift){
-Vue.set(state.setup,'selected_shift',{
-  id:value.id,
-  name:value.name,
-  group:value.group,
-  start_time:value.start_time,
-  end_time:value.end_time
-  })
-}
 }
 //----------------machine track-----------
 ,
@@ -278,11 +287,12 @@ GET_MACHINE_RUNNING_MAIN(state,payload)
 }
 ,
 GET_MACHINE_RUNNING_ACTIVITY(state,payload)
-{  //console.log(payload)
-  Vue.set(state.running,'MACHINE_RUNNING_ACTIVITY',payload)
-   
-}
-
+{ Vue.set(state.running,'MACHINE_RUNNING_ACTIVITY',payload)
+  },
+  SET_SHEDULE(state,payload)
+{ Vue.set(state.db,'shedule',payload)
+  }
+  
 
 
 

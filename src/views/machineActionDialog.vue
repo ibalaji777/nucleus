@@ -1,0 +1,289 @@
+<template>
+    <div>
+        <v-dialog v-model="$store.state.dialog.machineActionDialog" fullscreen hide-overlay transition="dialog-bottom-transition" persistent>
+            <v-card>
+                <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="$store.commit('setDialog',{key:'machineActionDialog',value:false})">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Demo Machine</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items> </v-toolbar-items>
+                </v-toolbar>
+                <div style="padding: 10px;">
+
+<div style="display:flex;">
+<div style="width:65%">
+<h4>Shedulers</h4>
+<div class="shedulerList">
+    <div>A1</div>
+    <div>A2</div>
+    <div>A3</div>
+</div>
+<h4>Breaks</h4>
+<div class="breakList">
+    <div>A1</div>
+    <div>A2</div>
+    <div>A3</div>
+</div>
+</div>
+<div style="width:25%;position:relative">
+
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+<h2 style="color:green">Running</h2>
+
+
+<wave></wave>
+</div>
+<div style="position:absolute;bottom:0;display:flex;;width:100%">
+<div style="display:flex;justify-content:space-between;width:100%;padding:2px">
+<span>Login:8:Am </span>
+<span>Duration: 4hrs</span>
+    </div>
+</div>
+</div>
+<div style="width:10%">
+    <div class="machineOperation" style="display:flex;flex-direction:column;height:100%">
+    <div class="opContainer" style="background:green;color:white">
+      <span class="start alcenter">  start</span>
+        </div>
+    <div class="opContainer" style="background:red;color:white">
+      <span class="stop alcenter">  stop</span>
+        </div>
+</div>
+
+</div>
+</div>
+
+<div class="machinePanel" style="display:flex">
+    <div style="width:65%;border-right:2px solid white">
+<h2> Machine Logs Panel</h2>
+<hr>
+<div class="machineLogPanel">
+
+<table style="width:100%">
+    <thead>
+        <tr>
+            <td>Activity</td>
+            <td>Start Time</td>
+            <td>End Time</td>
+            <td>Duration</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <th>Break</th>
+          <th>2:40</th>
+          <th>3:00</th>
+          <th>2000</th>
+        </tr>
+            <tr>
+          <th>Break</th>
+          <th>2:40</th>
+          <th>3:00</th>
+          <th>2000</th>
+        </tr>
+            <tr>
+          <th>Break</th>
+          <th>2:40</th>
+          <th>3:00</th>
+          <th>2000</th>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
+    </div>
+
+    <div style="width:35%">
+<h2 style="text-align:center">Machine Current Activity Panel</h2>
+<hr>
+<div class="machineCurrentStatus">
+Type : Machine <br>
+start time :02:30:11<br>
+Duration : 1 Minutes<br>
+</div>
+
+    </div>
+</div>
+
+
+
+Mode :Demo<br>
+Machine status : {{$store.state.setup.checkMachine}}<br>
+Embeded status : {{$store.state.setup.checkEmbededDevice}}<br>
+Shift Name : {{$store.state.setup.shiftName}}<br>
+machine live data :<pre>{{$store.state.setup.machineLiveData}}</pre><br>
+<div v-for="(item,index) in shedule" :key="'ss'+index">
+
+<v-btn @click="SheduleOperation(item,'start')">start</v-btn>
+{{item.name}}
+<v-btn @click="SheduleOperation(item,'stop')">stop</v-btn>
+</div>
+
+
+<table>
+
+    <tr>
+        <td>
+            <h1>Manual</h1>
+            <h2>Machine Overall</h2>
+            <!-- <v-btn @click="machineAction('manual','overallStart')">Start Machine</v-btn>
+            <v-btn @click="machineAction('manual','overallStop')">Stop Machine</v-btn> -->
+
+            <h2>Machine Action</h2>
+            <v-btn @click="machineAction('manual','start')">Start Machine</v-btn>
+            <v-btn  @click="machineAction('manual','stop')">Stop Machine</v-btn>
+
+
+        </td>
+        <td>
+
+            <h1>Automate</h1>
+            <h2>Machine Action</h2>
+            <v-btn @click="machineAction('automatic','start')">Start Machine</v-btn>
+            <v-btn  @click="machineAction('automatic','stop')">Stop Machine</v-btn>
+
+
+
+        </td>
+    </tr>
+</table>
+
+<history></history>
+
+
+                </div>
+            </v-card>
+        </v-dialog>
+
+
+    </div>
+</template>
+<script>
+import * as machine from '../core/machine.js'
+
+export default {
+data(){
+    return{
+
+shedule:[
+    {
+        id:1,
+        name:'Tool setting',
+        description:'',
+        tme:"30"
+    },
+    {
+        id:2,
+        name:'Tool setting 2',
+        description:'',
+        time:"30"
+    }
+],
+
+    }
+},    
+
+methods:{
+ SheduleOperation(item,action){
+if(action=='start') machine.startMachineShedule(item);
+if(action=='stop') machine.stopMachineShedule(item);
+    },
+    machineAction(mode,action){
+var $vm=this;
+if(mode=="manual"){
+    switch (action) {
+        case "start":
+    if(machine.start($vm))
+        $vm.$alert("Manually started...");
+    else
+        $vm.$alert("Machine Already Running...");
+    
+            break;
+        case "stop":
+    machine.stop($vm)        
+            break;
+        default:
+            break;
+    }
+}
+if(mode=="automatic"){
+    switch (action) {
+        case "start":
+    machine.startSignal($vm)        
+            break;
+        case "stop":
+    machine.stopSignal($vm)        
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+
+
+    }
+}
+
+}
+</script>
+<style lang="scss">
+.shedulerList div{
+
+background:blueviolet;
+color:white;
+padding:10px;
+margin-top:2px;
+
+}
+.breakList div{
+background:rgb(235, 164, 33);
+color:white;
+padding:10px;
+margin-top:2px;
+
+}
+.machinePanel{
+    background: black;
+    color:white;
+    min-height:450px;
+    margin-top:10px;
+}
+.machineCurrentStatus{
+
+
+}
+
+.machineOperation{
+    position:relative;
+    display:flex;flex-direction:column;
+}
+.machineOperation div{
+    width:100%;
+    height:100%;
+}
+.machineOperation .start{
+  background: green;
+}
+.machineOperation .stop{
+  background: red;
+
+}
+
+.alcenter{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+.opContainer{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: red;
+}
+</style>

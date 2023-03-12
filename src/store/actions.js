@@ -18,8 +18,29 @@ var apiGetMachineRunningPartNo = api + 'get_machine_running_part_no'
 var apiGetMachineRunningMain = api + 'get_machine_running_main'
 var apiGetMachineRunningActivity = api + 'get_machine_running_activity'
 
+
+var watchMachineApi=api+'watch-machine';
 var apiCloseShift = api + 'close_shift';
 const actions = {
+
+WATCH_MACHINE(context, payload) {
+
+        axios.post(watchMachineApi, {
+                data:   payload
+            })
+            .then((res) => {
+                console.log(res.data)
+                context
+                .commit('machineHistory',res.data.history); 
+            //    console.log(data)
+            })
+            .catch((err) => {
+                console.log(err)
+
+            })
+
+
+    },
 
     //------------------api----------------------------
 async CLOSE_SHIFT(context,payload){
@@ -194,7 +215,8 @@ var to_date=moment().format(context.state.setup.bgDateFormat)
             context.commit('SET_COMPANY', result.data.data.company)
             context.commit('SET_SHIFT', result.data.data.shift)
             context.commit('SET_DOWNTIME', result.data.data.down_time)
-            context.commit('SET_BREAK', result.data.data.breaks)
+            context.commit('SET_BREAK', result.data.data.breaks);
+            context.commit('SET_SHEDULE', result.data.data.shedule)
         }
         console.log(result)
         return result;

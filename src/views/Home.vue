@@ -87,10 +87,11 @@ var $vm=this;
   display: flex;
   // margin-top:10px;
   justify-content:center;
+  
 
 }
 .widgetContainer .widget{
-
+ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     width: 250px;
     /* height: 57px; */
     justify-content: center;
@@ -101,15 +102,17 @@ var $vm=this;
     padding: 13px;
 background: #2f4f6f;
     color: white;
+    
 
 }
 .widgetGroup{
- padding:10px;
- background: white;
- margin:2px;
- box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%); 
- cursor:pointer;
- }
+     padding: 10px;
+    background: white;
+    margin: 3px;
+    cursor: pointer;
+    border-radius: 3px;
+    box-shadow: 5px 5px 10px #727272, -5px -5px 10px #ffffff;
+}
  .widgetGroup:hover{
   background: lightgray;
  }
@@ -117,9 +120,9 @@ background: #2f4f6f;
   display:flex;
 }
 .widgetTitle{
-background: #f58181;
+// background: #f58181;
     padding: 5px;
-    color: white;
+    // color: white;
     font-weight: 700;
     font-size: 16px;
 }
