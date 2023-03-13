@@ -189,7 +189,7 @@ export default {
   // initSerialPort($vm)
   // socketConfig.initSerialPort($vm)
 // await  machine.listentShift();
-//  await  machine.listenMachineDemo();
+ await  machine.listenMachineDemo();
   //----------------socket config-------------------
 
   ipcRenderer.on("shedule", (event, arg) => {
@@ -213,7 +213,8 @@ export default {
    handler(value) {
     var $vm = this;
     console.log(value);
-    $vm.tracker();
+    machine.startSignal();
+    // $vm.tracker();
    },
    deep: true,
   },

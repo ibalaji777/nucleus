@@ -16,17 +16,15 @@
 <div style="width:65%">
 <h4>Shedulers</h4>
 <div class="shedulerList">
-    <div>A1</div>
-    <div>A2</div>
-    <div>A3</div>
+  <div @click="machineAction('start_shedule',item)" v-for="(item,index) in $store.state.db.shedule" :key="'shedule'+index" >{{item.name}}</div>
 </div>
-<h4>Breaks</h4>
+<!-- {{$store.state.machineData.machineHisotry}} -->
+<!-- <h4>Breaks</h4>
 <div class="breakList">
-    <div>A1</div>
-    <div>A2</div>
-    <div>A3</div>
+    <div @click="machine_action('mark_break',item)" v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">{{item.name}}</div>
+</div> -->
 </div>
-</div>
+<!-- {{$store.state.db.breaks}} -->
 <div style="width:25%;position:relative">
 
 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
@@ -67,28 +65,19 @@
             <td>Activity</td>
             <td>Start Time</td>
             <td>End Time</td>
+            <td>Machine Status</td>
             <td>Duration</td>
         </tr>
     </thead>
     <tbody>
-        <tr>
-          <th>Break</th>
-          <th>2:40</th>
-          <th>3:00</th>
-          <th>2000</th>
-        </tr>
-            <tr>
-          <th>Break</th>
-          <th>2:40</th>
-          <th>3:00</th>
-          <th>2000</th>
-        </tr>
-            <tr>
-          <th>Break</th>
-          <th>2:40</th>
-          <th>3:00</th>
-          <th>2000</th>
-        </tr>
+        
+        <tr @click="selectEditRow(item)"  v-for="(item,index) in $store.state.machineData.machineHisotry" :key="'machineHistory'+index">
+          <th>{{item.operation}}</th>
+          <th>{{guiTimeFormat(item.start_time)}}</th>
+          <th>{{guiTimeFormat(item.end_time)}}</th>
+           <th>{{item.machine_status}}</th>
+           <th>{{item.duration}}</th>
+       </tr>
     </tbody>
 </table>
 
@@ -100,9 +89,9 @@
 <h2 style="text-align:center">Machine Current Activity Panel</h2>
 <hr>
 <div class="machineCurrentStatus">
-Type : Machine <br>
-start time :02:30:11<br>
-Duration : 1 Minutes<br>
+Type : {{$store.state.machineData.currentHistory.operation}} <br>
+Start Time :{{$store.state.machineData.currentHistory.start_time}}<br>
+End Time :...Running<br>
 </div>
 
     </div>
@@ -159,6 +148,40 @@ machine live data :<pre>{{$store.state.setup.machineLiveData}}</pre><br>
         </v-dialog>
 
 
+       <v-dialog v-model="editRowDialog" fullscreen hide-overlay transition="dialog-bottom-transition" persistent>
+            <v-card>
+                <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="editRowDialog=false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Edit Row</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items> </v-toolbar-items>
+                </v-toolbar>
+                <div style="padding: 10px;">
+<!-- {{editRowItem}} -->
+
+<div v-if="editRowItem">
+
+<div v-if="editRowItem.operation=='signal'&&editRowItem.machine_status=='stopped'">
+<h4>Breaks</h4>
+<div class="breakList">
+    <div @click="machineAction('mark_break',{...item,id:editRowItem.id})" v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">{{item.name}}</div>
+</div>
+<h4>Downtime</h4>
+<div class="breakList">
+    <div @click="machineAction('mark_downtime',{...item,id:editRowItem.id})" v-for="(item,index) in $store.state.db.down_time" :key="'down_time'+index">{{item.name}}</div>
+</div>
+</div>
+
+
+</div>
+
+                </div>
+            </v-card>
+        </v-dialog>
+
+
     </div>
 </template>
 <script>
@@ -167,7 +190,8 @@ import * as machine from '../core/machine.js'
 export default {
 data(){
     return{
-
+editRowDialog:false,
+editRowItem:{},
 shedule:[
     {
         id:1,
@@ -187,6 +211,12 @@ shedule:[
 },    
 
 methods:{
+selectEditRow(value){
+let $vm=this;
+$vm.editRowDialog=true;
+$vm.editRowItem=value;
+},
+
  SheduleOperation(item,action){
 if(action=='start') machine.startMachineShedule(item);
 if(action=='stop') machine.stopMachineShedule(item);
@@ -241,6 +271,12 @@ if(action=='stop') machine.stopMachineShedule(item);
 }
 </script>
 <style lang="scss">
+.shedulerList{
+    position:relative;
+        min-height: 250px;
+    overflow: auto;
+
+}
 .shedulerList div{
 
 background:blueviolet;
@@ -255,6 +291,10 @@ color:white;
 padding:10px;
 margin-top:2px;
 
+}
+.machineLogPanel{
+    max-height: 51vh;
+    overflow: auto;
 }
 .machinePanel{
     background: black;

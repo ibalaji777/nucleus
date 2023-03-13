@@ -14,7 +14,7 @@ export function machineLogIn($vm) {
  dataset.type = "manual";
  dataset.action = "start";
  dataset.reason = "planned";
- store.dispatch("WATCH_MACHINE", data);
+ store.dispatch("WATCH_MACHINE", dataset);
  return true;
 }
 
@@ -32,10 +32,11 @@ export function machineLogOut($vm) {
 
 export function startSignal($vm) {
  var dataset = machineData();
- (dataset.operation = "signal"), (dataset.message = "Machine Running");
+ dataset.operation = "signal";
+ dataset.message = "Machine Running";
  dataset.type = "automatic";
  dataset.action = "start";
- store.dispatch("WATCH_MACHINE", data);
+ store.dispatch("WATCH_MACHINE", dataset);
 }
 
 export function startMachineShedule(item) {
@@ -51,14 +52,13 @@ export function startMachineShedule(item) {
  dataset.type = "manual";
  dataset.action = "start";
 
- store.dispatch("WATCH_MACHINE", data);
+ store.dispatch("WATCH_MACHINE", dataset);
  return true;
 }
 
 export function markBreak(item) {
- if (store.state.setup.checkMachine) return false;
  var dataset = machineData();
-
+ dataset.id = item.id; //history id
  dataset.operation = "break";
  dataset.op_id = item.id;
  dataset.op_name = item.name;
@@ -68,15 +68,15 @@ export function markBreak(item) {
  dataset.type = "manual";
  dataset.action = "";
 
- // store.dispatch("WATCH_MACHINE",data)
+ console.log(dataset);
+ store.dispatch("MARK_DOWNTIME", dataset);
  return true;
 }
 
 //note its need to update
 export function markDownTime(item) {
- if (store.state.setup.checkMachine) return false;
  var dataset = machineData();
-
+ dataset.id = item.id; //history id
  dataset.operation = "downtime";
  dataset.op_id = item.id;
  dataset.op_name = item.name;
@@ -86,7 +86,7 @@ export function markDownTime(item) {
  dataset.type = "manual";
  dataset.action = "";
 
- // store.dispatch("WATCH_MACHINE",data)
+ store.dispatch("MARK_DOWNTIME", dataset);
  return true;
 }
 

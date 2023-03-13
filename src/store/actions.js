@@ -21,8 +21,23 @@ var apiCloseShift = api + "close_shift";
 
 //new  api's
 var machineLogsApi = api + "machine-logs";
+var markDownTimeApi = api + "mark-downtime";
 
 const actions = {
+ MARK_DOWNTIME(context, payload) {
+  axios
+   .post(markDownTimeApi, {
+    data: payload,
+   })
+   .then((res) => {
+    console.log(res.data);
+    context.commit("machineData", res.data);
+   })
+   .catch((err) => {
+    console.log(err);
+   });
+ },
+
  MACHINE_LOGS(context, payload) {
   let page = payload.page || 1;
   let machine_id = 1;
@@ -51,7 +66,10 @@ const actions = {
    })
    .then((res) => {
     console.log(res.data);
-    context.commit("machineHistory", res.data.history);
+
+    context.commit("machineData", res.data);
+
+    // context.commit("machineHistory", res.data.history);
     //    console.log(data)
    })
    .catch((err) => {
