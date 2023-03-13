@@ -44,10 +44,10 @@
 </div>
 <div style="width:10%">
     <div class="machineOperation" style="display:flex;flex-direction:column;height:100%">
-    <div class="opContainer" style="background:green;color:white">
+    <div @click="machineAction('start')" class="opContainer" style="background:green;color:white">
       <span class="start alcenter">  start</span>
         </div>
-    <div class="opContainer" style="background:red;color:white">
+    <div @click="machineAction('stop')" class="opContainer" style="background:red;color:white">
       <span class="stop alcenter">  stop</span>
         </div>
 </div>
@@ -191,36 +191,45 @@ methods:{
 if(action=='start') machine.startMachineShedule(item);
 if(action=='stop') machine.stopMachineShedule(item);
     },
-    machineAction(mode,action){
-var $vm=this;
-if(mode=="manual"){
+    machineAction(action,item){
+    var $vm=this;
     switch (action) {
         case "start":
-    if(machine.start($vm))
+    if(machine.machineLogIn($vm))
         $vm.$alert("Manually started...");
     else
         $vm.$alert("Machine Already Running...");
-    
+        break;
+    case "stop":
+    if(machine.machineLogOut($vm))
+        $vm.$alert("Manually Logged out...");
+    else
+        $vm.$alert("Machine Loged Out...");    
             break;
-        case "stop":
-    machine.stop($vm)        
+    case "start_shedule":
+    machine.startMachineShedule(item)
             break;
-        default:
+    case "mark_break":
+    machine.markBreak(item)
+            break;
+    case "mark_downtime":
+    machine.markDownTime(item)
+            break;
+
+
+    default:
             break;
     }
-}
-if(mode=="automatic"){
-    switch (action) {
-        case "start":
-    machine.startSignal($vm)        
-            break;
-        case "stop":
-    machine.stopSignal($vm)        
-            break;
-        default:
-            break;
-    }
-}
+    // switch (action) {
+    //     case "start":
+    // machine.startSignal($vm)        
+    //         break;
+    //     case "stop":
+    // machine.stopSignal($vm)        
+    //         break;
+    //     default:
+    //         break;
+    // }
 
 
 

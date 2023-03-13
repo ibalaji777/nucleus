@@ -46,7 +46,7 @@ export default {
     },
     methods:{
 
-async        login(){
+async   login(){
             var $vm=this;
 if($vm.company.username==''){
     $vm.$alert("Please Fill Company Username")

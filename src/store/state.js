@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-
+import { v4 as uuidv4 } from 'uuid';
 const state = {
 
     machineHistory:[],
@@ -283,6 +283,7 @@ const state = {
     },
     setup: {
 
+        uq: uuidv4(),
         shiftName:'',
         time: moment().format("HH:mm"),
         date: moment().format("YYYY-MM-DD"),

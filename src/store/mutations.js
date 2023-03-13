@@ -3,6 +3,10 @@ import _ from 'lodash'
 import Vue from 'vue'
 const mutations={
 
+    
+ setGenerateUid(state,value){
+  state.setup.uq=value
+} ,
 
   
  setMachineStatus(state,value){
