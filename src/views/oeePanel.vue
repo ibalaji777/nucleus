@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="oeeContainer" style="margin: 10px 0; background: dimgrey;">
+        <div class="oeeContainer" style="margin: 10px 0; background: dimgrey;;text-align:center">
             <div class="oeeWidget">
-                <percentage-chart :role="'OEE'" :color="$store.state.bgColor.oee" :chartData="10" :title="'OEE'"></percentage-chart>
+                <percentage-chart :role="'OEE'" :color="$store.state.bgColor.oee" :chartData="global_oee" :key="'oee-'+global_oee" :title="'OEE'"></percentage-chart>
             </div>
 
             <div class="oeeWidget">

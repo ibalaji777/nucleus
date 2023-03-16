@@ -21,6 +21,81 @@ Vue.filter("global_time_format", function (value) {
 });
 Vue.mixin({
  computed: {
+  global_products() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   var datasets = _.uniq(_.map(history, "product_id"));
+   console.log(datasets, "global_products");
+   return {
+    count: datasets.length,
+    datasets,
+   };
+  },
+  global_shifts() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   var datasets = _.uniq(_.map(history, "shift"));
+   return {
+    count: datasets.length,
+    datasets,
+   };
+  },
+
+  global_timeChart() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let log = $vm.$store.state.machineData.machineLog;
+   let runnedData = _.map(history, (x) => ({
+    x: [moment(x.start_time), moment(x.end_time)],
+    y: 0,
+    label: x.operation,
+    count: x.stroke,
+   }));
+   return {
+    start_time: log.start_time,
+    end_time: log.end_time,
+    chartData: {
+     datasets: [
+      {
+       data: runnedData,
+       label: _.map(history, (x) => x.operation),
+       backgroundColor: _.map(history, (x) =>
+        x.machine_status == state.defaultData.machine_status_off
+         ? "red"
+         : "green"
+       ),
+      },
+     ],
+    },
+   };
+  },
+  global_total_breaks() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let runnedData = _.filter(
+    history,
+    (x) => x.operation == state.defaultData.operation_break
+   );
+   let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
+   return {
+    seconds,
+    minutes: $vm.globalScToMin(seconds),
+   };
+  },
+  global_shedule() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let runnedData = _.filter(
+    history,
+    (x) => x.operation == state.defaultData.operation_shedule
+   );
+   let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
+   return {
+    seconds,
+    minutes: $vm.globalScToMin(seconds),
+   };
+  },
+
   globalMachineLive() {
    return this.$store.state.setup.machineLiveData;
   },
@@ -67,6 +142,14 @@ Vue.mixin({
    return (
     (parseFloat(goodProduct) / parseFloat(actualProductionCount)) * 100 || 0
    ).toFixed(2);
+  },
+  global_oee() {
+   var $vm = this;
+   return (
+    parseFloat($vm.global_availibilty) *
+    parseFloat($vm.global_performance) *
+    parseFloat($vm.global_quality)
+   );
   },
 
   global_runTime() {

@@ -5,6 +5,8 @@ const state = {
   machine_status_on: "ON",
   machine_status_off: "OFF",
   operation_break: "break",
+  operation_shedule: "shedule",
+
   machine_status_on_msg: "Machine Running",
   machine_status_off_msg: "Machine Running",
  },

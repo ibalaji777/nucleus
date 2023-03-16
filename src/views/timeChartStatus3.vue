@@ -6,79 +6,46 @@
  </div>
 </template>
 <script>
+// import d from '../core/chart2'
 /*eslint-disable*/
-
 var moment = require("moment");
 const Chart = require("chart.js/auto").default;
 import "chartjs-adapter-moment";
+// import "chartjs-plugin-labels"
 export default {
-  props:["newData",'startTime',"endTime"],
-mounted() {
+ mounted() {
   var $vm = this;
+  var myChart;
   const ctx = this.$refs.myChart; // document.getElementById('myChart').getContext('2d');
 
-  var todayStartTime = new moment(this.startTime);
-  var todayEndTime = new moment(this.endTime)
+  var todayStartTime = new moment("2022-10-19 08:00:00 am");
+  var todayEndTime = new moment("2022-10-19 03:00:00 pm");
   //today date based on shift
   console.log(todayStartTime);
   console.log(todayEndTime);
   //----date----------------------
-//   var data = {
-//    datasets: [
-//     {
-
-
-//      data: [
-//       {
-//        x:[
-//       moment(todayStartTime).add(0, "hours"),
-//       moment(todayStartTime).add(0.5, "hours")],
-//        y: 0,
-//     label:'a1',
-//     count:3 
-//    },
-//       {
-//        x:[
-//       moment(todayStartTime).add(1, "hours"),
-//       moment(todayStartTime).add(2, "hours")],
-//        y: 0,
-//          label:'a2',
-//              count:5 
-
-//       },
-//       {
-//        x:[
-//       moment(todayStartTime).add(2, "hours"),
-//       moment(todayStartTime).add(6, "hours")],
-//        y: 0,
-//          label:'a3',
-//              count:8 
-
-//       },
-      
-//      ],
-//           label: ["T0","T1","T2"],
-//      backgroundColor: ["red","blue","yellow"]
-//     },
-
-//    ],
-//   };
-
-  const config = {
-   type: "bar",
-   data:this.newData,
-   
-   options: {
-    animation:{
+  // var time = "15:30:00";
+var options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  indexAxis: 'y',
+        animation:{
     
-onComplete: function () {
-var chartInstance = this;
-var ctx = chartInstance.ctx;
-         
+        onComplete: function () {
+          console.log(this)
+            var chartInstance = this;
+            var ctx = chartInstance.ctx;
+          
+// ctx.fillText("tet adf", 200,90);
+
+// ctx.fillText("tet adf", 200,130);
 var bars=[]
 this.data.datasets.forEach(function (dataset, i) {
-var meta = myChart.getDatasetMeta(i);
+                var meta = myChart.getDatasetMeta(i);
 var bar=meta.data[i]
+// console.log(i,bar.x,'meta',meta)
+
+// console.log("meta",meta)
 meta.data.forEach(function (bar, index) {
 var data = dataset.data[index];
 console.log("data",data)
@@ -115,44 +82,81 @@ console.log("nes",index,bar,i)
 
 
 // --------------------------bar line--------------------
-// bars.forEach(function (plot, i) {
-// ctx.beginPath();
-// if(i==0)
-// ctx.moveTo(74, 146);
-// else
-// ctx.moveTo(bars[i-1].x, bars[i-1].y);
-// ctx.lineTo(plot.x, plot.y);
-// ctx.stroke();
+bars.forEach(function (plot, i) {
+ctx.beginPath();
+if(i==0)
+ctx.moveTo(17, 150);
+else
+ctx.moveTo(bars[i-1].x, bars[i-1].y);
+ctx.lineTo(plot.x, plot.y);
+ctx.stroke();
 
-// })
+})
+
 
 
         }
     },
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: "y",
-    scales: {
-     x: {
-      offset: true,
-      stacked: true,
-      type: "time",
+  scales: {
+    x: {
+      offset: false,
+      type: 'time',
       time: {
-       unit: "minutes",
+        unit: 'hour'
       },
-      min: moment(String(todayStartTime)),
-      max: moment(String(todayEndTime)),
-
-     },
-     y: {
-      stacked: true,
-      offset: true,
-     },
+      min: todayStartTime,
+      max: todayEndTime
     },
-   },
-  };
+    y: {
+      stacked: true,
+      offset: true
+    }
+  }
+};
+const data = {
+  datasets: [{
+      label: "T1" + moment(todayStartTime).add(0.5, 'hours'),
+      data: [{
+        x: moment(todayStartTime).add(0.5, 'hours'),
+        y: 0,
+            label:'a1',
+    count:3 
 
-var myChart=  new Chart(ctx, config);
+      }],
+      backgroundColor: "red"
+    },
+    {
+      label: "T2" + moment(todayStartTime).add(2, 'hours'),
+      data: [{
+        x: moment(todayStartTime).add(2, 'hours'),
+        y: 0,
+            label:'a2',
+    count:5 
+
+      }],
+      backgroundColor: "blue"
+    },
+    {
+      label: "T3" + moment(todayStartTime).add(3, 'hours'),
+      data: [{
+        x: moment(todayStartTime).add(3, 'hours'),
+        y: 0,
+            label:'a3',
+    count:8 
+
+      }],
+      backgroundColor: "orange"
+    },
+  ]
+};
+
+const config = {
+  type: 'bar',
+  data,
+  options
+};
+
+ myChart=new Chart(ctx, config);
  },
 };
 </script>
