@@ -6,13 +6,13 @@
             </div>
 
             <div class="oeeWidget">
-                <percentage-chart :role="'AVAILABILITY'" :color="$store.state.bgColor.availability" :chartData="10" :title="'Availability'"></percentage-chart>
+                <percentage-chart :role="'AVAILABILITY'" :color="$store.state.bgColor.availability" :key="global_availibilty" :chartData="global_availibilty" :title="'Availability'"></percentage-chart>
             </div>
             <div class="oeeWidget">
-                <percentage-chart :role="'QUALITY'" :color="$store.state.bgColor.quality" :chartData="90" :title="'Quality'"></percentage-chart>
+                <percentage-chart :role="'QUALITY'" :color="$store.state.bgColor.quality" :key="global_performance" :chartData="global_performance" :title="'Quality'"></percentage-chart>
             </div>
             <div class="oeeWidget">
-                <percentage-chart :role="'PERFORMANCE'" :color="$store.state.bgColor.performance" :chartData="80" :title="'Performance'"></percentage-chart>
+                <percentage-chart :role="'PERFORMANCE'" :color="$store.state.bgColor.performance" :key="global_quality" :chartData="global_quality" :title="'Performance'"></percentage-chart>
             </div>
         </div>
     </div>

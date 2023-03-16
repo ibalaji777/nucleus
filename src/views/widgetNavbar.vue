@@ -11,8 +11,8 @@
                         <div>Machine Action</div>
                     </div>
 
-                   <div class="widget">
-                        <div>Live Stroke: {{globalMachineLive.stroke}}</div>
+                    <div class="widget">
+                        <div>Total Breaks:{{globalBreaks.count}}</div>
                     </div>
                   <div 
                    @click="$store.commit('setDialog',{key:'loadMaterialDialog',value:true})"    class="widget">
@@ -30,9 +30,6 @@
 
 
 
-                    <div class="widget">
-                        <div>Total Stops:{{globalRunningOff.count}}</div>
-                    </div>
                     <div class="widget">
                         <div>Planned Stops:{{globalPlannedStops.count}}</div>
                     </div>

@@ -1,8 +1,10 @@
+/*eslint-disable*/
 import Vue from "vue";
 import moment from "moment";
 import _ from "lodash";
 import store from "../src/store/index.js";
-
+import state from "../src/store/state.js";
+import * as oeeCore from "../src/core/oeeCore.js";
 Vue.filter("global_date_format", function (value) {
  if (!value) return "";
  value = value.toString();
@@ -21,6 +23,83 @@ Vue.mixin({
  computed: {
   globalMachineLive() {
    return this.$store.state.setup.machineLiveData;
+  },
+  global_plannedTime() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let runnedData = _.filter(
+    history,
+    (x) => x.operation != state.defaultData.operation_break
+   );
+
+   let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
+   return {
+    seconds,
+    minutes: $vm.globalScToMin(seconds),
+   };
+  },
+  global_availibilty() {
+   let runTimeMin = this.global_runTime.minutes;
+   let plannedTimeMin = this.global_plannedTime.minutes;
+   return parseFloat(
+    (parseFloat(runTimeMin) / parseFloat(plannedTimeMin)) * 100 || 0
+   ).toFixed(2);
+  },
+  global_performance() {
+   var $vm = this;
+   let runTimeMin = this.global_runTime.minutes;
+   let actualProductionCount =
+    $vm.$store.state.machineData.machineLog.actual_count;
+   let piaceForMinute = $vm.$store.state.machineData.machineLog.pieces_per_min;
+   let theoretical = parseFloat(runTimeMin) * parseFloat(piaceForMinute);
+   return parseFloat(
+    (parseFloat(actualProductionCount) / parseFloat(theoretical)) * 100 || 0
+   ).toFixed(2);
+  },
+  global_quality() {
+   var $vm = this;
+   let actualProductionCount =
+    $vm.$store.state.machineData.machineLog.actual_count;
+   let rejected_count = $vm.$store.state.machineData.machineLog.rejected_count;
+
+   let goodProduct =
+    parseFloat(actualProductionCount) - parseFloat(rejected_count);
+   return (
+    (parseFloat(goodProduct) / parseFloat(actualProductionCount)) * 100 || 0
+   ).toFixed(2);
+  },
+
+  global_runTime() {
+   return this.globalMachineOnDuration;
+  },
+  globalMachineOnDuration() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let runnedData = _.filter(
+    history,
+    (x) => x.machine_status == state.defaultData.machine_status_on
+   );
+
+   let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
+   return {
+    seconds,
+    minutes: $vm.globalScToMin(seconds),
+   };
+  },
+  globalScToMin() {
+   return (value) => {
+    if (value == "") return 0;
+    const duration = moment.duration(value, "seconds");
+    const minutes = duration.asMinutes();
+    return minutes;
+   };
+  },
+  globalScToHrs() {
+   return (seconds) => {
+    if (seconds == "") return 0;
+    const duration = moment.duration(seconds, "seconds");
+    return moment.utc(duration.asMilliseconds()).format("HH:mm:ss");
+   };
   },
 
   globalRunningProducts() {
@@ -208,6 +287,20 @@ Vue.mixin({
    };
   },
   //------------------mixin------
+  globalBreaks() {
+   var $vm = this;
+   let list = _.filter(
+    $vm.$store.state.machineData.machineHisotry,
+    function (x) {
+     return x.operation == "break";
+    }
+   );
+   return {
+    count: list.length,
+    list,
+   };
+  },
+
   globalBtnBgColor() {
    return this.$store.state.style.btnBgColor;
   },

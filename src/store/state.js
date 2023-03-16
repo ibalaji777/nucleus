@@ -1,8 +1,21 @@
 import moment from "moment/moment";
 import { v4 as uuidv4 } from "uuid";
 const state = {
+ defaultData: {
+  machine_status_on: "ON",
+  machine_status_off: "OFF",
+  operation_break: "break",
+  machine_status_on_msg: "Machine Running",
+  machine_status_off_msg: "Machine Running",
+ },
+
+ machineOeeInfo: {
+  atcual_count: 0,
+  rejected_count: 0,
+  pieces_per_min: 0,
+ },
  machineData: {
-  machineLog: [],
+  machineLog: {},
   machineHisotry: [],
   currentHistory: {
    //force ->first time start
@@ -10,30 +23,22 @@ const state = {
    //break and downtime only a marker like a reasoner
    //sheduler list of options
    //signal ->actual machine running/stopped
-
    operation: "", //signal/shedule/break/downtime/force
    op_id: 0, //signal/shedule/break/downtime/force their id
    op_name: "", //signal/shedule/break/downtime/force their name
    op_desc: "", //signal/shedule/break/downtime/force their desc
    op_min: "", //signal/shedule/break/downtime/force their min
-
    uq: "",
-
    time: new Date(),
    product_id: "",
    machine_id: "",
    emp_id: "",
    shift: "",
-
    type: "", //manual or automatic
    action: "", //start or stop
-
    reason: "", //message
-
    machine_status: "",
-
    //new-------
-
    stroke: "",
    //new
    message: "",

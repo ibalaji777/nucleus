@@ -14,7 +14,7 @@
 
 <div style="display:flex;">
 <div style="width:65%">
-<h4>Shedulers</h4>
+<h4 style="padding:10px">Shedulers</h4>
 <div class="shedulerList">
   <div @click="machineAction('start_shedule',item)" v-for="(item,index) in $store.state.db.shedule" :key="'shedule'+index" >{{item.name}}</div>
 </div>
@@ -23,39 +23,76 @@
 <div class="breakList">
     <div @click="machine_action('mark_break',item)" v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">{{item.name}}</div>
 </div> -->
+    <div>
+<h2 >Machine Current Activity Panel</h2>
+<hr>
+<div class="machineCurrentStatus">
+<div style="display:flex;justify-content:space-between;width:100%;padding:2px">
+<span>Login: {{guiTimeFormat($store.state.machineData.machineLog.start_time)}} </span>
+
+<span>Duration:{{globalScToHrs($store.state.machineData.machineLog.duration)}} </span>
+<span>Run Time:{{global_runTime.seconds }}</span>
+<span>Planned Time:{{global_plannedTime.seconds }}</span>
+    </div>
+<div style="display:flex;justify-content:space-between;width:100%;padding:2px">
+<span> Type  {{$store.state.machineData.currentHistory.operation}} </span>
+<span>
+Start Time :{{guiTimeFormat($store.state.machineData.currentHistory.start_time)}}
+</span>
+<span>
+    AV:{{global_availibilty}}
+    PER:{{global_performance}}
+    QA:{{global_quality}}
+</span>
+
+</div>
+<!-- End Time :...Running<br> -->
+
+
+</div>
+
+    </div>
+
 </div>
 <!-- {{$store.state.db.breaks}} -->
 <div style="width:25%;position:relative">
 
 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
-<h2 style="color:green">Running</h2>
 
+<div v-if="$store.state.setup.checkMachine">
 
 <wave></wave>
 </div>
-<div style="position:absolute;bottom:0;display:flex;;width:100%">
-<div style="display:flex;justify-content:space-between;width:100%;padding:2px">
-<span>Login:8:Am </span>
-<span>Duration: 4hrs</span>
-    </div>
+<div v-else>
+<div style="width:120px;height:120px;background:black;position:relative">
+<hr style="width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:white">
+</div>
+</div>
 </div>
 </div>
 <div style="width:10%">
-    <div class="machineOperation" style="display:flex;flex-direction:column;height:100%">
+    <div class="machineOperation" style="display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-around;">
     <div @click="machineAction('start')" class="opContainer" style="background:green;color:white">
       <span class="start alcenter">  start</span>
         </div>
     <div @click="machineAction('stop')" class="opContainer" style="background:red;color:white">
       <span class="stop alcenter">  stop</span>
         </div>
+    <div @click="oeeInfoDialog=true" class="opContainer" style="background:orange;color:white">
+      <span class=" alcenter">  Info</span>
+        </div>
+
 </div>
 
 </div>
 </div>
 
 <div class="machinePanel" style="display:flex">
-    <div style="width:65%;border-right:2px solid white">
-<h2> Machine Logs Panel</h2>
+    <div style="width:100%;border-right:2px solid white">
+<h2 style="padding:5px"> Machine Logs Panel</h2>
 <hr>
 <div class="machineLogPanel">
 
@@ -85,16 +122,7 @@
 
     </div>
 
-    <div style="width:35%">
-<h2 style="text-align:center">Machine Current Activity Panel</h2>
-<hr>
-<div class="machineCurrentStatus">
-Type : {{$store.state.machineData.currentHistory.operation}} <br>
-Start Time :{{$store.state.machineData.currentHistory.start_time}}<br>
-End Time :...Running<br>
-</div>
 
-    </div>
 </div>
 
 
@@ -163,7 +191,7 @@ machine live data :<pre>{{$store.state.setup.machineLiveData}}</pre><br>
 
 <div v-if="editRowItem">
 
-<div v-if="editRowItem.operation=='signal'&&editRowItem.machine_status=='stopped'">
+<div v-if="editRowItem.operation=='signal'&&editRowItem.machine_status==$store.state.defaultData.machine_status_off">
 <h4>Breaks</h4>
 <div class="breakList">
     <div @click="machineAction('mark_break',{...item,id:editRowItem.id})" v-for="(item,index) in $store.state.db.breaks" :key="'break'+index">{{item.name}}</div>
@@ -182,6 +210,36 @@ machine live data :<pre>{{$store.state.setup.machineLiveData}}</pre><br>
         </v-dialog>
 
 
+       <v-dialog v-model="oeeInfoDialog" fullscreen hide-overlay transition="dialog-bottom-transition" persistent>
+            <v-card>
+                <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="oeeInfoDialog=false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Edit Row</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items> </v-toolbar-items>
+                </v-toolbar>
+                <div style="padding: 10px;">
+
+<v-text-field v-model="oeeInfo.actual_count" type="number"
+    label="Actual Count"
+></v-text-field>
+
+<v-text-field v-model="oeeInfo.rejected_count" type="number"
+    label="Rejected Count"
+></v-text-field>
+<v-text-field  v-model="oeeInfo.pieces_per_min" type="number"
+    label="Pieces Per Minute"
+></v-text-field>
+
+<v-btn @click="machineAction('mark_oeeinfo',oeeInfo)">Save</v-btn>
+
+                </div>
+            </v-card>
+        </v-dialog>
+
+
     </div>
 </template>
 <script>
@@ -192,6 +250,12 @@ data(){
     return{
 editRowDialog:false,
 editRowItem:{},
+oeeInfoDialog:false,
+oeeInfo:{
+actual_count:0,
+rejected_count:0,
+pieces_per_min:0,
+},
 shedule:[
     {
         id:1,
@@ -208,7 +272,25 @@ shedule:[
 ],
 
     }
-},    
+},   
+async mounted(){
+var $vm=this;
+
+let machineData=await $vm.$store.dispatch('MACHINE_DATA');
+console.log(machineData);
+if(machineData){
+
+if(machineData.machineLog){
+$vm.oeeInfo={
+    actual_count:machineData.machineLog.actual_count,
+    rejected_count:machineData.machineLog.rejected_count,
+    pieces_per_min:machineData.machineLog.pieces_per_min
+
+}
+}
+}
+
+} ,
 
 methods:{
 selectEditRow(value){
@@ -231,13 +313,14 @@ if(action=='stop') machine.stopMachineShedule(item);
         $vm.$alert("Machine Already Running...");
         break;
     case "stop":
-    if(machine.machineLogOut($vm))
-        $vm.$alert("Manually Logged out...");
-    else
-        $vm.$alert("Machine Loged Out...");    
-            break;
+  $vm.$confirm("Do you Want to Logout?")
+ .then(()=>{
+ machine.machineLogOut($vm)
+ })
+           break;
     case "start_shedule":
-    machine.startMachineShedule(item)
+ 
+ machine.startMachineShedule(item)
             break;
     case "mark_break":
     machine.markBreak(item)
@@ -245,7 +328,9 @@ if(action=='stop') machine.stopMachineShedule(item);
     case "mark_downtime":
     machine.markDownTime(item)
             break;
-
+case "mark_oeeinfo":
+    machine.markOeeInfo(item)
+            break;
 
     default:
             break;
@@ -273,8 +358,9 @@ if(action=='stop') machine.stopMachineShedule(item);
 <style lang="scss">
 .shedulerList{
     position:relative;
-        min-height: 250px;
+    min-height: 200px;
     overflow: auto;
+    background:grey;
 
 }
 .shedulerList div{
@@ -293,13 +379,13 @@ margin-top:2px;
 
 }
 .machineLogPanel{
-    max-height: 51vh;
+    max-height: 42vh;
     overflow: auto;
 }
 .machinePanel{
     background: black;
     color:white;
-    min-height:450px;
+    min-height:42vh;
     margin-top:10px;
 }
 .machineCurrentStatus{
@@ -312,8 +398,11 @@ margin-top:2px;
     display:flex;flex-direction:column;
 }
 .machineOperation div{
-    width:100%;
-    height:100%;
+width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 2px 0px;
+    box-shadow: 6px 2px 14px black;
 }
 .machineOperation .start{
   background: green;

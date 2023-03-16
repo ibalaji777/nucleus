@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const mutations = {
  machineData(state, data) {
-  state.machineData.machineLog = data.machineLog || [];
+  state.machineData.machineLog = data.machineLog || {};
   state.machineData.machineHisotry = data.machineHisotry || [];
   state.machineData.currentHistory = data.currentHistory || {};
  },

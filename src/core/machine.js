@@ -42,7 +42,6 @@ export function startSignal($vm) {
 export function startMachineShedule(item) {
  if (store.state.setup.checkMachine) return false;
  var dataset = machineData();
-
  dataset.operation = "shedule";
  dataset.op_id = item.id;
  dataset.op_name = item.name;
@@ -88,6 +87,18 @@ export function markDownTime(item) {
 
  store.dispatch("MARK_DOWNTIME", dataset);
  return true;
+}
+
+export function markOeeInfo(item) {
+ var dataset = {
+  uq: store.state.setup.uq,
+  machine_id: store.state.setup.selected_machine.id,
+  actual_count: item.actual_count,
+  rejected_count: item.rejected_count,
+  pieces_per_min: item.pieces_per_min,
+ };
+
+ store.dispatch("MACHINE_LOG_DATA", dataset);
 }
 
 export function machineRunningStatus($vm) {}
@@ -176,7 +187,9 @@ export function machineData() {
 
   reason: "", //message
 
-  machine_status: store.state.setup.checkMachine ? "running" : "stopped", //start or stop
+  machine_status: store.state.setup.checkMachine
+   ? store.state.defaultData.machine_status_on
+   : store.state.defaultData.machine_status_off, //start or stop
 
   //new-------
   operation: "", //signal or shedule or  break

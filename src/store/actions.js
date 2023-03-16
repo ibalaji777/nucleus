@@ -22,8 +22,48 @@ var apiCloseShift = api + "close_shift";
 //new  api's
 var machineLogsApi = api + "machine-logs";
 var markDownTimeApi = api + "mark-downtime";
+var markoeeinfoApi = api + "mark-oee-info";
+var machineDataApi = api + "get-machine-data";
 
 const actions = {
+ MACHINE_DATA(context) {
+  let payload = {
+   uq: context.state.setup.uq,
+   machine_id: context.state.setup.selected_machine.id,
+  };
+  return new Promise((resolve, reject) => {
+   axios
+    .post(markoeeinfoApi, {
+     data: payload,
+    })
+    .then((res) => {
+     resolve(res);
+    })
+    .catch((err) => {
+     reject();
+    });
+  });
+ },
+
+ MACHINE_LOG_DATA(context, data) {
+  let payload = {
+   uq: context.state.setup.uq,
+   machine_id: context.state.setup.selected_machine.id,
+   ...data,
+  };
+
+  axios
+   .post(markoeeinfoApi, {
+    data: payload,
+   })
+   .then((res) => {
+    console.log(res.data);
+   })
+   .catch((err) => {
+    console.log(err);
+   });
+ },
+
  MARK_DOWNTIME(context, payload) {
   axios
    .post(markDownTimeApi, {
