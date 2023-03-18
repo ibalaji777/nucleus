@@ -76,7 +76,7 @@ export function markBreak(item) {
 export function markDownTime(item) {
  var dataset = machineData();
  dataset.id = item.id; //history id
- dataset.operation = "downtime";
+ dataset.operation = "force";
  dataset.op_id = item.id;
  dataset.op_name = item.name;
  dataset.op_desc = item.desc;

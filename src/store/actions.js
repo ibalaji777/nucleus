@@ -26,6 +26,22 @@ var markoeeinfoApi = api + "mark-oee-info";
 var machineDataApi = api + "get-machine-data";
 
 const actions = {
+ MACHINE_LOGS(context) {
+  let machine_id = context.state.setup.selected_machine.id;
+  axios
+   .post(machineLogsApi, {
+    data: {
+     machine_id,
+    },
+   })
+   .then((res) => {
+    // context
+    if (res.data) context.commit("MACHINE_LOGS", res.data);
+   })
+   .catch((err) => {
+    console.log(err);
+   });
+ },
  MACHINE_DATA(context) {
   let payload = {
    uq: context.state.setup.uq,
@@ -38,6 +54,7 @@ const actions = {
     })
     .then((res) => {
      resolve(res);
+     actions.MACHINE_LOGS(context);
     })
     .catch((err) => {
      reject();
@@ -57,7 +74,7 @@ const actions = {
     data: payload,
    })
    .then((res) => {
-    console.log(res.data);
+    actions.MACHINE_LOGS(context);
    })
    .catch((err) => {
     console.log(err);
@@ -72,27 +89,6 @@ const actions = {
    .then((res) => {
     console.log(res.data);
     context.commit("machineData", res.data);
-   })
-   .catch((err) => {
-    console.log(err);
-   });
- },
-
- MACHINE_LOGS(context, payload) {
-  let page = payload.page || 1;
-  let machine_id = 1;
-  axios
-   .post(machineLogsApi, {
-    data: {
-     page,
-     machine_id,
-    },
-   })
-   .then((res) => {
-    console.log(res.data);
-    // context
-    // .commit('machineHistory',res.data.history);
-    //    console.log(data)
    })
    .catch((err) => {
     console.log(err);

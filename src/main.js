@@ -27,6 +27,8 @@ import selectProduct from "./views/selectProduct.vue";
 
 import widgetNavbar from "./views/widgetNavbar.vue";
 import oeePanel from "./views/oeePanel.vue";
+import errorsDialog from "./views/errorsDialog.vue";
+
 Vue.use(VueSimpleAlert);
 
 import loadMaterialDialog from "./views/loadMaterialDialog.vue";
@@ -44,6 +46,12 @@ import history from "./views/tables/history.vue";
 
 import wave from "./views/widget/wave.vue";
 import machineLogs from "./views/widget/machineLogs.vue";
+
+import logsDialog from "./views/logsDialog.vue";
+
+Vue.component("errorsDialog", errorsDialog);
+
+Vue.component("logsDialog", logsDialog);
 
 Vue.component("machineLog", machineLogs);
 Vue.component("wave", wave);

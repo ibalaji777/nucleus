@@ -4,6 +4,9 @@ import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
 
 const mutations = {
+ MACHINE_LOGS(state, payload) {
+  state.machineLogs = payload;
+ },
  MACHINE_HISTORY(state, { payload, eTime }) {
   let data = payload;
   const { uq, machine_id } = payload;

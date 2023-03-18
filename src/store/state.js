@@ -1,11 +1,15 @@
 import moment from "moment/moment";
 import { v4 as uuidv4 } from "uuid";
 const state = {
+ machineLogs: [],
+
  defaultData: {
   machine_status_on: "ON",
   machine_status_off: "OFF",
   operation_break: "break",
   operation_shedule: "shedule",
+  operation_machine: "signal",
+  operation_downtime: "downtime",
 
   machine_status_on_msg: "Machine Running",
   machine_status_off_msg: "Machine Running",
@@ -53,6 +57,8 @@ const state = {
  machineHistory: [],
 
  dialog: {
+  errorsDialog: false,
+  logsDialog: false,
   oeeSetupDialog: false,
   machineActionDialog: false,
   loadMaterialDialog: false,

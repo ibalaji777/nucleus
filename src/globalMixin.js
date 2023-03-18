@@ -21,6 +21,23 @@ Vue.filter("global_time_format", function (value) {
 });
 Vue.mixin({
  computed: {
+  global_errors() {
+   var $vm = this;
+   let messages = [];
+   if ($vm.$store.state.setup.checkMachine)
+    messages.push("Machine Not Started");
+   if ($vm.$store.state.setup.selected_product.id)
+    messages.push("Select Product Before Start Machine");
+   if ($vm.$store.state.setup.selected_employee.id)
+    messages.push("Choose Machine Operator");
+   if ($vm.$store.state.db.products.length == 0)
+    messages.push("Products List is Empty add atleast single product");
+   if ($vm.$store.state.db.shifts.length == 0)
+    messages.push("Products List is Empty add atleast single product");
+
+   return { count: messages.length, list: messages };
+  },
+
   guiTimeFormat() {
    var $vm = this;
    return (value) => {
@@ -94,6 +111,35 @@ Vue.mixin({
     },
    };
   },
+  global_total_machine_history() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let runnedData = _.filter(
+    history,
+    (x) => x.operation == state.defaultData.operation_machine
+   );
+   let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
+   return {
+    list: runnedData,
+    seconds,
+    minutes: $vm.globalScToMin(seconds),
+   };
+  },
+  global_total_downtime() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let runnedData = _.filter(
+    history,
+    (x) => x.machine_status == state.defaultData.machine_status_off
+   );
+   let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
+   return {
+    list: runnedData,
+    seconds,
+    minutes: $vm.globalScToMin(seconds),
+   };
+  },
+
   global_total_breaks() {
    var $vm = this;
    let history = $vm.$store.state.machineData.machineHisotry;
@@ -103,11 +149,12 @@ Vue.mixin({
    );
    let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
    return {
+    list: runnedData,
     seconds,
     minutes: $vm.globalScToMin(seconds),
    };
   },
-  global_shedule() {
+  global_total_shedule() {
    var $vm = this;
    let history = $vm.$store.state.machineData.machineHisotry;
    let runnedData = _.filter(
@@ -116,6 +163,7 @@ Vue.mixin({
    );
    let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
    return {
+    list: runnedData,
     seconds,
     minutes: $vm.globalScToMin(seconds),
    };

@@ -47,6 +47,20 @@
       <div>Data/Feed</div>
      </div>
 
+     <div
+      @click="$store.commit('setDialog', { key: 'logsDialog', value: true })"
+      class="bg-gradient-dark raduius10 p10 white pointer"
+     >
+      <div>Logs</div>
+     </div>
+     <div
+      @click="$store.commit('setDialog', { key: 'errorsDialog', value: true })"
+      class="raduius10 p10 white pointer"
+      style="background: red; color: red"
+     >
+      <div>Errors {{ global_errors.count }}</div>
+     </div>
+
      <!-- <div class="widget">
                         <div>Planned Stops:{{globalPlannedStops.count}}</div>
                     </div>

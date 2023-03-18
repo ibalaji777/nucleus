@@ -48,6 +48,8 @@
   <history-dialog></history-dialog>
   <close-shift-widget></close-shift-widget>
   <oee-setup-dialog></oee-setup-dialog>
+  <logs-dialog></logs-dialog>
+  <errors-dialog></errors-dialog>
  </v-app>
 </template>
 
@@ -190,7 +192,7 @@ export default {
   // initSerialPort($vm)
   // socketConfig.initSerialPort($vm)
   // await  machine.listentShift();
-  //  await  machine.listenMachineDemo();
+  await machine.listenMachineDemo();
   //----------------socket config-------------------
 
   ipcRenderer.on("shedule", (event, arg) => {
