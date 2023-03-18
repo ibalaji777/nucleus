@@ -53,6 +53,7 @@ const state = {
  machineHistory: [],
 
  dialog: {
+  oeeSetupDialog: false,
   machineActionDialog: false,
   loadMaterialDialog: false,
   machineWidgetDialog: false,

@@ -38,6 +38,8 @@ import date from "../src/views/date.vue";
 import closeShiftWidget from "../src/views/closeShiftWidget.vue";
 import machineActionDialog from "./views/machineActionDialog.vue";
 
+import oeeSetupDialog from "./views/oeeSetupDialog.vue";
+
 import history from "./views/tables/history.vue";
 
 import wave from "./views/widget/wave.vue";
@@ -47,6 +49,8 @@ Vue.component("machineLog", machineLogs);
 Vue.component("wave", wave);
 
 Vue.component("history", history);
+
+Vue.component("oeeSetupDialog", oeeSetupDialog);
 
 Vue.component("machineActionDialog", machineActionDialog);
 

@@ -21,6 +21,31 @@ Vue.filter("global_time_format", function (value) {
 });
 Vue.mixin({
  computed: {
+  guiTimeFormat() {
+   var $vm = this;
+   return (value) => {
+    // console.log("currentTime",value)
+    if (!value) return "-";
+
+    return moment(String(value), $vm.$store.state.setup.bgTimeFormat).format(
+     $vm.$store.state.setup.uiTimeFormat
+    );
+   };
+  },
+  guiDateFormat() {
+   var $vm = this;
+   return (value) => {
+    return moment(String(value), $vm.$store.state.setup.bgDateFormat).format(
+     $vm.$store.state.setup.uiDateFormat
+    );
+   };
+  },
+  globalBtnBgColor() {
+   return this.$store.state.style.btnBgColor;
+  },
+  globalStyle() {
+   return "color:" + this.$store.state.style.btnTxtColor;
+  },
   global_products() {
    var $vm = this;
    let history = $vm.$store.state.machineData.machineHisotry;
@@ -319,76 +344,50 @@ Vue.mixin({
     takenTime,
    };
   },
-  globalUnPlannedStops() {
-   var $vm = this;
-   var datasets = _.filter(
-    $vm.$store.state.setup.machineActivities,
-    (x) => x.break_type == "UNPLANNED" && x.machine_active_status == "OFF"
-   );
-   return {
-    count: datasets.length,
-    datasets,
-   };
-  },
-  globalMaxStroke() {
-   var $vm = this;
-   if ($vm.$store.state.setup.machineActivities.length != 0) {
-    var result = _.maxBy(
-     $vm.$store.state.setup.machineActivities,
-     (x) => x.stroke
-    );
-    return {
-     result: true,
-     find: result,
-     stroke: result.stroke,
-    };
-   }
-   return {
-    result: false,
-    find: {},
-    stroke: 0,
-   };
-  },
+  // globalUnPlannedStops() {
+  //  var $vm = this;
+  //  var datasets = _.filter(
+  //   $vm.$store.state.setup.machineActivities,
+  //   (x) => x.break_type == "UNPLANNED" && x.machine_active_status == "OFF"
+  //  );
+  //  return {
+  //   count: datasets.length,
+  //   datasets,
+  //  };
+  // },
+  // globalMaxStroke() {
+  //  var $vm = this;
+  //  if ($vm.$store.state.setup.machineActivities.length != 0) {
+  //   var result = _.maxBy(
+  //    $vm.$store.state.setup.machineActivities,
+  //    (x) => x.stroke
+  //   );
+  //   return {
+  //    result: true,
+  //    find: result,
+  //    stroke: result.stroke,
+  //   };
+  //  }
+  //  return {
+  //   result: false,
+  //   find: {},
+  //   stroke: 0,
+  //  };
+  // },
 
-  guiTimeFormat() {
-   var $vm = this;
-   return (value) => {
-    // console.log("currentTime",value)
-    if (!value) return "-";
-
-    return moment(String(value), $vm.$store.state.setup.bgTimeFormat).format(
-     $vm.$store.state.setup.uiTimeFormat
-    );
-   };
-  },
-  guiDateFormat() {
-   var $vm = this;
-   return (value) => {
-    return moment(String(value), $vm.$store.state.setup.bgDateFormat).format(
-     $vm.$store.state.setup.uiDateFormat
-    );
-   };
-  },
   //------------------mixin------
-  globalBreaks() {
-   var $vm = this;
-   let list = _.filter(
-    $vm.$store.state.machineData.machineHisotry,
-    function (x) {
-     return x.operation == "break";
-    }
-   );
-   return {
-    count: list.length,
-    list,
-   };
-  },
-
-  globalBtnBgColor() {
-   return this.$store.state.style.btnBgColor;
-  },
-  globalStyle() {
-   return "color:" + this.$store.state.style.btnTxtColor;
-  },
+  // globalBreaks() {
+  //  var $vm = this;
+  //  let list = _.filter(
+  //   $vm.$store.state.machineData.machineHisotry,
+  //   function (x) {
+  //    return x.operation == "break";
+  //   }
+  //  );
+  //  return {
+  //   count: list.length,
+  //   list,
+  //  };
+  // },
  },
 });

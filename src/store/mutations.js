@@ -4,6 +4,118 @@ import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
 
 const mutations = {
+ MACHINE_HISTORY(state, { payload, eTime }) {
+  let data = payload;
+  const { uq, machine_id } = payload;
+
+  //tracking history
+  // const mHistory = await MachineHistory.query()
+  //   .where('uq', uq)
+  //   .whereNull('end_time')
+  //   .where('machine_id', machine_id)
+  //   .orderBy('id', 'desc')
+  //   .first();
+  let mHistory = _.chain(state.machineData.MachineHistory)
+   .query()
+   .where("uq", uq)
+   .whereNull("end_time")
+   .where("machine_id", machine_id)
+   .orderBy("id", "desc")
+   .first()
+   .value();
+  if (mHistory) {
+   //find duration
+   const startTime = new Date(mHistory.start_time);
+   const endTime = new Date(eTime);
+   const durationInMilliseconds = endTime.getTime() - startTime.getTime();
+   const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+
+   //update end time
+   mHistory.end_time = eTime;
+   mHistory.duration = durationInSeconds;
+   //   mHistory.merge({end_time:eTime,duration:durationInSeconds})
+   //   await mHistory.save()
+
+   //condition for logout
+   if (data.operation != "force" && data.action != "stop")
+    state.machineData.MachineHistory.push({ ...data, start_time: eTime });
+   //   await   MachineHistory.create({...data,start_time:eTime})
+  } else {
+   //first time createing history
+   state.machineData.MachineHistory.push(data);
+
+   //  await MachineHistory.create(data)
+  }
+
+  // let machineDetail=await this.machineDetail(machine_id,uq);
+  // let history = await MachineHistory.query()
+  //   .where('uq', uq)
+  //   .whereNotNull('end_time')
+  //   .where('machine_id', machine_id)
+  //   .orderBy('id', 'desc');
+  //   return {
+  //     machineDetail,
+  //     history
+  //   };
+ },
+
+ MACHINELOG(state, payload) {
+  const { machine_id, uq } = payload;
+
+  //   let data = payload;
+  //   const { uq, machine_id } = request.body().data;
+  //     const mLog = await MachineLog.query()
+  //   .where('machine_id', machine_id)
+  //   .where('uq', uq)
+  //   .orderBy('id', 'desc')
+  //   .first();
+  let mLog = _.chain(state.machineData.machineHisotry)
+   .query()
+   .where("machine_id", machine_id)
+   .where("uq", uq)
+   .orderBy("id", "desc")
+   .first()
+   .value();
+  console.log("mLog", mLog);
+  if (mLog) {
+   let eTime = payload.time;
+   // Convert the datetime strings into JavaScript Date objects
+   const startTime = new Date(mLog.start_time);
+   const endTime = new Date(eTime);
+   // Calculate the duration between start_time and end_time
+   const durationInMilliseconds = endTime.getTime() - startTime.getTime();
+   const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+   mLog.end_time = eTime;
+   mLog.duration = durationInSeconds;
+   //      mLog.merge({end_time:eTime,duration:durationInSeconds})
+   //    await mLog.save()
+   mutations.MACHINE_HISTORY(state, { payload, eTime });
+   //    let history=await this.MACHINE_HISTORY(request,eTime)
+
+   //    let rtdata= await this.getLiveMachineData(request)
+   //    return rtdata;
+   // return history;
+  } else {
+   //  await MachineLog.create(data)
+   state.machineData.machineHisotry.push(payload);
+   //  let history=await  this.MACHINE_HISTORY(request,null)
+   // console.log(history);
+   // return   ctx.response.status(200).json(history)
+  }
+  // let rtdata= await this.getLiveMachineData(request)
+  // return rtdata;
+ },
+
+ setProduct(state, payload) {
+  state.setup.selected_product.id = payload.id;
+  state.setup.selected_product.part_no = payload.part_no;
+  state.setup.selected_product.material_code = payload.material_code;
+  state.setup.selected_product.grn_no = payload.grn_no;
+  state.setup.selected_product.name = payload.name;
+  state.setup.selected_product.group = payload.group;
+  state.setup.selected_product.other_detail = payload.other_detail;
+  state.setup.selected_product.other = payload.other;
+ },
  machineData(state, data) {
   state.machineData.machineLog = data.machineLog || {};
   state.machineData.machineHisotry = data.machineHisotry || [];
@@ -117,16 +229,7 @@ const mutations = {
   state.setup.machineActivities.push(value);
  },
  //--------------------change widget----------
- setProduct(state, payload) {
-  state.setup.selected_product.id = payload.id;
-  state.setup.selected_product.part_no = payload.part_no;
-  state.setup.selected_product.material_code = payload.material_code;
-  state.setup.selected_product.grn_no = payload.grn_no;
-  state.setup.selected_product.name = payload.name;
-  state.setup.selected_product.group = payload.group;
-  state.setup.selected_product.other_detail = payload.other_detail;
-  state.setup.selected_product.other = payload.other;
- },
+
  setShiftManually(state, payload) {
   state.setup.selected_shift.id = payload.id;
   state.setup.selected_shift.name = payload.name;

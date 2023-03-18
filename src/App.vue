@@ -1,10 +1,10 @@
 <template>
  <v-app>
-  <v-app-bar
+  <div
+   style="display: flex"
    v-if="!['machineLogin'].includes($route.name)"
    app
-   color="#43386A"
-   dark
+   class="headerBg"
   >
    <img
     @click="
@@ -17,7 +17,7 @@
    <!-- <img  style="max-width: 65px;" src="logo.png" alt="" /> -->
    <v-spacer></v-spacer>
 
-   <div style="background: white; padding: 10px">
+   <div style="padding: 10px">
     <v-icon v-if="$store.state.setup.checkEmbededDevice" style="color: green"
      >mdi-power-plug</v-icon
     >
@@ -29,7 +29,7 @@
     <v-icon v-else style="color: red">mdi-power</v-icon>
    </div>
    <v-btn text @click="machineLogout">Logout</v-btn>
-  </v-app-bar>
+  </div>
 
   <v-main>
    <router-view />
@@ -47,6 +47,7 @@
   <select-product></select-product>
   <history-dialog></history-dialog>
   <close-shift-widget></close-shift-widget>
+  <oee-setup-dialog></oee-setup-dialog>
  </v-app>
 </template>
 
@@ -67,7 +68,7 @@ import * as oee from "../src/core/oee";
 import { v4 as uuidv4 } from "uuid";
 import historyDialog from "./views/historyDialog.vue";
 
-import  * as machine from '../src/core/machine.js'
+import * as machine from "../src/core/machine.js";
 // const { SerialPort } = require('serialport')
 
 // async function listSerialPorts() {
@@ -188,8 +189,8 @@ export default {
   //----------------socket config-------------------
   // initSerialPort($vm)
   // socketConfig.initSerialPort($vm)
-// await  machine.listentShift();
- await  machine.listenMachineDemo();
+  // await  machine.listentShift();
+  //  await  machine.listenMachineDemo();
   //----------------socket config-------------------
 
   ipcRenderer.on("shedule", (event, arg) => {
@@ -285,5 +286,166 @@ export default {
  background: white;
  padding: 5px;
  border-radius: 10px;
+}
+.theme--light.v-application {
+ background: #f8f9fa !important;
+}
+.headerBg {
+ background: #f8f9fa !important;
+}
+.bg-gradient-dark {
+ background-image: linear-gradient(310deg, #141727 0%, #3a416f 100%);
+}
+.oeeContainer {
+ display: flex;
+ max-width: 100% !important;
+ flex-wrap: wrap;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+ border: 2px solid;
+}
+
+.timeChart {
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+ background: white;
+}
+.oeeContainer .oeeWidget {
+ width: 16vw;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+
+ margin: 15px;
+ padding: 1px;
+ background: white;
+ border-radius: 4%;
+ box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%);
+}
+
+// .oeeContainer > div {
+
+// }
+
+.toolbar_container {
+ display: flex;
+ padding: 10px;
+}
+.toolbar_container > div {
+ width: 100px;
+ height: 100px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ color: gray;
+ margin: 2px;
+ box-shadow: 0px 1px 5px -1px black;
+ background: azure;
+ font-weight: 600;
+ border-radius: 4px;
+}
+.toolbar_container .center {
+ text-align: center;
+}
+.widgetContainer {
+ width: 100%;
+ display: flex;
+ // margin-top:10px;
+ justify-content: center;
+}
+.widgetContainer .widget {
+ box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+ width: 250px;
+ /* height: 57px; */
+ justify-content: center;
+ align-items: center;
+ display: flex;
+
+ margin: 1px;
+ padding: 13px;
+ background: #2f4f6f;
+ color: white;
+}
+.pointer {
+ cursor: pointer;
+}
+.widgetGroup {
+ padding: 10px;
+ background: white;
+ margin: 3px;
+ cursor: pointer;
+ border-radius: 3px;
+ box-shadow: 5px 5px 10px #727272, -5px -5px 10px #ffffff;
+}
+.widgetGroup:hover {
+ background: lightgray;
+}
+.widgetGroupContainer {
+ display: flex;
+}
+.widgetTitle {
+ // background: #f58181;
+ padding: 5px;
+ // color: white;
+ font-weight: 700;
+ font-size: 16px;
+}
+.widgetBlueTitle {
+ background: cornflowerblue;
+ padding: 5px;
+ color: white;
+ font-size: 15px;
+ text-align: center;
+}
+
+.border-radius-md {
+}
+.icon-shape {
+ width: 98px;
+ height: 98px;
+ background-position: center;
+ border-radius: 0.75rem;
+}
+.bg-gradient-primary {
+ background-image: linear-gradient(310deg, #7928ca 0%, #ff0080 100%);
+}
+
+.text-center {
+ text-align: center !important;
+}
+.shadow {
+ box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;
+}
+.p10 {
+ padding: 0 10px;
+}
+.raduius10 {
+ border-radius: 10px;
+}
+.white {
+ color: white;
+}
+.icon {
+ fill: currentColor;
+ stroke: none;
+}
+.icon {
+ display: inline-block;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 4em;
+ width: 4em;
+ border-radius: 16px;
+}
+.icon {
+ fill: currentColor;
+ stroke: none;
+}
+.cardN {
+ background: white;
+ box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+}
+.cardTStyle {
+ font-weight: 700;
+}
+.cardCCol {
+ margin: 4px 0px;
 }
 </style>
