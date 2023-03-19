@@ -24,9 +24,9 @@ export function machineLogOut($vm) {
  dataset.type = "manual";
  dataset.action = "stop";
  dataset.reason = "planned";
-
+ dataset.uq = _.cloneDeep(store.state.setup.uq);
  generateUq();
- //  store.dispatch("WATCH_MACHINE", data);
+ store.dispatch("WATCH_MACHINE", dataset);
  return true;
 }
 
@@ -96,9 +96,18 @@ export function markOeeInfo(item) {
   actual_count: item.actual_count,
   rejected_count: item.rejected_count,
   pieces_per_min: item.pieces_per_min,
+  pieces_per_stroke: item.pieces_per_stroke,
+  emp_remarks: item.emp_remarks,
  };
 
  store.dispatch("MACHINE_LOG_DATA", dataset);
+}
+
+export function machineEventTermination() {
+ //1.shift change termination
+ //2.product change termination
+
+ machineLogOut();
 }
 
 export function machineRunningStatus($vm) {}
@@ -122,7 +131,7 @@ export function listentShift() {
    currentShift.length != 0 &&
    store.state.setup.selected_shift.id != currentShift[0].id
   )
-   store.commit("setShiftName", currentShift[0].name);
+   store.commit("setShift", currentShift[0]);
  }, 1000);
 }
 
@@ -180,7 +189,10 @@ export function machineData() {
   product_id: store.state.setup.selected_product.id,
   machine_id: store.state.setup.selected_machine.id,
   emp_id: store.state.setup.selected_employee.id,
-  shift: "",
+  shift: store.state.setup.selected_shift.name,
+
+  shift_start_time: store.state.setup.selected_shift.start_time,
+  shift_end_time: store.state.setup.selected_shift.end_time,
 
   type: "", //manual or automatic
   action: "", //start or stop

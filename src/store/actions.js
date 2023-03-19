@@ -16,10 +16,11 @@ var apiGetMachineRunningPartNo = api + "get_machine_running_part_no";
 var apiGetMachineRunningMain = api + "get_machine_running_main";
 var apiGetMachineRunningActivity = api + "get_machine_running_activity";
 
+//new  api's
+
 var watchMachineApi = api + "watch-machine";
 var apiCloseShift = api + "close_shift";
 
-//new  api's
 var machineLogsApi = api + "machine-logs";
 var markDownTimeApi = api + "mark-downtime";
 var markoeeinfoApi = api + "mark-oee-info";

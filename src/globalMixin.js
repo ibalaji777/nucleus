@@ -154,6 +154,18 @@ Vue.mixin({
     minutes: $vm.globalScToMin(seconds),
    };
   },
+  global_actual_stroke_count() {
+   var $vm = this;
+   let history = $vm.$store.state.machineData.machineHisotry;
+   let log = $vm.$store.state.machineData.machineLog;
+
+   let stroke = _.sumBy(history, (x) => parseFloat(x.stroke || 0));
+
+   return {
+    stroke,
+    actual_count: parseFloat(stroke) * parseFloat(log.pieces_per_stroke || 1),
+   };
+  },
   global_total_shedule() {
    var $vm = this;
    let history = $vm.$store.state.machineData.machineHisotry;

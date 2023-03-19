@@ -1,6 +1,10 @@
 <template>
  <div>
-  <v-dialog v-model="oeeInfoDialog" hide-overlay persistent>
+  <v-dialog
+   v-model="$store.state.dialog.oeeSetupDialog"
+   hide-overlay
+   persistent
+  >
    <v-card>
     <v-toolbar>
      <v-btn
@@ -16,26 +20,61 @@
      <v-spacer></v-spacer>
      <v-toolbar-items> </v-toolbar-items>
     </v-toolbar>
-    <div style="padding: 10px">
-     <v-text-field
-      v-model="oeeInfo.actual_count"
-      type="number"
-      label="Actual Count"
-     ></v-text-field>
 
-     <v-text-field
-      v-model="oeeInfo.rejected_count"
-      type="number"
-      label="Rejected Count"
-     ></v-text-field>
-     <v-text-field
-      v-model="oeeInfo.pieces_per_min"
-      type="number"
-      label="Pieces Per Minute"
-     ></v-text-field>
+    <div style="padding: 30px; height: 350px">
+     <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+      <v-tab> Initial Setup </v-tab>
+      <v-tab> OEE Setup </v-tab>
+      <v-tab> Remark</v-tab>
+     </v-tabs>
+
+     <v-tabs-items v-model="tab">
+      <v-tab-item>
+       <v-text-field
+        v-model="oeeInfo.pieces_per_stroke"
+        type="number"
+        label="Unit/Stroke"
+       ></v-text-field>
+      </v-tab-item>
+      <v-tab-item>
+       <div style="display: flex">
+        <v-text-field
+         v-model="oeeInfo.actual_count"
+         type="number"
+         label="Actual Count"
+        ></v-text-field>
+        <v-btn
+         @click="getStrokeCount"
+         style="margin-left: 5px"
+         dark
+         x-large
+         color="pink"
+        >
+         Get
+        </v-btn>
+       </div>
+       <v-text-field
+        v-model="oeeInfo.rejected_count"
+        type="number"
+        label="Rejected Count"
+       ></v-text-field>
+       <v-text-field
+        v-model="oeeInfo.pieces_per_min"
+        type="number"
+        label="Pieces Per Minute"
+       ></v-text-field>
+      </v-tab-item>
+      <v-tab-item>
+       <v-text-field
+        v-model="oeeInfo.emp_remarks"
+        type="number"
+        label="Remarks"
+       ></v-text-field>
+      </v-tab-item>
+     </v-tabs-items>
 
      <v-btn
-      style="color: white"
+      style="color: white; width: 100%"
       class="bg-gradient-primary"
       @click="machineAction('mark_oeeinfo', oeeInfo)"
       >Save</v-btn
@@ -51,15 +90,26 @@ import * as machine from "../core/machine.js";
 export default {
  data() {
   return {
+   tab: null,
    oeeInfoDialog: false,
    oeeInfo: {
     actual_count: 0,
     rejected_count: 0,
     pieces_per_min: 0,
+    emp_remarks: "",
+    pieces_per_stroke: 1,
    },
   };
  },
+ mounted() {
+  var $vm = this;
+  if ($vm.$store.state.machineData.machineLog)
+   this.oeeInfo = $vm.$store.state.machineData.machineLog;
+ },
  methods: {
+  getStrokeCount() {
+   this.oeeInfo.actual_count = this.oeeInfo.pieces_per_stroke;
+  },
   machineAction(action, item) {
    var $vm = this;
    switch (action) {
@@ -83,6 +133,9 @@ export default {
      break;
     case "mark_oeeinfo":
      machine.markOeeInfo(item);
+     $vm.$toast.success("Saved", {
+      // optional options Object
+     });
      break;
 
     default:

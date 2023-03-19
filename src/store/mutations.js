@@ -138,9 +138,9 @@ const mutations = {
  machineLiveData(state, value) {
   Vue.set(state.setup, "machineLiveData", value);
  },
- setShiftName(state, value) {
-  Vue.set(state.setup, "shiftName", value);
- },
+ //  setShiftName(state, value) {
+ //   Vue.set(state.setup, "shiftName", value);
+ //  },
 
  setShift(state, value) {
   if (state.setup.autoShift) {

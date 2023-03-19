@@ -55,7 +55,7 @@
 
 <script>
 /*eslint-disable*/
-import * as tracker from "../src/core/tracker";
+// import * as tracker from "../src/core/tracker";
 import * as config from "../src/core/config";
 import _ from "lodash";
 import io from "socket.io-client";
@@ -224,21 +224,24 @@ export default {
   "$store.state.setup.selected_shift": {
    handler(value) {
     var $vm = this;
-    $vm.tracker();
+    machine.machineEventTermination();
+    // $vm.tracker();
    },
    deep: true,
   },
   "$store.state.setup.selected_employee": {
    handler(value) {
     var $vm = this;
-    $vm.tracker();
+    // $vm.tracker();
    },
    deep: true,
   },
   "$store.state.setup.selected_product": {
    handler(value) {
     var $vm = this;
-    $vm.tracker();
+    machine.machineEventTermination();
+
+    // $vm.tracker();
    },
    deep: true,
   },
@@ -254,32 +257,32 @@ export default {
     $vm.$router.push({ name: "machineLogin" });
    });
   },
-  tracker() {
-   var $vm = this;
-   //it only allows the shift and employee
-   // if($vm.$store.state.setup.checkEmbededDevice){
-   tracker.tracker($vm, (data) => {
-    console.log("tracker", data);
-    bgSocket.emit(
-     "SK_IO_INSERT_MACHINE_ACTIVITY",
-     data.SK_IO_CREATE_MACHINE_ACTIVITY
-    );
-    _.map(data.SK_IO_INSERT_MACHINE_PART_NO, (data) => {
-     bgSocket.emit("SK_IO_INSERT_MACHINE_PART_NO", data);
-    });
-    bgSocket.emit("SK_IO_INSERT_MACHINE_MAIN", data.SK_IO_INSERT_MACHINE_MAIN);
-    $vm.$store.commit(
-     "LOCAL_SK_IO_MACHINE_PART_NO",
-     data.SK_IO_INSERT_MACHINE_PART_NO
-    );
+  // tracker() {
+  //  var $vm = this;
+  //  //it only allows the shift and employee
+  //  // if($vm.$store.state.setup.checkEmbededDevice){
+  //  tracker.tracker($vm, (data) => {
+  //   console.log("tracker", data);
+  //   bgSocket.emit(
+  //    "SK_IO_INSERT_MACHINE_ACTIVITY",
+  //    data.SK_IO_CREATE_MACHINE_ACTIVITY
+  //   );
+  //   _.map(data.SK_IO_INSERT_MACHINE_PART_NO, (data) => {
+  //    bgSocket.emit("SK_IO_INSERT_MACHINE_PART_NO", data);
+  //   });
+  //   bgSocket.emit("SK_IO_INSERT_MACHINE_MAIN", data.SK_IO_INSERT_MACHINE_MAIN);
+  //   $vm.$store.commit(
+  //    "LOCAL_SK_IO_MACHINE_PART_NO",
+  //    data.SK_IO_INSERT_MACHINE_PART_NO
+  //   );
 
-    //new oee
-    utils.getRunningMachineData($vm);
-    oee.oeePreset($vm);
-    oee.oeeCalculation($vm);
-   });
-   // }
-  },
+  //   //new oee
+  //   utils.getRunningMachineData($vm);
+  //   oee.oeePreset($vm);
+  //   oee.oeeCalculation($vm);
+  //  });
+  //  // }
+  // },
  },
 };
 </script>
@@ -449,5 +452,25 @@ export default {
 }
 .cardCCol {
  margin: 4px 0px;
+}
+.cards2 {
+ display: flex;
+ justify-content: space-evenly;
+ flex-wrap: wrap;
+ width: 100%;
+ padding: 2px;
+}
+.cards2 span {
+ margin: 3px;
+}
+.cards3 {
+ display: flex;
+ justify-content: space-evenly;
+ flex-wrap: wrap;
+ width: 100%;
+ padding: 2px;
+}
+.cards3 div {
+ margin: 3px;
 }
 </style>

@@ -35,6 +35,30 @@
       <v-row>
        <v-col cols="8" style="padding: 22px">
         <div>
+         <div class="cardTStyle">Product/Current</div>
+         {{ $store.state.setup.selected_product.name }}
+        </div>
+       </v-col>
+
+       <v-col
+        cols="4"
+        style="text-align: center; display: flex; justify-content: center"
+       >
+        <div
+         class="icon bg-gradient-primary shadow text-center border-radius-md"
+        >
+         <v-icon style="color: white">mdi-gesture-tap</v-icon>
+        </div>
+       </v-col>
+      </v-row>
+     </v-card>
+    </v-col>
+
+    <v-col cols="12" sm="6" md="3" class="cardCCol">
+     <v-card elevation="7">
+      <v-row>
+       <v-col cols="8" style="padding: 22px">
+        <div>
          <div class="cardTStyle">Shift/Current</div>
          {{ $store.state.setup.selected_shift.name }}
         </div>
@@ -47,13 +71,13 @@
         <div
          class="icon bg-gradient-primary shadow text-center border-radius-md"
         >
-         <v-icon style="color: white">mdi-account</v-icon>
+         <v-icon style="color: white">mdi-clock-time-eight-outline</v-icon>
         </div>
        </v-col>
       </v-row>
      </v-card>
     </v-col>
-    <v-col cols="12" sm="6" md="3" class="cardCCol">
+    <!-- <v-col cols="12" sm="6" md="3" class="cardCCol">
      <v-card elevation="7">
       <v-row>
        <v-col cols="8" style="padding: 22px">
@@ -70,12 +94,12 @@
         <div
          class="icon bg-gradient-primary shadow text-center border-radius-md"
         >
-         <v-icon style="color: white">mdi-account</v-icon>
+         <v-icon style="color: white"> mdi-stop-circle-outline</v-icon>
         </div>
        </v-col>
       </v-row>
      </v-card>
-    </v-col>
+    </v-col> -->
     <v-col cols="12" sm="6" md="3" class="cardCCol">
      <v-card elevation="7">
       <v-row>
@@ -93,7 +117,7 @@
         <div
          class="icon bg-gradient-primary shadow text-center border-radius-md"
         >
-         <v-icon style="color: white">mdi-account</v-icon>
+         <v-icon style="color: white">mdi-account-multiple-outline</v-icon>
         </div>
        </v-col>
       </v-row>
@@ -123,6 +147,7 @@ import _ from "lodash";
 import moment from "moment";
 
 export default {
+ mounted() {},
  computed: {
   totalBreak() {
    var $vm = this;

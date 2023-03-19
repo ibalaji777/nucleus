@@ -54,17 +54,19 @@
           "
          >
           <span
-           >Login:
+           >Log:
            {{ guiTimeFormat($store.state.machineData.machineLog.start_time) }}
           </span>
 
           <span
-           >Duration:{{
+           >Dur:{{
             globalScToHrs($store.state.machineData.machineLog.duration)
            }}
           </span>
-          <span>Run Time:{{ global_runTime.seconds }}</span>
-          <span>Planned Time:{{ global_plannedTime.seconds }}</span>
+          <span>R/Time:{{ global_runTime.seconds }}</span>
+          <span>P/Time:{{ global_plannedTime.seconds }}</span>
+          <span>A/Stroke:{{ global_actual_stroke_count.stroke }}</span>
+          <span>A/Count:{{ global_actual_stroke_count.actual_count }}</span>
          </div>
          <div
           style="
@@ -202,7 +204,7 @@
      Mode :Demo<br />
      Machine status : {{ $store.state.setup.checkMachine }}<br />
      Embeded status : {{ $store.state.setup.checkEmbededDevice }}<br />
-     Shift Name : {{ $store.state.setup.shiftName }}<br />
+     <!-- Shift Name : {{ $store.state.setup.shiftName }}<br /> -->
      machine live data :
      <pre>{{ $store.state.setup.machineLiveData }}</pre>
      <br />
@@ -400,11 +402,14 @@ export default {
      else $vm.$alert("Machine Already Running...");
      break;
     case "stop":
+     // if (!$vm.$store.state.setup.checkMachine) $vm.$alert("Manually Already Off");
      $vm.$confirm("Do you Want to Logout?").then(() => {
       machine.machineLogOut($vm);
+      this.$toast.success("Task Completed....", {});
      });
      break;
     case "start_shedule":
+     this.$toast.success("Sheduled....", {});
      machine.startMachineShedule(item);
      break;
     case "mark_break":

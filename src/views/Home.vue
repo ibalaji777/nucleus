@@ -11,7 +11,6 @@
       class=""
       style="margin-top: 12px; background: white; height: 220px; padding: 10px"
      >
-      <h4>Machine/History</h4>
       <time-chart-status
        v-if="global_timeChart.end_time"
        :key="JSON.stringify(global_timeChart.chartData)"

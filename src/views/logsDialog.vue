@@ -120,6 +120,22 @@ export default {
      text: "Pieces Per Minute",
      value: "pieces_per_min",
     },
+    {
+     text: "Quality",
+     value: "quality",
+    },
+    {
+     text: "Performance",
+     value: "performance",
+    },
+    {
+     text: "Availability",
+     value: "availability",
+    },
+    {
+     text: "OEE",
+     value: "oee",
+    },
    ],
   };
  },

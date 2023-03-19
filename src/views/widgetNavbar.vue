@@ -2,15 +2,7 @@
  <div>
   <div class="">
    <div class="widgetGroup">
-    <div
-     class="widgetGroupContainer"
-     style="
-      display: flex;
-      justify-content: space-evenly;
-      font-weight: 500;
-      padding: 10px;
-     "
-    >
+    <div class="cards3">
      <div
       class="bg-gradient-primary raduius10 p10 white pointer"
       @click="
@@ -76,6 +68,28 @@
     <div>Planned Time</div>
   </div> -->
     </div>
+   </div>
+   <div class="cards2" style="margin-top: 15px">
+    <span class="bg-gradient-dark raduius10 p10 white pointer"
+     >Log:
+     {{ guiTimeFormat($store.state.machineData.machineLog.start_time) }}
+    </span>
+
+    <span class="bg-gradient-dark raduius10 p10 white pointer"
+     >Dur:{{ globalScToHrs($store.state.machineData.machineLog.duration) }}
+    </span>
+    <span class="bg-gradient-dark raduius10 p10 white pointer"
+     >R/Time:{{ global_runTime.seconds }}</span
+    >
+    <span class="bg-gradient-dark raduius10 p10 white pointer"
+     >P/Time:{{ global_plannedTime.seconds }}</span
+    >
+    <span class="bg-gradient-dark raduius10 p10 white pointer"
+     >A/Stroke:{{ global_actual_stroke_count.stroke }}</span
+    >
+    <span class="bg-gradient-dark raduius10 p10 white pointer"
+     >A/Count:{{ global_actual_stroke_count.actual_count }}</span
+    >
    </div>
   </div>
  </div>
