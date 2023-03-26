@@ -180,6 +180,7 @@
            <td>Start Time</td>
            <td>End Time</td>
            <td>Machine Status</td>
+           <td>Stroke</td>
            <td>Duration</td>
           </tr>
          </thead>
@@ -193,6 +194,9 @@
            <th>{{ guiTimeFormat(item.start_time) }}</th>
            <th>{{ guiTimeFormat(item.end_time) }}</th>
            <th>{{ item.machine_status }}</th>
+           <th>
+            {{ item.start_stroke }}
+           </th>
            <th>{{ item.duration }}</th>
           </tr>
          </tbody>

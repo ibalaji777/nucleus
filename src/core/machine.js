@@ -14,6 +14,8 @@ export function machineLogIn($vm) {
  dataset.type = "manual";
  dataset.action = "start";
  dataset.reason = "planned";
+ dataset.message = "login";
+
  store.dispatch("WATCH_MACHINE", dataset);
  return true;
 }
@@ -24,7 +26,15 @@ export function machineLogOut($vm) {
  dataset.type = "manual";
  dataset.action = "stop";
  dataset.reason = "planned";
+ dataset.message = "logout";
+
  dataset.uq = _.cloneDeep(store.state.setup.uq);
+
+ dataset.quality = $vm.global_quality;
+ dataset.performance = $vm.global_performance;
+ dataset.availability = $vm.global_availibilty;
+ dataset.oee = $vm.global_oee;
+
  generateUq();
  store.dispatch("WATCH_MACHINE", dataset);
  return true;
@@ -33,7 +43,7 @@ export function machineLogOut($vm) {
 export function startSignal($vm) {
  var dataset = machineData();
  dataset.operation = "signal";
- dataset.message = "Machine Running";
+ dataset.message = "running";
  dataset.type = "automatic";
  dataset.action = "start";
  store.dispatch("WATCH_MACHINE", dataset);
@@ -46,11 +56,11 @@ export function startMachineShedule(item) {
  dataset.op_id = item.id;
  dataset.op_name = item.name;
  dataset.op_desc = item.desc;
- dataset.message = "Shedule Started";
+ dataset.message = "shedule_started";
  dataset.reason = item.name;
  dataset.type = "manual";
  dataset.action = "start";
-
+ store.dispatch("deviceAlert", "off");
  store.dispatch("WATCH_MACHINE", dataset);
  return true;
 }
@@ -62,12 +72,13 @@ export function markBreak(item) {
  dataset.op_id = item.id;
  dataset.op_name = item.name;
  dataset.op_desc = item.desc;
- dataset.message = "Break";
+ dataset.message = "break";
  dataset.reason = item.name;
  dataset.type = "manual";
  dataset.action = "";
 
  console.log(dataset);
+ store.dispatch("deviceAlert", "off");
  store.dispatch("MARK_DOWNTIME", dataset);
  return true;
 }
@@ -80,11 +91,11 @@ export function markDownTime(item) {
  dataset.op_id = item.id;
  dataset.op_name = item.name;
  dataset.op_desc = item.desc;
- dataset.message = "Down Time Marked";
+ dataset.message = "down_time";
  dataset.reason = item.name;
  dataset.type = "manual";
  dataset.action = "";
-
+ store.dispatch("deviceAlert", "off");
  store.dispatch("MARK_DOWNTIME", dataset);
  return true;
 }
@@ -106,8 +117,7 @@ export function markOeeInfo(item) {
 export function machineEventTermination() {
  //1.shift change termination
  //2.product change termination
-
- machineLogOut();
+ //  machineLogOut();
 }
 
 export function machineRunningStatus($vm) {}
@@ -170,6 +180,8 @@ export function listenMachineDemo() {
 export function listenMachineReal() {}
 
 export function machineData() {
+ if (!store.state.setup.checkMachine) store.dispatch("deviceAlert", "on");
+ else store.dispatch("deviceAlert", "off");
  return {
   //force ->first time start
   //force ->Logout time start
@@ -206,7 +218,9 @@ export function machineData() {
   //new-------
   operation: "", //signal or shedule or  break
 
-  stroke: store.state.setup.machineLiveData.stroke,
+  start_stroke: store.state.setup.machineLiveData.stroke,
+  end_stroke: null,
+  actual_stroke: null,
   //new
   message: store.state.setup.checkMachine
    ? "Machine Running"

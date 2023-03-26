@@ -71,111 +71,95 @@ import { v4 as uuidv4 } from "uuid";
 import historyDialog from "./views/historyDialog.vue";
 
 import * as machine from "../src/core/machine.js";
+const socket = io(config.serialPortUrl);
+
+function handleErrors($vm, err) {
+ console.log(err);
+}
 // const { SerialPort } = require('serialport')
 
 // async function listSerialPorts() {
-//   await SerialPort.list().then((ports, err) => {
-//     if(err) {
-//       console.log(err.message);
-//       return
-//     } else {
-//       // document.getElementById('error').textContent = ''
-//     }
-//     console.log('ports', ports);
+//  await SerialPort.list().then((ports, err) => {
+//   if (err) {
+//    console.log(err.message);
+//    return;
+//   } else {
+//    // document.getElementById('error').textContent = ''
+//   }
+//   console.log("ports", ports);
 
-//     if (ports.length === 0) {
-//       console.log('No ports discovered');
-//     }
+//   if (ports.length === 0) {
+//    console.log("No ports discovered");
+//   }
 
-//     console.log(ports)
+//   console.log(ports);
 
-//     // tableHTML = tableify(ports)
-//     // document.getElementById('ports').innerHTML = tableHTML
-//   })
+//   // tableHTML = tableify(ports)
+//   // document.getElementById('ports').innerHTML = tableHTML
+//  });
 // }
 
 // function listPorts() {
-//   listSerialPorts();
-//   setTimeout(listPorts, 2000);
+//  listSerialPorts();
+//  setTimeout(listPorts, 2000);
 // }
 
 // // Set a timeout that will check for new serialPorts every 2 seconds.
 // // This timeout reschedules itself.
 // setTimeout(listPorts, 2000);
 
-// listSerialPorts()
-// const {SerialPort,ReadlineParser} = require('serialport');
-// const Readline = require('@serialport/parser-readline');
+// listSerialPorts();
+// const { SerialPort, ReadlineParser } = require("serialport");
+// const Readline = require("@serialport/parser-readline");
 
 // const writeDelay = 2000; // reducing this value stops it working
-// const path = 'COM9';//windows
+// const path = "COM9"; //windows
 // // const path = '/dev/ttyACM0';//rasobert pi
-// const port = new SerialPort( {path,
-//     lock: false,
-//     baudRate: 9600,
+// const port = new SerialPort({ path, lock: false, baudRate: 9600 });
+
+// port.on("open", () => {
+//  setTimeout(function () {
+//   console.log("sending: ping");
+//   port.write("ping");
+//  }, writeDelay);
 // });
 
-// port.on('open', () => {
-//     setTimeout(function () {
-//         console.log('sending: ping');
-//         port.write('ping');
-//     }, writeDelay);
-// });
-
-// const parser = new ReadlineParser({ delimiter: '\r\n' });
+// const parser = new ReadlineParser({ delimiter: "\r\n" });
 
 // port.pipe(parser);
 
-// parser.on('data', function (data) {
-//     console.log('from arduino:', data);
-//     io.sockets.emit("readData", data);
-
+// parser.on("data", function (data) {
+//  console.log("from arduino:", data);
+//  io.sockets.emit("readData", data);
 // });
 
 // var isMachineStatus=false;
 var liveMachine = [];
 export function initSerialPort($vm) {
- if ($vm.$store.state.dialog.isDemoPlugin) {
-  const socket = io(config.serialPortUrl);
+ $vm.$store.commit("setEmbededStatus", false);
+ $vm.$store.commit("setMachineStatus", false);
 
-  $vm.$store.commit("setEmbededStatus", false);
-  $vm.$store.commit("setMachineStatus", false);
+ socket.on("connect_failed", function () {
+  console.log("Connection Failed");
+ });
 
-  socket.on("connect_failed", function () {
-   console.log("Connection Failed");
-  });
+ socket.on("connect_error", (err) => handleErrors($vm, err));
+ socket.on("connect_failed", (err) => handleErrors($vm, err));
+ socket.on("disconnect", (err) => handleErrors($vm, err));
+ socket.on("readData", async (data) => {
+  console.log(data);
 
-  setInterval(() => {
-   $vm.$store.commit("setTimeEverySecond");
-   $vm.$store.commit("setDate");
-   var currentTime = $vm.$store.state.setup.time;
-   var currentShift = _.filter($vm.$store.state.db.shifts, (x) => {
-    if (x.start_time <= currentTime && x.end_time >= currentTime) return true;
-    return false;
-   });
-   if (
-    currentShift.length != 0 &&
-    $vm.$store.state.setup.selected_shift.id != currentShift[0].id
-   )
-    $vm.$store.commit("setShift", currentShift[0]);
-  }, 700);
-
-  socket.on("connect_error", (err) => handleErrors($vm, err));
-  socket.on("connect_failed", (err) => handleErrors($vm, err));
-  socket.on("disconnect", (err) => handleErrors($vm, err));
-  socket.on("readData", async (data) => {
-   var dataset = JSON.parse(data);
-   var machineStatus = dataset.machine == 1 ? true : false;
-   var result = { ...dataset, machine: machineStatus };
-   //machine in continues mode and signal
-   $vm.$store.commit("setMachineStatus", result.machine);
-   //serial port started read
-   $vm.$store.commit("setEmbededStatus", true);
-   //live data from machine
-   $vm.$store.commit("machineLiveData", result);
-   // console.log("embeded",result)
-  });
- }
+  var dataset = JSON.parse(data);
+  var machineStatus = dataset.machine == 1 ? true : false;
+  var result = { ...dataset, machine: machineStatus };
+  //machine in continues mode and signal
+  $vm.$store.commit("setMachineStatus", result.machine);
+  //serial port started read
+  $vm.$store.commit("setEmbededStatus", true);
+  //live data from machine
+  $vm.$store.commit("machineLiveData", result);
+  // console.log("embeded",result)
+ });
 }
 export default {
  components: { historyDialog },
@@ -189,8 +173,8 @@ export default {
   var $vm = this;
   console.log("Route Name", $vm.$route.name);
   //----------------socket config-------------------
-  // initSerialPort($vm)
-  // socketConfig.initSerialPort($vm)
+  //   initSerialPort($vm);
+  //   socketConfig.initSerialPort($vm);
   // await  machine.listentShift();
   await machine.listenMachineDemo();
   //----------------socket config-------------------
@@ -287,6 +271,9 @@ export default {
 };
 </script>
 <style lang="scss">
+* {
+ font-family: "Poppins", sans-serif;
+}
 .machineStatus {
  background: white;
  padding: 5px;

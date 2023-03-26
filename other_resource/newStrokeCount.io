@@ -8,8 +8,7 @@ int stroke=0;
 int inPin = 3; 
 int inputState = 0;
 int RelayPin = 4;
-const int interruptPin = 2;
- 
+int 
 
 
 String output;
@@ -24,8 +23,7 @@ void isr()//interrupt service routine
 } 
 void setup() { 
   Serial.begin(9600); 
-//  attachInterrupt(0,isr,RISING);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), isr, RISING);
+  attachInterrupt(0,isr,RISING);
   pinMode(inPin, OUTPUT);
   //attaching the interrupt 
   count++; } 
@@ -87,6 +85,5 @@ digitalWrite(RelayPin, HIGH);
 }
 ////-----------------------------------------------
 count++; 
-//attachInterrupt(0,isr,RISING); 
-  attachInterrupt(digitalPinToInterrupt(interruptPin), isr, RISING);
+attachInterrupt(0,isr,RISING); 
 }

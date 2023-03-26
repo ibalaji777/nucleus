@@ -321,11 +321,11 @@ const state = {
   shiftName: "",
   time: moment().format("HH:mm"),
   date: moment().format("YYYY-MM-DD"),
-  uiTimeFormat: "hh:mm a",
+  uiTimeFormat: "hh:mm:ss a",
   bgTimeFormat: "HH:mm",
   uiDateFormat: "DD-MM-YYYY",
   bgDateFormat: "YYYY-MM-DD",
-  bgDateTimeFormat: "YYYY-MM-DD HH:mm",
+  bgDateTimeFormat: "YYYY-MM-DD HH:mm:ss",
   machineSessionId: {
    machine_client_id: "", //ok random
    start_time: "", //must

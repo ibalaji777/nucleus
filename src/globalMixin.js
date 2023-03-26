@@ -44,17 +44,16 @@ Vue.mixin({
     // console.log("currentTime",value)
     if (!value) return "-";
 
-    return moment(String(value), $vm.$store.state.setup.bgTimeFormat).format(
-     $vm.$store.state.setup.uiTimeFormat
-    );
+    return moment(
+     String(value),
+     $vm.$store.state.setup.bgDateTimeFormat
+    ).format($vm.$store.state.setup.uiTimeFormat);
    };
   },
   guiDateFormat() {
    var $vm = this;
    return (value) => {
-    return moment(String(value), $vm.$store.state.setup.bgDateFormat).format(
-     $vm.$store.state.setup.uiDateFormat
-    );
+    return moment(String(value)).format($vm.$store.state.setup.uiDateFormat);
    };
   },
   globalBtnBgColor() {

@@ -16,6 +16,8 @@
     </v-toolbar>
     <div style="padding: 10px">
      <v-btn @click="loadData" style="margin: 10px" color="primary">Show</v-btn>
+
+     <v-btn @click="exportExcel">Excel</v-btn>
      <v-data-table
       :headers="headers"
       @click:row="selectRow"
@@ -68,7 +70,10 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import * as machine from "../core/machine.js";
+import * as XLSX from "xlsx";
+
 export default {
  data() {
   return {
@@ -140,6 +145,88 @@ export default {
   };
  },
  methods: {
+  exportExcel() {
+   var $vm = this;
+
+   // Import the SheetJS library
+
+   let headers = [
+    "start_time",
+
+    "end_time",
+
+    "employee_name",
+
+    "product_name",
+
+    "shift",
+
+    "stroke",
+
+    "duration",
+
+    "actual_count",
+
+    "rejected_count",
+
+    "pieces_per_min",
+
+    "quality",
+
+    "performance",
+
+    "availability",
+
+    "oee",
+   ];
+
+   let items = _.map($vm.$store.state.machineLogs, (x) => {
+    return [
+     x["start_time"],
+     x["end_time"],
+     x["employee_name"],
+     x["product_name"],
+     x["shift"],
+     x["stroke"],
+     x["duration"],
+     x["actual_count"],
+     x["rejected_count"],
+     x["pieces_per_min"],
+     x["quality"],
+     x["performance"],
+     x["availability"],
+     x["oee"],
+    ];
+   });
+   // Create an array
+   const myArray = [headers, ...items];
+
+   // Create a new workbook and sheet
+   const wb = XLSX.utils.book_new();
+   const ws = XLSX.utils.aoa_to_sheet(myArray);
+
+   // Add the sheet to the workbook
+   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+   // Generate a file name for the download
+   const fileName = "export.xlsx";
+
+   // Convert the workbook to a buffer
+   const buf = XLSX.write(wb, { type: "buffer", bookType: "xlsx" });
+
+   // Create a blob from the buffer
+   const blob = new Blob([buf], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+   });
+
+   // Create a download link and click it
+   const a = document.createElement("a");
+   a.href = URL.createObjectURL(blob);
+   a.download = fileName;
+   document.body.appendChild(a);
+   a.click();
+   document.body.removeChild(a);
+  },
   selectRow(item) {
    let $vm = this;
    $vm.oeeInfo = {

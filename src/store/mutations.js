@@ -119,11 +119,59 @@ const mutations = {
   state.setup.selected_product.other_detail = payload.other_detail;
   state.setup.selected_product.other = payload.other;
  },
- machineData(state, data) {
-  state.machineData.machineLog = data.machineLog || {};
-  state.machineData.machineHisotry = data.machineHisotry || [];
-  state.machineData.currentHistory = data.currentHistory || {};
+
+ machineData(state, payload) {
+  // state.machineData.machineLog = data.machineLog || {};
+  //1st time insertion
+
+  //   ++++++++++++++++++++HISTORY+++++++++++++++++++++
+  var data = _.cloneDeep(payload);
+  var previousData = _.find(
+   state.machineData.machineHisotry,
+   (o) => o.end_time === null
+  );
+  var dateTime = moment(String(data.time)).format(state.setup.bgDateTimeFormat);
+  var stroke = payload.start_stroke;
+
+  if (previousData) {
+   previousData.end_stroke = stroke;
+   previousData.actual_stroke =
+    parseFloat(previousData.end_stroke || 0) -
+    parseFloat(previousData.start_stroke || 0);
+
+   previousData.end_time = dateTime;
+   previousData.duration = moment(String(previousData.end_time)).diff(
+    moment(String(previousData.start_time)),
+    "seconds"
+   );
+  }
+
+  //--------------machine status insert--------------
+  //time
+  data.start_time = dateTime;
+  data.end_time = null;
+  //stroke
+  data.start_stroke = stroke;
+  data.end_stroke = null;
+  //for sync with database
+  data.ruq = dateTime.valueOf();
+  //local store if event internet connectivity lose
+  state.machineData.machineHisotry.push(data);
+  //   ++++++++++++++++++++HISTORY+++++++++++++++++++++
+
+  console.log("+++++++++++++++data+++++++++++++++++");
+  console.log(data);
+  //   data.start_stroke=null;
+  //   data.end_stroke=null;
+  //   data.stroke=
+  // state.machineData.currentHistory = data.currentHistory || {};
  },
+
+ //  machineData(state, data) {
+ //   state.machineData.machineLog = data.machineLog || {};
+ //   state.machineData.machineHisotry = data.machineHisotry || [];
+ //   state.machineData.currentHistory = data.currentHistory || {};
+ //  },
 
  setGenerateUid(state) {
   state.setup.uq = uuidv4();

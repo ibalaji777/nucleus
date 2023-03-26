@@ -2,10 +2,11 @@
 const axios = require("axios").default;
 import moment from "moment";
 import { _ } from "core-js";
-
+import * as config from "../core/config.js";
 import * as socketConfig from "../../src/core/socketConfig.js";
 var url = "http://127.0.0.1:3333/";
-var api = "http://127.0.0.1:3333/api/";
+var api = config.backend + "/api/";
+var sP = config.serialPortUrl;
 var createMachineActivityApi = url + "machine_activity";
 var apiEmployeeLogin = api + "machine_employee_signin";
 var apiMachineLogin = api + "machine_login";
@@ -26,7 +27,51 @@ var markDownTimeApi = api + "mark-downtime";
 var markoeeinfoApi = api + "mark-oee-info";
 var machineDataApi = api + "get-machine-data";
 
+var updateOeeApi = api + "update-oee";
+//serial port communication
+
 const actions = {
+ deviceAlert(context, action) {
+  if (action == "on") {
+   axios
+    .get(sP + "/alertOn")
+    .then((res) => {})
+    .catch((err) => {
+     console.log(err);
+    });
+  }
+  if (action == "on") {
+   axios
+    .get(sP + "/alertOff")
+    .then((res) => {})
+    .catch((err) => {
+     console.log(err);
+    });
+  }
+ },
+
+ UPDATE_OEE(context, payload) {
+  let dataset = {
+   uq: context.state.setup.uq,
+   machine_id: context.state.setup.selected_machine.id,
+   ...payload,
+  };
+
+  axios
+   .post(updateOeeApi, {
+    data: {
+     machine_id,
+    },
+   })
+   .then((res) => {
+    // context
+    if (res.data) context.commit("MACHINE_LOGS", res.data);
+   })
+   .catch((err) => {
+    console.log(err);
+   });
+ },
+
  MACHINE_LOGS(context) {
   let machine_id = context.state.setup.selected_machine.id;
   axios
@@ -95,24 +140,27 @@ const actions = {
     console.log(err);
    });
  },
-
  WATCH_MACHINE(context, payload) {
-  axios
-   .post(watchMachineApi, {
-    data: payload,
-   })
-   .then((res) => {
-    console.log(res.data);
-
-    context.commit("machineData", res.data);
-
-    // context.commit("machineHistory", res.data.history);
-    //    console.log(data)
-   })
-   .catch((err) => {
-    console.log(err);
-   });
+  context.commit("machineData", payload);
  },
+
+ //  WATCH_MACHINE(context, payload) {
+ //   axios
+ //    .post(watchMachineApi, {
+ //     data: payload,
+ //    })
+ //    .then((res) => {
+ //     console.log(res.data);
+
+ //     context.commit("machineData", res.data);
+
+ //     // context.commit("machineHistory", res.data.history);
+ //     //    console.log(data)
+ //    })
+ //    .catch((err) => {
+ //     console.log(err);
+ //    });
+ //  },
 
  //------------------api----------------------------
  async CLOSE_SHIFT(context, payload) {
