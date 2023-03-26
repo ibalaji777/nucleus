@@ -65,8 +65,8 @@
           </span>
           <span>R/Time:{{ global_runTime.seconds }}</span>
           <span>P/Time:{{ global_plannedTime.seconds }}</span>
-          <span>A/Stroke:{{ global_actual_stroke_count.stroke }}</span>
-          <span>A/Count:{{ global_actual_stroke_count.actual_count }}</span>
+          <span>A/Stroke:{{ global_current_stroke_count.stroke }}</span>
+          <span>A/Count:{{ global_current_stroke_count.actual_count }}</span>
          </div>
          <div
           style="
@@ -187,7 +187,7 @@
          <tbody>
           <tr
            @click="selectEditRow(item)"
-           v-for="(item, index) in $store.state.machineData.machineHisotry"
+           v-for="(item, index) in global_historyWithoutNull"
            :key="'machineHistory' + index"
           >
            <th>{{ item.operation }}</th>

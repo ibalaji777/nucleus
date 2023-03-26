@@ -3,6 +3,30 @@ import _ from "lodash";
 import Vue from "vue";
 import { v4 as uuidv4 } from "uuid";
 
+function updateMachineData(machineData, dateTime, stroke) {
+ machineData.end_stroke = stroke;
+ machineData.actual_stroke =
+  parseFloat(machineData.end_stroke || 0) -
+  parseFloat(machineData.start_stroke || 0);
+ machineData.end_time = dateTime;
+ machineData.duration = moment(String(machineData.end_time)).diff(
+  moment(String(machineData.start_time)),
+  "seconds"
+ );
+}
+
+function updateMachineLog(machineData, dateTime, stroke) {
+ machineData.end_stroke = stroke;
+ machineData.actual_stroke =
+  parseFloat(machineData.end_stroke || 0) -
+  parseFloat(machineData.start_stroke || 0);
+ machineData.end_time = dateTime;
+ machineData.duration = moment(String(machineData.end_time)).diff(
+  moment(String(machineData.start_time)),
+  "seconds"
+ );
+}
+
 const mutations = {
  MACHINE_LOGS(state, payload) {
   state.machineLogs = payload;
@@ -126,41 +150,48 @@ const mutations = {
 
   //   ++++++++++++++++++++HISTORY+++++++++++++++++++++
   var data = _.cloneDeep(payload);
+
+  var dateTime = moment(String(data.time)).format(state.setup.bgDateTimeFormat);
+  var stroke = data.start_stroke;
+  //--------------------LOG----------------
+  if (_.isEmpty(state.machineData.machineLog)) {
+   //--------------machine status insert--------------
+   let currentLogData = data;
+   currentLogData.start_time = dateTime;
+   currentLogData.end_time = null;
+   currentLogData.start_stroke = stroke;
+   currentLogData.end_stroke = null;
+   currentLogData.actual_stroke = null;
+
+   state.machineData.machineLog = currentLogData;
+  } else {
+   updateMachineLog(state.machineData.machineLog, dateTime, stroke);
+  }
+  //--------------------LOG----------------
   var previousData = _.find(
    state.machineData.machineHisotry,
    (o) => o.end_time === null
   );
-  var dateTime = moment(String(data.time)).format(state.setup.bgDateTimeFormat);
-  var stroke = payload.start_stroke;
 
   if (previousData) {
-   previousData.end_stroke = stroke;
-   previousData.actual_stroke =
-    parseFloat(previousData.end_stroke || 0) -
-    parseFloat(previousData.start_stroke || 0);
-
-   previousData.end_time = dateTime;
-   previousData.duration = moment(String(previousData.end_time)).diff(
-    moment(String(previousData.start_time)),
-    "seconds"
-   );
+   updateMachineData(previousData, dateTime, stroke);
   }
 
   //--------------machine status insert--------------
   //time
   data.start_time = dateTime;
   data.end_time = null;
-  //stroke
   data.start_stroke = stroke;
   data.end_stroke = null;
-  //for sync with database
+  data.actual_stroke = null;
   data.ruq = dateTime.valueOf();
-  //local store if event internet connectivity lose
-  state.machineData.machineHisotry.push(data);
+  state.machineData.machineHisotry.push(_.cloneDeep(data));
+
+  console.log("stroke", stroke, state.machineData);
   //   ++++++++++++++++++++HISTORY+++++++++++++++++++++
 
-  console.log("+++++++++++++++data+++++++++++++++++");
-  console.log(data);
+  //   console.log("+++++++++++++++data+++++++++++++++++");
+  //   console.log(data);
   //   data.start_stroke=null;
   //   data.end_stroke=null;
   //   data.stroke=

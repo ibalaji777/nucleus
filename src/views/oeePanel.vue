@@ -26,8 +26,8 @@
     <percentage-chart
      :role="'QUALITY'"
      :color="$store.state.bgColor.quality"
-     :key="global_performance"
-     :chartData="global_performance"
+     :key="global_quality"
+     :chartData="global_quality"
      :title="'Quality'"
     ></percentage-chart>
    </v-col>
@@ -36,8 +36,8 @@
     <percentage-chart
      :role="'PERFORMANCE'"
      :color="$store.state.bgColor.performance"
-     :key="global_quality"
-     :chartData="global_quality"
+     :key="global_performance"
+     :chartData="global_performance"
      :title="'Performance'"
     ></percentage-chart>
    </v-col>

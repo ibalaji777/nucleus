@@ -21,6 +21,91 @@ Vue.filter("global_time_format", function (value) {
 });
 Vue.mixin({
  computed: {
+  global_historyWithoutNull() {
+   var $vm = this;
+   return _.filter(
+    _.cloneDeep($vm.$store.state.machineData.machineHisotry),
+    (x) => x.end_time !== null
+   );
+  },
+  global_runTime_stroke() {
+   var $vm = this;
+   let history = $vm.global_runTime.machineHisotry;
+   console.log("hist", history);
+   let stroke = _.sumBy(history, (x) => parseFloat(x.actual_stroke || 0)) || 0;
+   //  console.log("stk", stroke);
+   return stroke;
+  },
+  global_planned_stroke() {
+   var $vm = this;
+   return $vm.$store.state.machineData.machineLog.actual_stroke || 0;
+  },
+
+  global_runTime_production_count() {
+   var $vm = this;
+   let log = $vm.$store.state.machineData.machineLog;
+   let runTimeStorke = parseFloat($vm.global_runTime_stroke || 1);
+   let pieces = parseFloat(log.pieces_per_stroke || 1);
+   //  console.log("pcs", pieces, runTimeStorke, $vm.global_runTime_stroke);
+   return runTimeStorke * pieces;
+  },
+
+  global_planned_production_count() {
+   var $vm = this;
+   let log = $vm.$store.state.machineData.machineLog;
+   let plannedStroke = parseFloat($vm.global_planned_stroke || 1);
+   let pieces = parseFloat(log.pieces_per_stroke || 1);
+
+   return plannedStroke * pieces;
+  },
+
+  global_availibilty() {
+   var $vm = this;
+   let runTimeMin = _.cloneDeep($vm.global_runTime.minutes);
+   let plannedTimeMin = _.cloneDeep($vm.global_plannedTime.minutes);
+   return parseFloat(
+    (parseFloat(runTimeMin) / parseFloat(plannedTimeMin)) * 100 || 0
+   ).toFixed(2);
+  },
+
+  global_performance() {
+   var $vm = this;
+   let actualProductionCount = _.cloneDeep($vm.global_runTime_production_count);
+   let log = $vm.$store.state.machineData.machineLog;
+   let plannedStroke = parseFloat(
+    $vm.$store.state.machineData.machineLog.actual_stroke || 1
+   );
+   let pieces = parseFloat(log.pieces_per_stroke || 1);
+
+   let theoretical = plannedStroke * pieces; //parseFloat(runTimeMin) * parseFloat(piaceForMinute);
+   //  console.log(log);
+   //  console.log("performance", actualProductionCount, theoretical);
+   return parseFloat(
+    (parseFloat(actualProductionCount) / parseFloat(theoretical)) * 100 || 0
+   ).toFixed(2);
+  },
+  global_quality() {
+   var $vm = this;
+   let actualProductionCount = _.cloneDeep($vm.global_runTime_production_count);
+   // $vm.$store.state.machineData.machineLog.actual_count;
+   let rejected_count =
+    _.cloneDeep($vm.$store.state.machineData.machineLog.rejected_count) || 0;
+
+   let goodProduct =
+    parseFloat(actualProductionCount) - parseFloat(rejected_count);
+
+   return (
+    (parseFloat(goodProduct) / parseFloat(actualProductionCount)) * 100 || 0
+   ).toFixed(2);
+  },
+  global_oee() {
+   var $vm = this;
+   let avail = parseFloat($vm.global_availibilty) / 100;
+   let performance = parseFloat($vm.global_performance) / 100;
+   let quality = parseFloat($vm.global_quality) / 100;
+   return avail * performance * quality * 100;
+  },
+
   global_errors() {
    var $vm = this;
    let messages = [];
@@ -64,7 +149,7 @@ Vue.mixin({
   },
   global_products() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    var datasets = _.uniq(_.map(history, "product_id"));
    console.log(datasets, "global_products");
    return {
@@ -74,7 +159,7 @@ Vue.mixin({
   },
   global_shifts() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    var datasets = _.uniq(_.map(history, "shift"));
    return {
     count: datasets.length,
@@ -84,13 +169,13 @@ Vue.mixin({
 
   global_timeChart() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let log = $vm.$store.state.machineData.machineLog;
    let runnedData = _.map(history, (x) => ({
     x: [moment(x.start_time), moment(x.end_time)],
     y: 0,
     label: x.operation,
-    count: x.stroke,
+    count: x.start_stroke,
    }));
    return {
     start_time: log.start_time,
@@ -112,7 +197,7 @@ Vue.mixin({
   },
   global_total_machine_history() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let runnedData = _.filter(
     history,
     (x) => x.operation == state.defaultData.operation_machine
@@ -126,7 +211,7 @@ Vue.mixin({
   },
   global_total_downtime() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let runnedData = _.filter(
     history,
     (x) => x.machine_status == state.defaultData.machine_status_off
@@ -141,7 +226,7 @@ Vue.mixin({
 
   global_total_breaks() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let runnedData = _.filter(
     history,
     (x) => x.operation == state.defaultData.operation_break
@@ -153,9 +238,9 @@ Vue.mixin({
     minutes: $vm.globalScToMin(seconds),
    };
   },
-  global_actual_stroke_count() {
+  global_current_stroke_count() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let log = $vm.$store.state.machineData.machineLog;
 
    let stroke = _.sumBy(history, (x) => parseFloat(x.stroke || 0));
@@ -167,7 +252,7 @@ Vue.mixin({
   },
   global_total_shedule() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let runnedData = _.filter(
     history,
     (x) => x.operation == state.defaultData.operation_shedule
@@ -185,7 +270,7 @@ Vue.mixin({
   },
   global_plannedTime() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let runnedData = _.filter(
     history,
     (x) => x.operation != state.defaultData.operation_break
@@ -197,51 +282,12 @@ Vue.mixin({
     minutes: $vm.globalScToMin(seconds),
    };
   },
-  global_availibilty() {
-   let runTimeMin = this.global_runTime.minutes;
-   let plannedTimeMin = this.global_plannedTime.minutes;
-   return parseFloat(
-    (parseFloat(runTimeMin) / parseFloat(plannedTimeMin)) * 100 || 0
-   ).toFixed(2);
-  },
-  global_performance() {
-   var $vm = this;
-   let runTimeMin = this.global_runTime.minutes;
-   let actualProductionCount =
-    $vm.$store.state.machineData.machineLog.actual_count;
-   let piaceForMinute = $vm.$store.state.machineData.machineLog.pieces_per_min;
-   let theoretical = parseFloat(runTimeMin) * parseFloat(piaceForMinute);
-   return parseFloat(
-    (parseFloat(actualProductionCount) / parseFloat(theoretical)) * 100 || 0
-   ).toFixed(2);
-  },
-  global_quality() {
-   var $vm = this;
-   let actualProductionCount =
-    $vm.$store.state.machineData.machineLog.actual_count;
-   let rejected_count = $vm.$store.state.machineData.machineLog.rejected_count;
-
-   let goodProduct =
-    parseFloat(actualProductionCount) - parseFloat(rejected_count);
-   return (
-    (parseFloat(goodProduct) / parseFloat(actualProductionCount)) * 100 || 0
-   ).toFixed(2);
-  },
-  global_oee() {
-   var $vm = this;
-   return (
-    parseFloat($vm.global_availibilty) *
-    parseFloat($vm.global_performance) *
-    parseFloat($vm.global_quality)
-   );
-  },
-
   global_runTime() {
    return this.globalMachineOnDuration;
   },
   globalMachineOnDuration() {
    var $vm = this;
-   let history = $vm.$store.state.machineData.machineHisotry;
+   let history = $vm.global_historyWithoutNull;
    let runnedData = _.filter(
     history,
     (x) => x.machine_status == state.defaultData.machine_status_on
@@ -249,6 +295,7 @@ Vue.mixin({
 
    let seconds = _.sumBy(runnedData, (x) => parseFloat(x.duration || 0));
    return {
+    machineHisotry: _.cloneDeep(runnedData),
     seconds,
     minutes: $vm.globalScToMin(seconds),
    };
@@ -438,7 +485,7 @@ Vue.mixin({
   // globalBreaks() {
   //  var $vm = this;
   //  let list = _.filter(
-  //   $vm.$store.state.machineData.machineHisotry,
+  //   $vm.global_historyWithoutNull,
   //   function (x) {
   //    return x.operation == "break";
   //   }

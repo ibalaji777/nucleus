@@ -85,10 +85,10 @@
      >P/Time:{{ global_plannedTime.seconds }}</span
     >
     <span class="bg-gradient-dark raduius10 p10 white pointer"
-     >A/Stroke:{{ global_actual_stroke_count.stroke }}</span
+     >A/Stroke:{{ global_current_stroke_count.stroke }}</span
     >
     <span class="bg-gradient-dark raduius10 p10 white pointer"
-     >A/Count:{{ global_actual_stroke_count.actual_count }}</span
+     >A/Count:{{ global_current_stroke_count.actual_count }}</span
     >
    </div>
   </div>

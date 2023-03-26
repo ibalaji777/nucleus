@@ -77,7 +77,7 @@ export function markBreak(item) {
  dataset.type = "manual";
  dataset.action = "";
 
- console.log(dataset);
+ //  console.log(dataset);
  store.dispatch("deviceAlert", "off");
  store.dispatch("MARK_DOWNTIME", dataset);
  return true;
@@ -128,7 +128,7 @@ export function machineWatch($vm) {
 
 export function listentShift() {
  setInterval(() => {
-  console.log("listen shift");
+  // console.log("listen shift");
   store.commit("setTimeEverySecond");
   store.commit("setDate");
 
@@ -172,7 +172,7 @@ export function listenMachineDemo() {
    machine: machineStatus,
    inputState: machineStatus,
   };
-  console.log(machineData);
+  // console.log(machineData);
   store.commit("machineLiveData", machineData);
  }, 1000);
 }
@@ -218,7 +218,7 @@ export function machineData() {
   //new-------
   operation: "", //signal or shedule or  break
 
-  start_stroke: store.state.setup.machineLiveData.stroke,
+  start_stroke: _.cloneDeep(store.state.setup.machineLiveData.stroke),
   end_stroke: null,
   actual_stroke: null,
   //new

@@ -19,6 +19,7 @@
        :newData="global_timeChart.chartData"
       ></time-chart-status>
      </div>
+     <!-- {{ $store.state.machineData.machineLog }} -->
      <oee-panel style="margin-top: 15px"></oee-panel>
     </div>
    </div>
