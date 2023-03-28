@@ -48,6 +48,9 @@ export default {
    },
   };
  },
+ mounted() {
+  $vm.$store.commit("machineWatcher", false);
+ },
  methods: {
   async login() {
    var $vm = this;

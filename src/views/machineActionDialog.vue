@@ -65,8 +65,8 @@
           </span>
           <span>R/Time:{{ global_runTime.seconds }}</span>
           <span>P/Time:{{ global_plannedTime.seconds }}</span>
-          <span>A/Stroke:{{ global_current_stroke_count.stroke }}</span>
-          <span>A/Count:{{ global_current_stroke_count.actual_count }}</span>
+          <span>R/Count:{{ global_runTime_production_count }}</span>
+          <span>P/Count:{{ global_planned_production_count }}</span>
          </div>
          <div
           style="
@@ -339,14 +339,68 @@
     </div>
    </v-card>
   </v-dialog>
+
+  <v-dialog
+   v-model="feedDataDialog"
+   fullscreen
+   hide-overlay
+   transition="dialog-bottom-transition"
+   persistent
+  >
+   <v-card>
+    <v-toolbar dark color="primary">
+     <v-btn icon dark @click="feedDataDialog = false">
+      <v-icon>mdi-close</v-icon>
+     </v-btn>
+     <v-toolbar-title>FeedData</v-toolbar-title>
+     <v-spacer></v-spacer>
+     <v-toolbar-items> </v-toolbar-items>
+    </v-toolbar>
+    <div style="padding: 10px">
+     <v-text-field
+      v-model="feedData.actual_count"
+      type="number"
+      label="Actual Count"
+     ></v-text-field>
+
+     <v-text-field
+      v-model="feedData.rejected_count"
+      type="number"
+      label="Rejected Count"
+     ></v-text-field>
+     <v-text-field
+      v-model="feedData.pieces_per_stroke"
+      type="number"
+      label="Pieces Per Stroke"
+     ></v-text-field>
+
+     <v-text-field
+      v-model="feedData.emp_remarks"
+      type="number"
+      label="Emp Remarks"
+     ></v-text-field>
+
+     <v-btn @click="machineAction('feedDataToServer', feedData)">Save</v-btn>
+    </div>
+   </v-card>
+  </v-dialog>
  </div>
 </template>
 <script>
 import * as machine from "../core/machine.js";
-
+import _ from "lodash";
 export default {
  data() {
   return {
+   feedDataDialog: false,
+   feedData: {
+    id: "",
+    actual_count: "",
+    rejected_count: "",
+    pieces_per_stroke: "",
+    emp_remarks: "",
+   },
+
    editRowDialog: false,
    editRowItem: {},
    oeeInfoDialog: false,
@@ -401,14 +455,48 @@ export default {
   machineAction(action, item) {
    var $vm = this;
    switch (action) {
+    case "feedDataToServer":
+     machine
+      .feedDataToServer(_.cloneDeep($vm.feedData))
+      .then(() => {
+       $vm.feedDataDialog = false;
+      })
+      .catch(() => {
+       $vm.feedDataDialog = false;
+      });
+     break;
     case "start":
      if (machine.machineLogIn($vm)) $vm.$alert("Manually started...");
-     else $vm.$alert("Machine Already Running...");
      break;
     case "stop":
      // if (!$vm.$store.state.setup.checkMachine) $vm.$alert("Manually Already Off");
      $vm.$confirm("Do you Want to Logout?").then(() => {
-      machine.machineLogOut($vm);
+      machine.machineLogOut($vm).then((res) => {
+       console.log("logged out data successfully", res);
+
+       $vm
+        .$confirm("ARE YOU GOING TO CONTINUE NEW ONE?")
+        .then(() => {
+         $vm.feedDataDialog = true;
+         $vm.feedData = {
+          id: res.data.data.id,
+          actual_count: res.data.data.actual_count,
+          rejected_count: res.data.data.rejected_count,
+          pieces_per_stroke: res.data.data.pieces_per_stroke,
+          emp_remarks: res.data.data.emp_remarks,
+         };
+        })
+        .catch(() => {
+         $vm.feedDataDialog = true;
+         $vm.feedData = {
+          id: res.data.data.id,
+          actual_count: res.data.data.actual_count,
+          rejected_count: res.data.data.rejected_count,
+          pieces_per_stroke: res.data.data.pieces_per_stroke,
+          emp_remarks: res.data.data.emp_remarks,
+         };
+        });
+      });
       this.$toast.success("Task Completed....", {});
      });
      break;

@@ -4,6 +4,7 @@
    v-model="$store.state.dialog.oeeSetupDialog"
    hide-overlay
    persistent
+   width="700"
   >
    <v-card>
     <v-toolbar>
@@ -22,10 +23,26 @@
     </v-toolbar>
 
     <div style="padding: 30px; height: 350px">
+     <div
+      style="
+       display: flex;
+       justify-content: space-evenly;
+       font-weight: 900;
+       text-decoration: underline;
+      "
+     >
+      <!-- <span>
+       Rejected Count:
+       {{ $store.state.machineData.machineLog.rejected_count || 0 }}
+      </span> -->
+      <span>
+       Pieces Per Stroke:
+       {{ $store.state.machineData.machineLog.pieces_per_stroke || 1 }}
+      </span>
+     </div>
      <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
       <v-tab> Initial Setup </v-tab>
-      <v-tab> OEE Setup </v-tab>
-      <v-tab> Remark</v-tab>
+      <v-tab> Info </v-tab>
      </v-tabs>
 
      <v-tabs-items v-model="tab">
@@ -33,17 +50,33 @@
        <v-text-field
         v-model="oeeInfo.pieces_per_stroke"
         type="number"
-        label="Unit/Stroke"
+        label="Pieces Per Stroke"
        ></v-text-field>
+
+       <v-btn
+        style="color: white; width: 100%"
+        class="bg-gradient-primary"
+        :loading="isDisabled"
+        @click="machineAction('mark_oeeinfo', oeeInfo)"
+        >Save</v-btn
+       >
       </v-tab-item>
       <v-tab-item>
-       <div style="display: flex">
-        <v-text-field
-         v-model="oeeInfo.actual_count"
-         type="number"
-         label="Actual Count"
-        ></v-text-field>
-        <v-btn
+       <div>
+        Actual Production Count:
+        {{ $store.state.machineData.machineLog.actual_count || 1 }}
+       </div>
+
+       <div>
+        Rejected Count:
+        {{ $store.state.machineData.machineLog.rejected_count || 1 }}
+       </div>
+
+       <div>
+        Pieces Per Stroke:
+        {{ $store.state.machineData.machineLog.pieces_per_stroke || 1 }}
+       </div>
+       <!-- <v-btn
          @click="getStrokeCount"
          style="margin-left: 5px"
          dark
@@ -51,34 +84,15 @@
          color="pink"
         >
          Get
-        </v-btn>
-       </div>
-       <v-text-field
+        </v-btn> -->
+       <!-- </div> -->
+       <!-- <v-text-field
         v-model="oeeInfo.rejected_count"
         type="number"
         label="Rejected Count"
-       ></v-text-field>
-       <v-text-field
-        v-model="oeeInfo.pieces_per_min"
-        type="number"
-        label="Pieces Per Minute"
-       ></v-text-field>
-      </v-tab-item>
-      <v-tab-item>
-       <v-text-field
-        v-model="oeeInfo.emp_remarks"
-        type="number"
-        label="Remarks"
-       ></v-text-field>
+       ></v-text-field> -->
       </v-tab-item>
      </v-tabs-items>
-
-     <v-btn
-      style="color: white; width: 100%"
-      class="bg-gradient-primary"
-      @click="machineAction('mark_oeeinfo', oeeInfo)"
-      >Save</v-btn
-     >
     </div>
    </v-card>
   </v-dialog>
@@ -91,11 +105,12 @@ export default {
  data() {
   return {
    tab: null,
+   isDisabled: false,
    oeeInfoDialog: false,
    oeeInfo: {
     actual_count: 0,
     rejected_count: 0,
-    pieces_per_min: 0,
+    // pieces_per_min: 0,
     emp_remarks: "",
     pieces_per_stroke: 1,
    },
@@ -112,45 +127,23 @@ export default {
   },
   machineAction(action, item) {
    var $vm = this;
+   $vm.isDisabled = true;
+
    switch (action) {
-    case "start":
-     if (machine.machineLogIn($vm)) $vm.$alert("Manually started...");
-     else $vm.$alert("Machine Already Running...");
-     break;
-    case "stop":
-     $vm.$confirm("Do you Want to Logout?").then(() => {
-      machine.machineLogOut($vm);
-     });
-     break;
-    case "start_shedule":
-     machine.startMachineShedule(item);
-     break;
-    case "mark_break":
-     machine.markBreak(item);
-     break;
-    case "mark_downtime":
-     machine.markDownTime(item);
-     break;
     case "mark_oeeinfo":
-     machine.markOeeInfo(item);
-     $vm.$toast.success("Saved", {
-      // optional options Object
-     });
+     setTimeout(() => {
+      machine.markOeeInfo(item);
+      $vm.isDisabled = false;
+      $vm.$toast.success("Saved", {
+       // optional options Object
+      });
+     }, 2000);
+
      break;
 
     default:
      break;
    }
-   // switch (action) {
-   //     case "start":
-   // machine.startSignal($vm)
-   //         break;
-   //     case "stop":
-   // machine.stopSignal($vm)
-   //         break;
-   //     default:
-   //         break;
-   // }
   },
  },
 };

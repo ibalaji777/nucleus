@@ -20,6 +20,7 @@ var apiGetMachineRunningActivity = api + "get_machine_running_activity";
 //new  api's
 
 var watchMachineApi = api + "watch-machine";
+var saveMachineApi = api + "save-machine";
 var apiCloseShift = api + "close_shift";
 
 var machineLogsApi = api + "machine-logs";
@@ -27,10 +28,67 @@ var markDownTimeApi = api + "mark-downtime";
 var markoeeinfoApi = api + "mark-oee-info";
 var machineDataApi = api + "get-machine-data";
 
+var logMachineDataApi = api + "log-datafeed";
+
 var updateOeeApi = api + "update-oee";
 //serial port communication
 
 const actions = {
+ feedDataToServer(context, payload) {
+  return new Promise((resolve, reject) => {
+   const { id, actual_count, rejected_count, pieces_per_stroke, emp_remarks } =
+    payload;
+
+   axios
+    .post(logMachineDataApi, {
+     data: {
+      id,
+      actual_count,
+      rejected_count,
+      pieces_per_stroke,
+      emp_remarks,
+     },
+    })
+    .then((res) => {
+     console.log(res);
+     resolve(res);
+    })
+    .catch((err) => {
+     reject(err);
+     console.log(err);
+    });
+  });
+ },
+
+ saveDataToServer(context, payload) {
+  return new Promise((resolve, reject) => {
+   axios
+    .post(saveMachineApi, {
+     data: context.state.machineData,
+    })
+    .then((res) => {
+     resolve(res);
+    })
+    .catch((err) => {
+     reject();
+    });
+  });
+ },
+
+ syncToServer(context, payload) {
+  if (state.machineData.machineHisotry.length == 0) return;
+  axios
+   .post(watchMachineApi, {
+    data: context.state.machineData,
+   })
+   .then((res) => {
+    // context
+    // if (res.data) context.commit("MACHINE_LOGS", res.data);
+   })
+   .catch((err) => {
+    console.log(err);
+   });
+ },
  deviceAlert(context, action) {
   if (action == "on") {
    axios
@@ -108,24 +166,28 @@ const actions = {
   });
  },
 
- MACHINE_LOG_DATA(context, data) {
-  let payload = {
-   uq: context.state.setup.uq,
-   machine_id: context.state.setup.selected_machine.id,
-   ...data,
-  };
+ //  MACHINE_LOG_DATA(context, data) {
 
-  axios
-   .post(markoeeinfoApi, {
-    data: payload,
-   })
-   .then((res) => {
-    actions.MACHINE_LOGS(context);
-   })
-   .catch((err) => {
-    console.log(err);
-   });
- },
+ //  },
+
+ //  MACHINE_LOG_DATA(context, data) {
+ //   let payload = {
+ //    uq: context.state.setup.uq,
+ //    machine_id: context.state.setup.selected_machine.id,
+ //    ...data,
+ //   };
+
+ //   axios
+ //    .post(markoeeinfoApi, {
+ //     data: payload,
+ //    })
+ //    .then((res) => {
+ //     actions.MACHINE_LOGS(context);
+ //    })
+ //    .catch((err) => {
+ //     console.log(err);
+ //    });
+ //  },
 
  MARK_DOWNTIME(context, payload) {
   axios

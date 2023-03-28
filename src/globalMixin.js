@@ -31,9 +31,7 @@ Vue.mixin({
   global_runTime_stroke() {
    var $vm = this;
    let history = $vm.global_runTime.machineHisotry;
-   console.log("hist", history);
    let stroke = _.sumBy(history, (x) => parseFloat(x.actual_stroke || 0)) || 0;
-   //  console.log("stk", stroke);
    return stroke;
   },
   global_planned_stroke() {

@@ -15,7 +15,10 @@ function updateMachineData(machineData, dateTime, stroke) {
  );
 }
 
-function updateMachineLog(machineData, dateTime, stroke) {
+function updateMachineLog(machineData, data, dateTime, stroke) {
+ console.log("log udpate", data);
+ machineData.operation = data.operation;
+ machineData.action = data.action;
  machineData.end_stroke = stroke;
  machineData.actual_stroke =
   parseFloat(machineData.end_stroke || 0) -
@@ -28,63 +31,82 @@ function updateMachineLog(machineData, dateTime, stroke) {
 }
 
 const mutations = {
+ CLEAR_MACHINE_DATA(state) {
+  Vue.set(state.machineData, "machineLog", {});
+  Vue.set(state.machineData, "machineHisotry", []);
+ },
+ machineWatcher(state, payload) {
+  state.isMachineWatcher = payload;
+ },
+ MACHINE_LOG_UPDATE(state, data) {
+  let payload = _.cloneDeep(data);
+  if (payload.actual_count != "")
+   state.machineData.machineLog.actual_count = payload.actual_count;
+  if (payload.rejected_count != "")
+   state.machineData.machineLog.rejected_count = payload.rejected_count;
+  if (payload.pieces_per_stroke != "")
+   state.machineData.machineLog.pieces_per_stroke = payload.pieces_per_stroke;
+  if (payload.emp_remarks != "")
+   state.machineData.machineLog.emp_remarks = payload.emp_remarks;
+ },
+
  MACHINE_LOGS(state, payload) {
   state.machineLogs = payload;
  },
- MACHINE_HISTORY(state, { payload, eTime }) {
-  let data = payload;
-  const { uq, machine_id } = payload;
+ //  MACHINE_HISTORY(state, { payload, eTime }) {
+ //   let data = payload;
+ //   const { uq, machine_id } = payload;
 
-  //tracking history
-  // const mHistory = await MachineHistory.query()
-  //   .where('uq', uq)
-  //   .whereNull('end_time')
-  //   .where('machine_id', machine_id)
-  //   .orderBy('id', 'desc')
-  //   .first();
-  let mHistory = _.chain(state.machineData.MachineHistory)
-   .query()
-   .where("uq", uq)
-   .whereNull("end_time")
-   .where("machine_id", machine_id)
-   .orderBy("id", "desc")
-   .first()
-   .value();
-  if (mHistory) {
-   //find duration
-   const startTime = new Date(mHistory.start_time);
-   const endTime = new Date(eTime);
-   const durationInMilliseconds = endTime.getTime() - startTime.getTime();
-   const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+ //   //tracking history
+ //   // const mHistory = await MachineHistory.query()
+ //   //   .where('uq', uq)
+ //   //   .whereNull('end_time')
+ //   //   .where('machine_id', machine_id)
+ //   //   .orderBy('id', 'desc')
+ //   //   .first();
+ //   let mHistory = _.chain(state.machineData.MachineHistory)
+ //    .query()
+ //    .where("uq", uq)
+ //    .whereNull("end_time")
+ //    .where("machine_id", machine_id)
+ //    .orderBy("id", "desc")
+ //    .first()
+ //    .value();
+ //   if (mHistory) {
+ //    //find duration
+ //    const startTime = new Date(mHistory.start_time);
+ //    const endTime = new Date(eTime);
+ //    const durationInMilliseconds = endTime.getTime() - startTime.getTime();
+ //    const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
 
-   //update end time
-   mHistory.end_time = eTime;
-   mHistory.duration = durationInSeconds;
-   //   mHistory.merge({end_time:eTime,duration:durationInSeconds})
-   //   await mHistory.save()
+ //    //update end time
+ //    mHistory.end_time = eTime;
+ //    mHistory.duration = durationInSeconds;
+ //    //   mHistory.merge({end_time:eTime,duration:durationInSeconds})
+ //    //   await mHistory.save()
 
-   //condition for logout
-   if (data.operation != "force" && data.action != "stop")
-    state.machineData.MachineHistory.push({ ...data, start_time: eTime });
-   //   await   MachineHistory.create({...data,start_time:eTime})
-  } else {
-   //first time createing history
-   state.machineData.MachineHistory.push(data);
+ //    //condition for logout
+ //    if (data.operation != "force" && data.action != "stop")
+ //     state.machineData.MachineHistory.push({ ...data, start_time: eTime });
+ //    //   await   MachineHistory.create({...data,start_time:eTime})
+ //   } else {
+ //    //first time createing history
+ //    state.machineData.MachineHistory.push(data);
 
-   //  await MachineHistory.create(data)
-  }
+ //    //  await MachineHistory.create(data)
+ //   }
 
-  // let machineDetail=await this.machineDetail(machine_id,uq);
-  // let history = await MachineHistory.query()
-  //   .where('uq', uq)
-  //   .whereNotNull('end_time')
-  //   .where('machine_id', machine_id)
-  //   .orderBy('id', 'desc');
-  //   return {
-  //     machineDetail,
-  //     history
-  //   };
- },
+ //   // let machineDetail=await this.machineDetail(machine_id,uq);
+ //   // let history = await MachineHistory.query()
+ //   //   .where('uq', uq)
+ //   //   .whereNotNull('end_time')
+ //   //   .where('machine_id', machine_id)
+ //   //   .orderBy('id', 'desc');
+ //   //   return {
+ //   //     machineDetail,
+ //   //     history
+ //   //   };
+ //  },
 
  MACHINELOG(state, payload) {
   const { machine_id, uq } = payload;
@@ -148,24 +170,35 @@ const mutations = {
   // state.machineData.machineLog = data.machineLog || {};
   //1st time insertion
 
+  if (payload.operation != "force" && payload.action != "stop") {
+   if (!state.isMachineWatcher) return;
+  }
+
+  // console.log(payload);
+
   //   ++++++++++++++++++++HISTORY+++++++++++++++++++++
   var data = _.cloneDeep(payload);
 
   var dateTime = moment(String(data.time)).format(state.setup.bgDateTimeFormat);
   var stroke = data.start_stroke;
   //--------------------LOG----------------
+  let currentLogData = data;
   if (_.isEmpty(state.machineData.machineLog)) {
    //--------------machine status insert--------------
-   let currentLogData = data;
    currentLogData.start_time = dateTime;
    currentLogData.end_time = null;
    currentLogData.start_stroke = stroke;
-   currentLogData.end_stroke = null;
-   currentLogData.actual_stroke = null;
+   currentLogData.end_stroke = 0;
+   currentLogData.actual_stroke = 0;
 
    state.machineData.machineLog = currentLogData;
   } else {
-   updateMachineLog(state.machineData.machineLog, dateTime, stroke);
+   updateMachineLog(
+    state.machineData.machineLog,
+    _.cloneDeep(data),
+    dateTime,
+    stroke
+   );
   }
   //--------------------LOG----------------
   var previousData = _.find(
@@ -182,8 +215,8 @@ const mutations = {
   data.start_time = dateTime;
   data.end_time = null;
   data.start_stroke = stroke;
-  data.end_stroke = null;
-  data.actual_stroke = null;
+  data.end_stroke = 0;
+  data.actual_stroke = 0;
   data.ruq = dateTime.valueOf();
   state.machineData.machineHisotry.push(_.cloneDeep(data));
 
@@ -380,17 +413,17 @@ const mutations = {
   state.setup.selected_machine.other = data.other;
  },
 
- MACHINE_LOGOUT(state) {
-  state.setup.selected_machine.id = "";
-  state.setup.selected_machine.code = "";
-  state.setup.selected_machine.branch = "";
-  state.setup.selected_machine.name = "";
-  state.setup.selected_machine.group = "";
-  state.setup.selected_machine.hours = "";
-  state.setup.selected_machine.detail = "";
-  state.setup.selected_machine.description = "";
-  state.setup.selected_machine.other = "";
- },
+ //  MACHINE_LOGOUT(state) {
+ //   state.setup.selected_machine.id = "";
+ //   state.setup.selected_machine.code = "";
+ //   state.setup.selected_machine.branch = "";
+ //   state.setup.selected_machine.name = "";
+ //   state.setup.selected_machine.group = "";
+ //   state.setup.selected_machine.hours = "";
+ //   state.setup.selected_machine.detail = "";
+ //   state.setup.selected_machine.description = "";
+ //   state.setup.selected_machine.other = "";
+ //  },
  CLEAR_COMPANY(state) {
   state.setup.selected_company.id = "";
   state.setup.selected_company.name = "";

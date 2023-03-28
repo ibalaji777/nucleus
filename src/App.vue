@@ -229,6 +229,29 @@ export default {
    },
    deep: true,
   },
+  "$store.state.machineData": {
+   handler(value) {
+    var $vm = this;
+
+    $vm.$store.dispatch("syncToServer");
+
+    // $vm.tracker();
+   },
+   deep: true,
+  },
+
+  global_runTime_production_count: {
+   handler(value) {
+    var $vm = this;
+
+    $vm.$store.commit("MACHINE_LOG_UPDATE", {
+     actual_count: value,
+    });
+
+    console.log("actual production watcher", value);
+   },
+   deep: true,
+  },
  },
 
  methods: {

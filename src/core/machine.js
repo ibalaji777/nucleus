@@ -8,6 +8,7 @@ export function generateUq() {
 }
 
 export function machineLogIn($vm) {
+ store.commit("machineWatcher", true);
  if (store.state.setup.checkMachine) return false;
  var dataset = machineData();
  dataset.operation = "force";
@@ -15,29 +16,42 @@ export function machineLogIn($vm) {
  dataset.action = "start";
  dataset.reason = "planned";
  dataset.message = "login";
-
  store.dispatch("WATCH_MACHINE", dataset);
  return true;
 }
 
 export function machineLogOut($vm) {
- var dataset = machineData();
- dataset.operation = "force";
- dataset.type = "manual";
- dataset.action = "stop";
- dataset.reason = "planned";
- dataset.message = "logout";
+ return new Promise((resolve, reject) => {
+  var dataset = machineData();
+  dataset.operation = "force";
+  dataset.type = "manual";
+  dataset.action = "stop";
+  dataset.reason = "planned";
+  dataset.message = "logout";
 
- dataset.uq = _.cloneDeep(store.state.setup.uq);
+  dataset.uq = _.cloneDeep(store.state.setup.uq);
 
- dataset.quality = $vm.global_quality;
- dataset.performance = $vm.global_performance;
- dataset.availability = $vm.global_availibilty;
- dataset.oee = $vm.global_oee;
+  dataset.quality = $vm.global_quality;
+  dataset.performance = $vm.global_performance;
+  dataset.availability = $vm.global_availibilty;
+  dataset.oee = $vm.global_oee;
 
- generateUq();
- store.dispatch("WATCH_MACHINE", dataset);
- return true;
+  store.commit("machineWatcher", false);
+  store.dispatch("WATCH_MACHINE", dataset);
+
+  setTimeout(() => {
+   $vm.$store
+    .dispatch("saveDataToServer")
+    .then((res) => {
+     resolve(res);
+    })
+    .catche(() => {
+     reject();
+     generateUq();
+     store.commit("CLEAR_MACHINE_DATA");
+    });
+  }, 400);
+ });
 }
 
 export function startSignal($vm) {
@@ -106,12 +120,10 @@ export function markOeeInfo(item) {
   machine_id: store.state.setup.selected_machine.id,
   actual_count: item.actual_count,
   rejected_count: item.rejected_count,
-  pieces_per_min: item.pieces_per_min,
   pieces_per_stroke: item.pieces_per_stroke,
   emp_remarks: item.emp_remarks,
  };
-
- store.dispatch("MACHINE_LOG_DATA", dataset);
+ store.commit("MACHINE_LOG_UPDATE", dataset);
 }
 
 export function machineEventTermination() {
@@ -177,6 +189,19 @@ export function listenMachineDemo() {
  }, 1000);
 }
 
+export function feedDataToServer(data) {
+ return new Promise((resolve, reject) => {
+  store
+   .dispatch("feedDataToServer", data)
+   .then((res) => {
+    resolve(res);
+   })
+   .catch(() => {
+    reject();
+   });
+ });
+}
+
 export function listenMachineReal() {}
 
 export function machineData() {
@@ -221,6 +246,7 @@ export function machineData() {
   start_stroke: _.cloneDeep(store.state.setup.machineLiveData.stroke),
   end_stroke: null,
   actual_stroke: null,
+  pieces_per_stroke: 1,
   //new
   message: store.state.setup.checkMachine
    ? "Machine Running"
