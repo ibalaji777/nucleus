@@ -49,6 +49,7 @@ export default {
   };
  },
  mounted() {
+  var $vm = this;
   $vm.$store.commit("machineWatcher", false);
  },
  methods: {

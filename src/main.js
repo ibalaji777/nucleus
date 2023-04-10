@@ -48,6 +48,8 @@ import wave from "./views/widget/wave.vue";
 import machineLogs from "./views/widget/machineLogs.vue";
 
 import logsDialog from "./views/logsDialog.vue";
+import editLogsDialog from "./views/editLogsDialog.vue";
+import deviceDialog from "./views/deviceDialog.vue";
 
 import VueToast from "vue-toast-notification";
 // Import one of the available themes
@@ -56,8 +58,11 @@ import "vue-toast-notification/dist/theme-bootstrap.css";
 
 Vue.use(VueToast);
 Vue.component("errorsDialog", errorsDialog);
+Vue.component("deviceDialog", deviceDialog);
 
 Vue.component("logsDialog", logsDialog);
+
+Vue.component("editLogsDialog", editLogsDialog);
 
 Vue.component("machineLog", machineLogs);
 Vue.component("wave", wave);

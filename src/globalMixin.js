@@ -42,7 +42,7 @@ Vue.mixin({
   global_runTime_production_count() {
    var $vm = this;
    let log = $vm.$store.state.machineData.machineLog;
-   let runTimeStorke = parseFloat($vm.global_runTime_stroke || 1);
+   let runTimeStorke = parseFloat($vm.global_runTime_stroke || 0);
    let pieces = parseFloat(log.pieces_per_stroke || 1);
    //  console.log("pcs", pieces, runTimeStorke, $vm.global_runTime_stroke);
    return runTimeStorke * pieces;
@@ -85,6 +85,7 @@ Vue.mixin({
   global_quality() {
    var $vm = this;
    let actualProductionCount = _.cloneDeep($vm.global_runTime_production_count);
+
    // $vm.$store.state.machineData.machineLog.actual_count;
    let rejected_count =
     _.cloneDeep($vm.$store.state.machineData.machineLog.rejected_count) || 0;

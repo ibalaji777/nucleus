@@ -53,6 +53,14 @@
       <div>Errors {{ global_errors.count }}</div>
      </div>
 
+     <div
+      @click="$store.commit('setDialog', { key: 'deviceDialog', value: true })"
+      class="bg-gradient-dark raduius10 p10 white pointer"
+     >
+      <v-icon>mdi-chip</v-icon>
+      <div>Device</div>
+     </div>
+
      <!-- <div class="widget">
                         <div>Planned Stops:{{globalPlannedStops.count}}</div>
                     </div>

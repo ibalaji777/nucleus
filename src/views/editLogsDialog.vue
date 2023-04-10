@@ -1,12 +1,20 @@
 <template>
  <div>
-  <v-dialog v-model="$store.state.dialog.logsDialog" hide-overlay persistent>
+  <!-- eslint-disable -->
+  <v-dialog
+   fullscreen
+   v-model="$store.state.dialog.editLogsDialog"
+   hide-overlay
+   persistent
+  >
    <v-card>
     <v-toolbar>
      <v-btn
       icon
       dark
-      @click="$store.commit('setDialog', { key: 'logsDialog', value: false })"
+      @click="
+       $store.commit('setDialog', { key: 'editLogsDialog', value: false })
+      "
      >
       <v-icon style="color: black">mdi-close</v-icon>
      </v-btn>
@@ -15,65 +23,62 @@
      <v-toolbar-items> </v-toolbar-items>
     </v-toolbar>
     <div style="padding: 10px">
-     <v-btn @click="loadData" style="margin: 10px" color="primary">Show</v-btn>
-
-     <v-btn style="margin-right: 10px" color="primary" @click="exportExcel"
-      >Excel</v-btn
-     >
-
-     <v-btn
-      color="primary"
-      @click="
-       $store.commit('setDialog', { key: 'editLogsDialog', value: true })
-      "
-      >Edit</v-btn
-     >
-
      <v-data-table
       :headers="headers"
-      @click:row="selectRow"
       :items="$store.state.machineLogs"
       item-value="name"
       class="elevation-1"
-     ></v-data-table>
+     >
+      <template v-slot:item.actions="{ item }">
+       <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+       <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+      </template>
+     </v-data-table>
     </div>
    </v-card>
   </v-dialog>
 
-  <v-dialog v-model="oeeInfoDialog" hide-overlay persistent>
+  <v-dialog
+   v-model="feedDataDialog"
+   fullscreen
+   hide-overlay
+   transition="dialog-bottom-transition"
+   persistent
+  >
    <v-card>
-    <v-toolbar>
-     <v-btn icon dark @click="oeeInfoDialog = false">
-      <v-icon style="color: black">mdi-close</v-icon>
+    <v-toolbar dark color="primary">
+     <v-btn icon dark @click="feedDataDialog = false">
+      <v-icon>mdi-close</v-icon>
      </v-btn>
-     <v-toolbar-title>OEE</v-toolbar-title>
+     <v-toolbar-title>FeedData</v-toolbar-title>
      <v-spacer></v-spacer>
      <v-toolbar-items> </v-toolbar-items>
     </v-toolbar>
     <div style="padding: 10px">
      <v-text-field
-      v-model="oeeInfo.actual_count"
+      v-model="feedData.actual_count"
       type="number"
       label="Actual Count"
      ></v-text-field>
 
      <v-text-field
-      v-model="oeeInfo.rejected_count"
+      v-model="feedData.rejected_count"
       type="number"
       label="Rejected Count"
      ></v-text-field>
      <v-text-field
-      v-model="oeeInfo.pieces_per_min"
+      v-model="feedData.pieces_per_stroke"
       type="number"
-      label="Pieces Per Minute"
+      label="Pieces Per Stroke"
      ></v-text-field>
 
-     <v-btn
-      style="color: white; width: 100%; margin: 10px 0"
-      class="bg-gradient-primary"
-      @click="machineAction('mark_oeeinfo', oeeInfo)"
-      >Save</v-btn
-     >
+     <v-text-field
+      v-model="feedData.emp_remarks"
+      type="number"
+      label="Emp Remarks"
+     ></v-text-field>
+
+     <v-btn @click="updateLog()">Save</v-btn>
     </div>
    </v-card>
   </v-dialog>
@@ -83,16 +88,24 @@
 <script>
 /*eslint-disable*/
 import * as machine from "../core/machine.js";
+import * as oeeCore from "../core/oeeCore.js";
 import * as XLSX from "xlsx";
 
 export default {
  data() {
   return {
-   oeeInfoDialog: false,
-   oeeInfo: {
-    actual_count: 0,
-    rejected_count: 0,
-    pieces_per_min: 0,
+   feedDataDialog: false,
+   machineData: {
+    machineLog: {},
+    machineData: [],
+   },
+
+   feedData: {
+    id: "",
+    actual_count: "",
+    rejected_count: "",
+    pieces_per_stroke: "",
+    emp_remarks: "",
    },
 
    headers: [
@@ -133,8 +146,8 @@ export default {
      value: "rejected_count",
     },
     {
-     text: "Pieces Per Minute",
-     value: "pieces_per_min",
+     text: "Pieces Per Stroke",
+     value: "pieces_per_stroke",
     },
     {
      text: "Quality",
@@ -152,10 +165,78 @@ export default {
      text: "OEE",
      value: "oee",
     },
+    {
+     text: "Actions",
+     value: "actions",
+    },
    ],
   };
  },
  methods: {
+  updateLog() {
+   var $vm = this;
+
+   let machineLog = $vm.machineData.machineLog;
+   let machineHisotry = $vm.machineData.machineHisotry;
+
+   machineLog.actual_count = parseFloat($vm.feedData.actual_count || 1);
+   machineLog.rejected_count = parseFloat($vm.feedData.rejected_count || 0);
+   machineLog.pieces_per_stroke = parseFloat(
+    $vm.feedData.pieces_per_stroke || 1
+   );
+   machineLog.emp_remarks = $vm.feedData.emp_remarks;
+   let dataAdd = oeeCore.machineDataForOee(
+    _.cloneDeep(machineHisotry),
+    _.cloneDeep(machineLog)
+   );
+
+   console.log(dataAdd);
+
+   let dataset = {
+    ..._.cloneDeep($vm.feedData),
+    quality: dataAdd.quality,
+    performance: dataAdd.performance,
+    availability: dataAdd.availability,
+    oee: dataAdd.oee,
+   };
+
+   console.log(dataset);
+   machine
+    .feedDataToServer(_.cloneDeep(dataset))
+    .then(() => {
+     $vm.feedDataDialog = false;
+    })
+    .catch(() => {
+     $vm.feedDataDialog = false;
+    });
+  },
+  editItem(item) {
+   var $vm = this;
+   $vm.feedDataDialog = true;
+   $vm.machineData.machineLog = item;
+
+   $vm.feedData.id = item.id;
+   $vm.feedData.actual_count = item.actual_count;
+   $vm.feedData.rejected_count = item.rejected_count;
+   $vm.feedData.pieces_per_stroke = item.pieces_per_stroke;
+   $vm.feedData.emp_remarks = item.emp_remarks;
+
+   $vm.$store
+    .dispatch("getServerMachineHistory", { machine_id: item.id, uq: item.uq })
+    .then((res) => {
+     console.log("machine data");
+     console.log(res);
+     if (res.data) $vm.machineData.machineHisotry = res.data;
+
+     $vm.feedDataDialog = true;
+    });
+  },
+  deleteItem(item) {
+   var $vm = this;
+   $vm.$confirm("Do You Want to delete?").then(() => {
+    $vm.$store.dispatch("deleteServerLog", { id: item.id });
+   });
+  },
   exportExcel() {
    var $vm = this;
 
@@ -180,7 +261,7 @@ export default {
 
     "rejected_count",
 
-    "pieces_per_min",
+    "pieces_per_stroke",
 
     "quality",
 
@@ -202,7 +283,7 @@ export default {
      x["duration"],
      x["actual_count"],
      x["rejected_count"],
-     x["pieces_per_min"],
+     x["pieces_per_stroke"],
      x["quality"],
      x["performance"],
      x["availability"],
@@ -238,16 +319,7 @@ export default {
    a.click();
    document.body.removeChild(a);
   },
-  selectRow(item) {
-   let $vm = this;
-   $vm.oeeInfo = {
-    actual_count: item.actual_count,
-    rejected_count: item.rejected_count,
-    pieces_per_min: item.pieces_per_min,
-   };
 
-   $vm.oeeInfoDialog = true;
-  },
   machineAction(action, item) {
    var $vm = this;
    switch (action) {
@@ -276,16 +348,6 @@ export default {
     default:
      break;
    }
-   // switch (action) {
-   //     case "start":
-   // machine.startSignal($vm)
-   //         break;
-   //     case "stop":
-   // machine.stopSignal($vm)
-   //         break;
-   //     default:
-   //         break;
-   // }
   },
   loadData() {
    this.$store.dispatch("MACHINE_LOGS");

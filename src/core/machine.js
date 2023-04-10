@@ -44,11 +44,13 @@ export function machineLogOut($vm) {
     .dispatch("saveDataToServer")
     .then((res) => {
      resolve(res);
-    })
-    .catche(() => {
-     reject();
      generateUq();
      store.commit("CLEAR_MACHINE_DATA");
+    })
+    .catch(() => {
+     reject();
+     //  generateUq();
+     //  store.commit("CLEAR_MACHINE_DATA");
     });
   }, 400);
  });

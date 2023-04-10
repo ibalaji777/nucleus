@@ -6,7 +6,20 @@ import * as config from "../core/config.js";
 import * as socketConfig from "../../src/core/socketConfig.js";
 var url = "http://127.0.0.1:3333/";
 var api = config.backend + "/api/";
-var sP = config.serialPortUrl;
+var sP = config.serialPortUrl + "/";
+
+//serial port apis -------------------------
+var apiEmbededStatus = sP + "status";
+var apiEmbededPort = sP + "port";
+var apiEmbededPortList = sP + "port_list";
+var apiEmbededClear = sP + "clear";
+var apiEmbededAlertOn = sP + "alertOn";
+var apiEmbededAlertOff = sP + "alertOff";
+var apiStoredPath = sP + "stored-path";
+var apiDeviceCheck = sP + "device-check";
+var apiDeviceDetect = sP + "device-detect";
+var apiSetPort = sP + "set-port";
+
 var createMachineActivityApi = url + "machine_activity";
 var apiEmployeeLogin = api + "machine_employee_signin";
 var apiMachineLogin = api + "machine_login";
@@ -31,13 +44,115 @@ var machineDataApi = api + "get-machine-data";
 var logMachineDataApi = api + "log-datafeed";
 
 var updateOeeApi = api + "update-oee";
+
+var machineHistoryApi = api + "machine-history";
+
+var deleteLogApi = api + "log-delete";
+
 //serial port communication
 
 const actions = {
+ async apiDeviceCheck(context, payload) {
+  const res = await axios.get(apiDeviceCheck);
+  return res;
+ },
+
+ async apiDeviceDetect(context, payload) {
+  const res = await axios.get(apiDeviceDetect);
+  return res;
+ },
+ async apiSetPort(context, value) {
+  const res = await axios.get(apiSetPort + "?port=" + value);
+  return res;
+ },
+ async apiStoredPath(context, payload) {
+  const res = await axios.get(apiStoredPath);
+  return res;
+ },
+
+ async apiEmbededStatus(context, payload) {
+  const res = await axios.get(apiEmbededStatus);
+  return res;
+ },
+ async apiEmbededPortList(context, payload) {
+  const res = await axios.get(apiEmbededPortList);
+  return res;
+ },
+ async apiEmbededPort(context, payload) {
+  const res = await axios.get(apiEmbededPort);
+  return res;
+ },
+ async apiEmbededClear(context, payload) {
+  const res = await axios.get(apiEmbededClear);
+  return res;
+ },
+
+ async apiEmbededAlertOn(context, payload) {
+  const res = await axios.get(apiEmbededAlertOn);
+  return res;
+ },
+ async apiEmbededAlertOff(context, payload) {
+  const res = await axios.get(apiEmbededAlertOff);
+  return res;
+ },
+
+ deleteServerLog(context, payload) {
+  return new Promise((resolve, reject) => {
+   const { id } = payload;
+
+   axios
+    .post(deleteLogApi, {
+     data: {
+      id,
+     },
+    })
+    .then((res) => {
+     actions.MACHINE_LOGS(context);
+     console.log(res);
+     resolve(res);
+    })
+    .catch((err) => {
+     reject(err);
+     console.log(err);
+    });
+  });
+ },
+
+ getServerMachineHistory(context, payload) {
+  return new Promise((resolve, reject) => {
+   const { machine_id, uq } = payload;
+
+   axios
+    .post(machineHistoryApi, {
+     data: {
+      machine_id,
+      uq,
+     },
+    })
+    .then((res) => {
+     console.log(res);
+     resolve(res);
+    })
+    .catch((err) => {
+     reject(err);
+     console.log(err);
+    });
+  });
+ },
+
  feedDataToServer(context, payload) {
   return new Promise((resolve, reject) => {
-   const { id, actual_count, rejected_count, pieces_per_stroke, emp_remarks } =
-    payload;
+   const {
+    id,
+    actual_count,
+    rejected_count,
+    pieces_per_stroke,
+    emp_remarks,
+    quality,
+    performance,
+    availability,
+    oee,
+   } = payload;
 
    axios
     .post(logMachineDataApi, {
@@ -47,10 +162,15 @@ const actions = {
       rejected_count,
       pieces_per_stroke,
       emp_remarks,
+      quality,
+      performance,
+      availability,
+      oee,
      },
     })
     .then((res) => {
      console.log(res);
+     actions.MACHINE_LOGS(context);
      resolve(res);
     })
     .catch((err) => {
@@ -76,7 +196,7 @@ const actions = {
  },
 
  syncToServer(context, payload) {
-  if (state.machineData.machineHisotry.length == 0) return;
+  if (context.state.machineData.machineHisotry.length == 0) return;
   axios
    .post(watchMachineApi, {
     data: context.state.machineData,
@@ -92,7 +212,7 @@ const actions = {
  deviceAlert(context, action) {
   if (action == "on") {
    axios
-    .get(sP + "/alertOn")
+    .get(sP + "alertOn")
     .then((res) => {})
     .catch((err) => {
      console.log(err);
@@ -100,7 +220,7 @@ const actions = {
   }
   if (action == "on") {
    axios
-    .get(sP + "/alertOff")
+    .get(sP + "alertOff")
     .then((res) => {})
     .catch((err) => {
      console.log(err);

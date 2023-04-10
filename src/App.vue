@@ -49,7 +49,9 @@
   <close-shift-widget></close-shift-widget>
   <oee-setup-dialog></oee-setup-dialog>
   <logs-dialog></logs-dialog>
+  <edit-logs-dialog></edit-logs-dialog>
   <errors-dialog></errors-dialog>
+  <device-dialog></device-dialog>
  </v-app>
 </template>
 
@@ -199,7 +201,7 @@ export default {
   "$store.state.setup.checkMachine": {
    handler(value) {
     var $vm = this;
-    console.log(value);
+    // console.log(value);
     machine.startSignal();
     // $vm.tracker();
    },
@@ -232,8 +234,11 @@ export default {
   "$store.state.machineData": {
    handler(value) {
     var $vm = this;
-
-    $vm.$store.dispatch("syncToServer");
+    if (
+     $vm.$store.state.machineData.machineHisotry.length != 0 &&
+     $vm.$store.state.setup.watchMachine
+    )
+     $vm.$store.dispatch("syncToServer");
 
     // $vm.tracker();
    },

@@ -5,6 +5,9 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+var Storage = require("node-storage");
+
+var store = new Storage("./config.json");
 
 const { SerialPort, ReadlineParser } = require("serialport");
 const { json } = require("express");
@@ -13,13 +16,30 @@ const { json } = require("express");
 const writeDelay = 2000; // reducing this value stops it working
 // const path = "COM4"; //windows
 let port;
-let path;
+let path = "";
 let portList;
+let baudRate = 9600;
+let isDeviceFound = "";
 // const path = '/dev/ttyACM0';//rasobert pi
 SerialPort.list().then((ports) => {
- path = ports[0].path;
+ //  ------------------------
+ const arduinoRegex = /Arduino Uno/;
+ const arduinoPort = ports.find((port) => arduinoRegex.test(port.friendlyName));
+ if (arduinoPort) {
+  const arduinoPath = arduinoPort.path;
+  path = arduinoPath;
+  if (store.get("path") == "") {
+   store.put("path", arduinoPath);
+   isDeviceFound = true;
+  }
+  console.log(`Arduino Uno found at ${arduinoPath}`);
+ } else {
+  isDeviceFound = false;
+  console.log("Arduino Uno not found.");
+ }
+ // ----------------------------
  portList = ports;
- port = new SerialPort({ path, lock: false, baudRate: 9600 });
+ port = new SerialPort({ path, lock: false, baudRate });
 
  port.on("open", () => {
   setTimeout(function () {
@@ -41,15 +61,68 @@ SerialPort.list().then((ports) => {
  //    console.log("Available serial ports:", ports);
 });
 // const port = new SerialPort({ path, lock: false, baudRate: 9600 });
-
+app.get("/stored-path", (req, res) => {
+ const data = { message: "Communication Established", port: store.get("path") };
+ res.json(data);
+});
 app.get("/", (req, res) => {
  const data = { message: "Communication Established" };
  res.json(data);
+});
+app.get("/status", (req, res) => {
+ const data = {
+  message: "Communication Established",
+  port: store.get("path"),
+  baudRate,
+ };
+ res.json(data);
  //  res.sendFile(__dirname + "/index.html");
+});
+app.get("/device-check", (req, res) => {
+ const data = {
+  message: isDeviceFound ? "Device Found Successfully" : "Not Found",
+  suggesion: isDeviceFound
+   ? "Device Connected"
+   : "Please Select Your Port manually to select(url?port=com20)",
+ };
+ res.json(data);
+});
+app.get("/device-detect", (req, res) => {
+ const arduinoRegex = /Arduino Uno/;
+ const arduinoPort = portList.find((port) =>
+  arduinoRegex.test(port.friendlyName)
+ );
+ if (arduinoPort) {
+  const arduinoPath = arduinoPort.path;
+  path = arduinoPath;
+  store.put("path", arduinoPath);
+  isDeviceFound = true;
+ } else {
+  isDeviceFound = false;
+ }
+
+ const data = {
+  message: isDeviceFound ? "Device Found Successfully" : "Not Found",
+  suggesion: isDeviceFound
+   ? "Device Connected"
+   : "Please Select Your Port manually to select(url?port=com20)",
+ };
+ res.json(data);
+});
+app.get("/set-port", (req, res) => {
+ const port = req.query.port;
+ store.put("path", port);
+
+ const data = {
+  message: "Connected Port is set",
+  port: store.get("path"),
+  suggesion: "Please  Reopen Your  application",
+ };
+ res.json(data);
 });
 
 app.get("/port", (req, res) => {
- const data = { message: "Connected Port", port: path };
+ const data = { message: "Connected Port", port: store.get("path") };
  res.json(data);
  //  res.sendFile(__dirname + "/index.html");
 });
@@ -67,6 +140,9 @@ app.get("/clear", () => {
   }
   console.log("message written");
  });
+
+ const data = { message: "Embeded Cleared" };
+ res.json(data);
 });
 
 app.get("/alertOn", () => {
@@ -76,6 +152,8 @@ app.get("/alertOn", () => {
   }
   console.log("message written");
  });
+ const data = { message: "Alert ON" };
+ res.json(data);
 });
 
 app.get("/alertOff", () => {
@@ -85,6 +163,8 @@ app.get("/alertOff", () => {
   }
   console.log("message written");
  });
+ const data = { message: "Alert Off" };
+ res.json(data);
 });
 
 io.on("connection", (socket) => {

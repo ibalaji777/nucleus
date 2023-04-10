@@ -387,11 +387,17 @@
  </div>
 </template>
 <script>
+/*eslint-disable*/
+import * as oeeCore from "../core/oeeCore.js";
 import * as machine from "../core/machine.js";
 import _ from "lodash";
 export default {
  data() {
   return {
+   machineData: {
+    machineLog: {},
+    machineHisotry: [],
+   },
    feedDataDialog: false,
    feedData: {
     id: "",
@@ -456,8 +462,32 @@ export default {
    var $vm = this;
    switch (action) {
     case "feedDataToServer":
+     let machineLog = $vm.machineData.machineLog;
+     let machineHisotry = $vm.machineData.machineHisotry;
+
+     machineLog.actual_count = parseFloat($vm.feedData.actual_count || 1);
+     machineLog.rejected_count = parseFloat($vm.feedData.rejected_count || 0);
+     machineLog.pieces_per_stroke = parseFloat(
+      $vm.feedData.pieces_per_stroke || 1
+     );
+     machineLog.emp_remarks = $vm.feedData.emp_remarks;
+     let dataAdd = oeeCore.machineDataForOee(
+      _.cloneDeep(machineHisotry),
+      _.cloneDeep(machineLog)
+     );
+
+     console.log(dataAdd);
+
+     let dataset = {
+      ..._.cloneDeep($vm.feedData),
+      quality: dataAdd.quality,
+      performance: dataAdd.performance,
+      availability: dataAdd.availability,
+      oee: dataAdd.oee,
+     };
+
      machine
-      .feedDataToServer(_.cloneDeep($vm.feedData))
+      .feedDataToServer(_.cloneDeep(dataset))
       .then(() => {
        $vm.feedDataDialog = false;
       })
@@ -466,36 +496,50 @@ export default {
       });
      break;
     case "start":
-     if (machine.machineLogIn($vm)) $vm.$alert("Manually started...");
+     if ($vm.$store.state.isMachineWatcher) {
+      $vm.$alert("Already Started.....");
+      return;
+     }
+     $vm.$alert("Started...");
+     machine.machineLogIn($vm);
      break;
     case "stop":
      // if (!$vm.$store.state.setup.checkMachine) $vm.$alert("Manually Already Off");
      $vm.$confirm("Do you Want to Logout?").then(() => {
       machine.machineLogOut($vm).then((res) => {
-       console.log("logged out data successfully", res);
+       $vm.feedDataDialog = true;
+       $vm.machineData.machineLog = res.data.data.machineLog;
+       $vm.machineData.machineHisotry = res.data.data.history;
 
-       $vm
-        .$confirm("ARE YOU GOING TO CONTINUE NEW ONE?")
-        .then(() => {
-         $vm.feedDataDialog = true;
-         $vm.feedData = {
-          id: res.data.data.id,
-          actual_count: res.data.data.actual_count,
-          rejected_count: res.data.data.rejected_count,
-          pieces_per_stroke: res.data.data.pieces_per_stroke,
-          emp_remarks: res.data.data.emp_remarks,
-         };
-        })
-        .catch(() => {
-         $vm.feedDataDialog = true;
-         $vm.feedData = {
-          id: res.data.data.id,
-          actual_count: res.data.data.actual_count,
-          rejected_count: res.data.data.rejected_count,
-          pieces_per_stroke: res.data.data.pieces_per_stroke,
-          emp_remarks: res.data.data.emp_remarks,
-         };
-        });
+       $vm.feedData.id = res.data.data.machineLog.id;
+       $vm.feedData.actual_count = res.data.data.machineLog.actual_count;
+       $vm.feedData.rejected_count = res.data.data.machineLog.rejected_count;
+       $vm.feedData.pieces_per_stroke =
+        res.data.data.machineLog.pieces_per_stroke;
+       $vm.feedData.emp_remarks = res.data.data.machineLog.emp_remarks;
+
+       //  $vm
+       //   .$confirm("ARE YOU GOING TO CONTINUE NEW ONE?")
+       //   .then(() => {
+       //    $vm.feedDataDialog = true;
+       //    $vm.machineData.machineLog = res.data.data.machineLog;
+       //    $vm.machineData.machineHisotry = res.data.data.history;
+
+       //    $vm.feedData.id = res.data.data.id;
+       //    $vm.feedData.actual_count = res.data.data.actual_count;
+       //    $vm.feedData.rejected_count = res.data.data.rejected_count;
+       //    $vm.feedData.pieces_per_stroke = res.data.data.pieces_per_stroke;
+       //    $vm.feedData.emp_remarks = res.data.data.emp_remarks;
+       //   })
+       //   .catch(() => {
+       //    $vm.feedDataDialog = true;
+
+       //    $vm.feedData.id = res.data.data.id;
+       //    $vm.feedData.actual_count = res.data.data.actual_count;
+       //    $vm.feedData.rejected_count = res.data.data.rejected_count;
+       //    $vm.feedData.pieces_per_stroke = res.data.data.pieces_per_stroke;
+       //    $vm.feedData.emp_remarks = res.data.data.emp_remarks;
+       //   });
       });
       this.$toast.success("Task Completed....", {});
      });
