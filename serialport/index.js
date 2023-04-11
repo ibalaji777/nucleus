@@ -110,8 +110,8 @@ app.get("/device-detect", (req, res) => {
  res.json(data);
 });
 app.get("/set-port", (req, res) => {
- const port = req.query.port;
- store.put("path", port);
+ const port_ = req.query.port;
+ store.put("path", port_);
 
  const data = {
   message: "Connected Port is set",

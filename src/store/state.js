@@ -1,6 +1,10 @@
 import moment from "moment/moment";
 import { v4 as uuidv4 } from "uuid";
 const state = {
+ login: {
+  username: "",
+  password: "",
+ },
  isMachineWatcher: false,
  machineLogs: [],
 

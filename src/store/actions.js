@@ -508,7 +508,7 @@ const actions = {
   });
   if (result.data.success) {
    context.commit("SET_MACHINE", result.data.data.machine);
-   context.commit("SET_COMPANY", result.data.data.company);
+   //  context.commit("SET_COMPANY", result.data.data.company);
    context.commit("SET_SHIFT", result.data.data.shift);
    context.commit("SET_DOWNTIME", result.data.data.down_time);
    context.commit("SET_BREAK", result.data.data.breaks);

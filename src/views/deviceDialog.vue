@@ -1,6 +1,11 @@
 <template>
  <div>
-  <v-dialog v-model="$store.state.dialog.deviceDialog" hide-overlay persistent>
+  <v-dialog
+   fullscreen
+   v-model="$store.state.dialog.deviceDialog"
+   hide-overlay
+   persistent
+  >
    <v-card>
     <v-toolbar>
      <v-btn
@@ -16,68 +21,96 @@
     </v-toolbar>
     <div style="padding: 10px">
      <div>
-      selectedPort:<b>{{ selectedPort }}</b>
-     </div>
-     <div style="display: flex; justify-content: center; flex-wrap: wrap">
-      <v-btn
-       color="primary"
-       style="margin: 2px"
-       @click="embeded('conn_status')"
-      >
-       Status
-      </v-btn>
-      <v-btn color="primary" style="margin: 2px" @click="embeded('port_list')">
-       Port List
-      </v-btn>
-      <v-btn color="primary" style="margin: 2px" @click="embeded('port')">
-       Port
-      </v-btn>
-      <v-btn color="primary" style="margin: 2px" @click="embeded('clear')">
-       Clear
-      </v-btn>
-      <v-btn color="primary" style="margin: 2px" @click="embeded('alertOn')"
-       >Alert On</v-btn
-      >
-      <v-btn color="primary" style="margin: 2px" @click="embeded('alertOff')"
-       >Alert Off</v-btn
-      >
-      <v-btn color="primary" style="margin: 2px" @click="embeded('stored_path')"
-       >SPort</v-btn
-      >
-      <v-btn
-       color="primary"
-       style="margin: 2px"
-       @click="embeded('device_check')"
-       >Device Check</v-btn
-      >
-      <v-btn
-       color="primary"
-       style="margin: 2px"
-       @click="embeded('device_detect')"
-       >Device Detect</v-btn
-      >
-      <v-btn color="primary" style="margin: 2px" @click="embeded('set_port')"
-       >Set Port</v-btn
-      >
+      <v-row>
+       <v-col style="position: relative">
+        <img
+         class=""
+         style="width: 100%; height: auto"
+         src="/conn.gif"
+         alt=""
+        />
+       </v-col>
+       <v-col>
+        <div style="display: flex; flex-direction: column">
+         <v-btn color="primary" style="margin: 2px" @click="restartApp"
+          >Reset</v-btn
+         >
+
+         <v-btn
+          color="primary"
+          style="margin: 2px"
+          @click="embeded('conn_status')"
+         >
+          Status
+         </v-btn>
+         <v-btn
+          color="primary"
+          style="margin: 2px"
+          @click="embeded('port_list')"
+         >
+          Port List
+         </v-btn>
+         <v-btn color="primary" style="margin: 2px" @click="embeded('port')">
+          Port
+         </v-btn>
+         <v-btn color="primary" style="margin: 2px" @click="embeded('clear')">
+          Clear
+         </v-btn>
+         <v-btn color="primary" style="margin: 2px" @click="embeded('alertOn')"
+          >Alert On</v-btn
+         >
+         <v-btn color="primary" style="margin: 2px" @click="embeded('alertOff')"
+          >Alert Off</v-btn
+         >
+         <v-btn
+          color="primary"
+          style="margin: 2px"
+          @click="embeded('stored_path')"
+          >SPort</v-btn
+         >
+         <v-btn
+          color="primary"
+          style="margin: 2px"
+          @click="embeded('device_check')"
+          >Device Check</v-btn
+         >
+         <v-btn
+          color="primary"
+          style="margin: 2px"
+          @click="embeded('device_detect')"
+          >Device Detect</v-btn
+         >
+         <v-btn color="primary" style="margin: 2px" @click="embeded('set_port')"
+          >Set Port</v-btn
+         >
+        </div>
+       </v-col>
+      </v-row>
      </div>
     </div>
-
-    <pre>{{ result }}</pre>
+    <div style="text-align: center">
+     selectedPort:<b>{{ selectedPort }}</b>
+    </div>
+    <div class="portList">
+     <div
+      v-for="(item, index) in portList"
+      :key="'index' + index"
+      @click="selectedPort = item.path"
+     >
+      {{ item.path }}
+     </div>
+    </div>
+    <div style="background: black; color: white; height: 200px; overflow: auto">
+     <pre>{{ result }}</pre>
+    </div>
     <hr />
-
-    <div
-     v-for="(item, index) in portList"
-     :key="'index' + index"
-     @click="selectedPort = item.path"
-    >
-     {{ item.path }}
-    </div>
    </v-card>
   </v-dialog>
  </div>
 </template>
 
 <script>
+const { ipcRenderer } = window.require("electron");
 export default {
  data() {
   return {
@@ -87,7 +120,15 @@ export default {
    result: {},
   };
  },
+ mounted() {
+  ipcRenderer.on("app-restarted", () => {
+   window.location.reload();
+  });
+ },
  methods: {
+  restartApp() {
+   ipcRenderer.send("restart-app");
+  },
   async embeded(action) {
    var $vm = this;
 
@@ -136,3 +177,19 @@ export default {
  },
 };
 </script>
+<style lang="scss">
+.portList div {
+ margin: 10px;
+ border: 1px solid sandybrown;
+ border-radius: 7px;
+ padding: 3px;
+ cursor: pointer;
+}
+.center_ {
+ position: absolute;
+ height: auto;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+}
+</style>

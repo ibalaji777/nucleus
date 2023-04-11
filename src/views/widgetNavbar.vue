@@ -45,20 +45,21 @@
      >
       <div>Logs</div>
      </div>
+
+     <div
+      @click="$store.commit('setDialog', { key: 'deviceDialog', value: true })"
+      class="bg-gradient-dark raduius10 p10 white pointer"
+      style="text-align: center; display: flex"
+     >
+      <v-icon style="color: white">mdi-chip</v-icon>
+      <div>Device</div>
+     </div>
      <div
       @click="$store.commit('setDialog', { key: 'errorsDialog', value: true })"
       class="raduius10 p10 white pointer"
       style="background: red; color: red"
      >
-      <div>Errors {{ global_errors.count }}</div>
-     </div>
-
-     <div
-      @click="$store.commit('setDialog', { key: 'deviceDialog', value: true })"
-      class="bg-gradient-dark raduius10 p10 white pointer"
-     >
-      <v-icon>mdi-chip</v-icon>
-      <div>Device</div>
+      <div>Suggesion {{ global_errors.count }}</div>
      </div>
 
      <!-- <div class="widget">

@@ -31,6 +31,15 @@ function updateMachineLog(machineData, data, dateTime, stroke) {
 }
 
 const mutations = {
+ login(state, payload) {
+  state.login.username = payload.username;
+  state.login.password = payload.password;
+ },
+ logout(state) {
+  state.login.username = "";
+  state.login.password = "";
+ },
+
  CLEAR_MACHINE_DATA(state) {
   Vue.set(state.machineData, "machineLog", {});
   Vue.set(state.machineData, "machineHisotry", []);

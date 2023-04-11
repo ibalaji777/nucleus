@@ -173,6 +173,17 @@ export default {
 
  async mounted() {
   var $vm = this;
+
+  //fetch data
+  let username = $vm.$store.state.login.username;
+  let password = $vm.$store.state.login.password;
+  if (username != "" && password != "") {
+   await $vm.$store.dispatch("MACHINE_LOGIN", {
+    username,
+    password,
+   });
+  }
+
   console.log("Route Name", $vm.$route.name);
   //----------------socket config-------------------
   //   initSerialPort($vm);
@@ -263,7 +274,7 @@ export default {
   machineLogout() {
    var $vm = this;
    $vm.$confirm("Do You Want to logout from Machine?").then(() => {
-    $vm.$store.commit("MACHINE_LOGOUT");
+    $vm.$store.commit("logout");
     $vm.$store.commit("CLEAR_COMPANY");
     $vm.$store.commit("CLEAR_EMPLOYEE");
     $vm.$router.push({ name: "machineLogin" });

@@ -1,7 +1,7 @@
 /*eslint-disable*/
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -53,6 +53,15 @@ app.allowRendererProcessReuse = false;
 // server.on("exit", (code, signal) => {
 //  console.log(`Child process exited with code ${code} and signal ${signal}`);
 // });
+
+ipcMain.on("restart-app", () => {
+ restartApp();
+});
+
+function restartApp() {
+ app.relaunch();
+ app.quit();
+}
 function sendToRender(win) {
  var i = 0;
  const job = schedule.scheduleJob("* * * * * *", function () {

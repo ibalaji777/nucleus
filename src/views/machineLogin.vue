@@ -63,6 +63,8 @@ export default {
     $vm.$alert("Please Fill Machine Code");
     return;
    }
+
+   $vm.$store.commit("login", $vm.company);
    var result = await $vm.$store.dispatch("MACHINE_LOGIN", $vm.company);
    if (result.data.success) {
     $vm.$router.push({ name: "home" });
