@@ -182,13 +182,20 @@
            <td>Machine Status</td>
            <td>Stroke</td>
            <td>Duration</td>
+           <td>Event/Name</td>
+           <td>Event/Desc</td>
+           <td>Event/Message</td>
+           <td>Event/reason</td>
+           <td>Event/type</td>
+           <td>Event/action</td>
           </tr>
          </thead>
          <tbody>
           <tr
-           @click="selectEditRow(item)"
+           @click="selectEditRow(item, index)"
            v-for="(item, index) in global_historyWithoutNull"
            :key="'machineHistory' + index"
+           :style="item.machine_status == 'OFF' ? 'background:red' : ''"
           >
            <th>{{ item.operation }}</th>
            <th>{{ guiTimeFormat(item.start_time) }}</th>
@@ -198,6 +205,12 @@
             {{ item.start_stroke }}
            </th>
            <th>{{ item.duration }}</th>
+           <th>{{ item.op_name }}</th>
+           <th>{{ item.op_desc }}</th>
+           <th>{{ item.message }}</th>
+           <th>{{ item.reason }}</th>
+           <th>{{ item.type }}</th>
+           <th>{{ item.action }}</th>
           </tr>
          </tbody>
         </table>
@@ -205,43 +218,7 @@
       </div>
      </div>
 
-     Mode :Demo<br />
-     Machine status : {{ $store.state.setup.checkMachine }}<br />
-     Embeded status : {{ $store.state.setup.checkEmbededDevice }}<br />
-     <!-- Shift Name : {{ $store.state.setup.shiftName }}<br /> -->
-     machine live data :
-     <pre>{{ $store.state.setup.machineLiveData }}</pre>
-     <br />
-     <div v-for="(item, index) in shedule" :key="'ss' + index">
-      <v-btn @click="SheduleOperation(item, 'start')">start</v-btn>
-      {{ item.name }}
-      <v-btn @click="SheduleOperation(item, 'stop')">stop</v-btn>
-     </div>
-
-     <table>
-      <tr>
-       <td>
-        <h1>Manual</h1>
-        <h2>Machine Overall</h2>
-        <!-- <v-btn @click="machineAction('manual','overallStart')">Start Machine</v-btn>
-            <v-btn @click="machineAction('manual','overallStop')">Stop Machine</v-btn> -->
-
-        <h2>Machine Action</h2>
-        <v-btn @click="machineAction('manual', 'start')">Start Machine</v-btn>
-        <v-btn @click="machineAction('manual', 'stop')">Stop Machine</v-btn>
-       </td>
-       <td>
-        <h1>Automate</h1>
-        <h2>Machine Action</h2>
-        <v-btn @click="machineAction('automatic', 'start')"
-         >Start Machine</v-btn
-        >
-        <v-btn @click="machineAction('automatic', 'stop')">Stop Machine</v-btn>
-       </td>
-      </tr>
-     </table>
-
-     <history></history>
+     <!-- <history></history> -->
     </div>
    </v-card>
   </v-dialog>
@@ -254,15 +231,17 @@
    persistent
   >
    <v-card>
-    <v-toolbar dark color="primary">
+    <v-toolbar>
      <v-btn icon dark @click="editRowDialog = false">
-      <v-icon>mdi-close</v-icon>
+      <v-icon color="black">mdi-close</v-icon>
      </v-btn>
      <v-toolbar-title>Edit Row</v-toolbar-title>
      <v-spacer></v-spacer>
      <v-toolbar-items> </v-toolbar-items>
     </v-toolbar>
-    <div style="padding: 10px">
+    <div
+     style="background: linear-gradient(45deg, #0e304a, #ffffff); height: 92vh"
+    >
      <!-- {{editRowItem}} -->
 
      <div v-if="editRowItem">
@@ -273,9 +252,10 @@
          $store.state.defaultData.machine_status_off
        "
       >
-       <h4>Breaks</h4>
+       <h4 style="color: white">Breaks</h4>
        <div class="breakList">
         <div
+         style="background: #cb1b41; color: white"
          @click="machineAction('mark_break', { ...item, id: editRowItem.id })"
          v-for="(item, index) in $store.state.db.breaks"
          :key="'break' + index"
@@ -283,9 +263,11 @@
          {{ item.name }}
         </div>
        </div>
-       <h4>Downtime</h4>
+
+       <h4 style="color: white">Downtime</h4>
        <div class="breakList">
         <div
+         style="background: #cb1b41; color: white"
          @click="
           machineAction('mark_downtime', { ...item, id: editRowItem.id })
          "
@@ -409,6 +391,7 @@ export default {
 
    editRowDialog: false,
    editRowItem: {},
+   editRowItemIndex: 0,
    oeeInfoDialog: false,
    oeeInfo: {
     actual_count: 0,
@@ -448,10 +431,11 @@ export default {
  },
 
  methods: {
-  selectEditRow(value) {
+  selectEditRow(value, index) {
    let $vm = this;
    $vm.editRowDialog = true;
    $vm.editRowItem = value;
+   $vm.editRowItemIndex = index;
   },
 
   SheduleOperation(item, action) {
@@ -549,13 +533,30 @@ export default {
      machine.startMachineShedule(item);
      break;
     case "mark_break":
-     machine.markBreak(item);
+     machine.markBreak(
+      _.cloneDeep($vm.editRowItem),
+      $vm.editRowItemIndex,
+      item
+     );
+     $vm.$toast.success("Break Marked Successfully");
+     $vm.editRowDialog = false;
      break;
     case "mark_downtime":
-     machine.markDownTime(item);
+     machine.markDownTime(
+      _.cloneDeep($vm.editRowItem),
+      $vm.editRowItemIndex,
+      item
+     );
+     $vm.$toast.success("Down Time Successfully");
+     $vm.editRowDialog = false;
+
      break;
     case "mark_oeeinfo":
-     machine.markOeeInfo(item);
+     machine.markOeeInfo(
+      _.cloneDeep($vm.editRowItem),
+      $vm.editRowItemIndex,
+      item
+     );
      break;
 
     default:
@@ -638,5 +639,10 @@ export default {
  width: 100%;
  height: 100%;
  background: red;
+}
+
+.machineLogPanel th,
+.machineLogPanel td {
+ white-space: nowrap;
 }
 </style>

@@ -84,7 +84,67 @@
 /*eslint-disable*/
 import * as machine from "../core/machine.js";
 import * as XLSX from "xlsx";
+import state from "../store/state.js";
+import _ from "lodash";
 
+let table_header = [
+ {
+  text: "Start Time",
+  value: "start_time",
+ },
+ {
+  text: "End Time",
+  value: "end_time",
+ },
+ {
+  text: "Employee",
+  value: "employee_name",
+ },
+ {
+  text: "Product",
+  value: "product_name",
+ },
+ {
+  text: "Shift",
+  value: "shift",
+ },
+ {
+  text: "Stroke",
+  value: "stroke",
+ },
+ {
+  text: "Duration/Sec",
+  value: "duration",
+ },
+ {
+  text: "Actual Count",
+  value: "actual_count",
+ },
+ {
+  text: "Rejected Count",
+  value: "rejected_count",
+ },
+ {
+  text: "Pieces Per Minute",
+  value: "pieces_per_min",
+ },
+ {
+  text: "Quality",
+  value: "quality",
+ },
+ {
+  text: "Performance",
+  value: "performance",
+ },
+ {
+  text: "Availability",
+  value: "availability",
+ },
+ {
+  text: "OEE",
+  value: "oee",
+ },
+];
 export default {
  data() {
   return {
@@ -95,67 +155,72 @@ export default {
     pieces_per_min: 0,
    },
 
-   headers: [
-    {
-     text: "Start Time",
-     value: "start_time",
-    },
-    {
-     text: "End Time",
-     value: "end_time",
-    },
-    {
-     text: "Employee",
-     value: "employee_name",
-    },
-    {
-     text: "Product",
-     value: "product_name",
-    },
-    {
-     text: "Shift",
-     value: "shift",
-    },
-    {
-     text: "Stroke",
-     value: "stroke",
-    },
-    {
-     text: "Duration/Sec",
-     value: "duration",
-    },
-    {
-     text: "Actual Count",
-     value: "actual_count",
-    },
-    {
-     text: "Rejected Count",
-     value: "rejected_count",
-    },
-    {
-     text: "Pieces Per Minute",
-     value: "pieces_per_min",
-    },
-    {
-     text: "Quality",
-     value: "quality",
-    },
-    {
-     text: "Performance",
-     value: "performance",
-    },
-    {
-     text: "Availability",
-     value: "availability",
-    },
-    {
-     text: "OEE",
-     value: "oee",
-    },
-   ],
+   headers: table_header,
   };
  },
  methods: {
+  dataTableExcel() {
+   var $vm = this;
+   var array = _.cloneDeep($vm.$store.state.machineLogs);
+   array.forEach((element) => {
+    let machineOffStaus = _.filter(element.history, (x) => {
+     if (x.reason == "") x.reason = "Unplanned/DownTime";
+     return x.machine_status == state.defaultData.machine_status_off;
+    });
+    const resultObj = machineOffStaus.reduce((acc, curr) => {
+     if (acc[curr.reason]) {
+      acc[curr.reason] += curr.duration;
+     } else {
+      acc[curr.reason] = curr.duration;
+     }
+     return acc;
+    }, {});
+
+    const [header_rt, values_rt] = Object.entries(resultObj).map(
+     ([key, value]) => [key, value]
+    );
+   });
+
+   console.log(header_rt); // ["abc d", "abc b"]
+   console.log(values_rt); // [44, 22]
+  },
+  dataTableData() {
+   const $vm = this;
+   const array = _.cloneDeep($vm.$store.state.machineLogs);
+   array.forEach((element) => {
+    const machineOffStaus = _.filter(element.history, (x) => {
+     if (x.reason == "") x.reason = "Unplanned/DownTime";
+     return x.machine_status == state.defaultData.machine_status_off;
+    });
+    const resultObj = machineOffStaus.reduce((acc, curr) => {
+     if (acc[curr.reason]) {
+      acc[curr.reason] += curr.duration;
+     } else {
+      acc[curr.reason] = curr.duration;
+     }
+     return acc;
+    }, {});
+
+    const [header_rt, values_rt] = Object.entries(resultObj).map(
+     ([key, value]) => [key, value]
+    );
+
+    const vuetifyValue = header_rt.reduce((acc, title, index) => {
+     acc[title] = values_rt[index];
+     return acc;
+    }, {});
+
+    element = { ...element, ...vuetifyValue };
+    const vuetifyHeader = header_rt.map((title) => ({
+     text: title,
+     value: title,
+    }));
+    let prepareVuetifyValue = [...table_header, ...vuetifyHeader];
+    console.log(header_rt); // ["abc d", "abc b"]
+    console.log(values_rt); // [44, 22]
+    console.log(vuetifyValue); // [{ "abc d": 44 }, { "abc b": 22 }]
+   });
+  },
   exportExcel() {
    var $vm = this;
 

@@ -24,7 +24,16 @@ const vuexPersist = new VuexPersistence({
   },
   setup: {
    machineSessionId: state.setup.machineSessionId,
-   selected_product: state.setup.selected_product,
+   selected_product: {
+    id: state.setup.selected_product.id,
+    part_no: state.setup.selected_product.part_no,
+    // material_code: state.setup.selected_product.material_code,
+    name: state.setup.selected_product.name,
+    description: state.setup.selected_product.description,
+
+    // group: state.setup.selected_product.group,
+    // other_detail: state.setup.selected_product.other_detail,
+   },
    selected_machine: {
     id: state.setup.selected_machine.id,
     code: state.setup.selected_machine.code,

@@ -19,55 +19,76 @@
      <v-spacer></v-spacer>
      <v-toolbar-items> </v-toolbar-items>
     </v-toolbar>
-    <div style="padding: 10px">
+    <div class="bg2">
      <div>
       <v-row>
        <v-col style="position: relative">
-        <img
-         class=""
-         style="width: 100%; height: auto"
-         src="/conn.gif"
-         alt=""
-        />
+        <div style="width: 250px">
+         <img
+          class=""
+          style="width: 100%; height: auto"
+          src="/conn.gif"
+          alt=""
+         />
+        </div>
+        <div class="devicemessagebox">{{ message }}</div>
        </v-col>
-       <v-col>
+       <v-col cols="2" style="background: #222">
         <div style="display: flex; flex-direction: column">
-         <v-btn color="primary" style="margin: 2px" @click="restartApp"
+         <v-btn text style="margin: 2px; color: white" @click="restartApp"
           >Reset</v-btn
          >
 
          <v-btn
-          color="primary"
-          style="margin: 2px"
+          text
+          style="margin: 2px; color: white"
           @click="embeded('conn_status')"
          >
           Status
          </v-btn>
          <v-btn
-          color="primary"
-          style="margin: 2px"
+          text
+          style="margin: 2px; color: white"
           @click="embeded('port_list')"
          >
           Port List
          </v-btn>
-         <v-btn color="primary" style="margin: 2px" @click="embeded('port')">
+         <v-btn
+          text
+          style="margin: 2px; color: white"
+          @click="embeded('baud_rate')"
+         >
+          Baud Rate
+         </v-btn>
+
+         <v-btn text style="margin: 2px; color: white" @click="embeded('port')">
           Port
          </v-btn>
-         <v-btn color="primary" style="margin: 2px" @click="embeded('clear')">
+         <v-btn
+          text
+          style="margin: 2px; color: white"
+          @click="embeded('clear')"
+         >
           Clear
          </v-btn>
-         <v-btn color="primary" style="margin: 2px" @click="embeded('alertOn')"
+         <v-btn
+          text
+          style="margin: 2px; color: white"
+          @click="embeded('alertOn')"
           >Alert On</v-btn
          >
-         <v-btn color="primary" style="margin: 2px" @click="embeded('alertOff')"
+         <v-btn
+          text
+          style="margin: 2px; color: white"
+          @click="embeded('alertOff')"
           >Alert Off</v-btn
          >
-         <v-btn
-          color="primary"
-          style="margin: 2px"
+         <!-- <v-btn
+          text
+          style="margin: 2px; color: white"
           @click="embeded('stored_path')"
-          >SPort</v-btn
-         >
+          >S-Port</v-btn
+         > -->
          <v-btn
           color="primary"
           style="margin: 2px"
@@ -80,7 +101,10 @@
           @click="embeded('device_detect')"
           >Device Detect</v-btn
          >
-         <v-btn color="primary" style="margin: 2px" @click="embeded('set_port')"
+         <v-btn
+          text
+          style="margin: 2px; color: white"
+          @click="embeded('set_port')"
           >Set Port</v-btn
          >
         </div>
@@ -114,6 +138,7 @@ const { ipcRenderer } = window.require("electron");
 export default {
  data() {
   return {
+   message: "select ....",
    selectedPort: "",
    portList: [],
 
@@ -143,6 +168,11 @@ export default {
     case "port":
      $vm.result = await $vm.$store.dispatch("apiEmbededPort");
      $vm.selectedPort = $vm.result.data.port;
+     $vm.message = $vm.result.data.port;
+     break;
+    case "baud_rate":
+     $vm.result = await $vm.$store.dispatch("apiEmbededStatus");
+     $vm.message = $vm.result.data.baudRate;
      break;
 
     case "clear":
@@ -161,9 +191,12 @@ export default {
      break;
     case "device_check":
      $vm.result = await $vm.$store.dispatch("apiDeviceCheck");
+     $vm.message = $vm.result.data.message;
      break;
     case "device_detect":
      $vm.result = await $vm.$store.dispatch("apiDeviceDetect");
+     $vm.message = $vm.result.data.message;
+
      break;
 
     case "set_port":
@@ -185,11 +218,28 @@ export default {
  padding: 3px;
  cursor: pointer;
 }
+.devicemessagebox {
+ position: absolute;
+ height: auto;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ font-size: 25px;
+ font-weight: 800;
+ color: white;
+}
 .center_ {
  position: absolute;
  height: auto;
  top: 50%;
  left: 50%;
  transform: translate(-50%, -50%);
+}
+
+.bg2 {
+ font-family: "Roboto", sans-serif;
+ margin: 0;
+ padding: 10px;
+ background: linear-gradient(45deg, #ea4f4c 0%, #6d0019 100%);
 }
 </style>

@@ -76,7 +76,6 @@ app.get("/status", (req, res) => {
   baudRate,
  };
  res.json(data);
- //  res.sendFile(__dirname + "/index.html");
 });
 app.get("/device-check", (req, res) => {
  const data = {
@@ -124,44 +123,39 @@ app.get("/set-port", (req, res) => {
 app.get("/port", (req, res) => {
  const data = { message: "Connected Port", port: store.get("path") };
  res.json(data);
- //  res.sendFile(__dirname + "/index.html");
 });
 
 app.get("/port_list", (req, res) => {
  const data = { message: "Device Ports", ports: portList };
  res.json(data);
- //  res.sendFile(__dirname + "/index.html");
 });
 
-app.get("/clear", () => {
+app.get("/clear", (req, res) => {
  port.write("clear", function (err) {
   if (err) {
    return console.log("Error on write: ", err.message);
   }
-  console.log("message written");
  });
 
  const data = { message: "Embeded Cleared" };
  res.json(data);
 });
 
-app.get("/alertOn", () => {
+app.get("/alertOn", (req, res) => {
  port.write("alertOn", function (err) {
   if (err) {
    return console.log("Error on write: ", err.message);
   }
-  console.log("message written");
  });
  const data = { message: "Alert ON" };
  res.json(data);
 });
 
-app.get("/alertOff", () => {
+app.get("/alertOff", (req, res) => {
  port.write("alertOff", function (err) {
   if (err) {
    return console.log("Error on write: ", err.message);
   }
-  console.log("message written");
  });
  const data = { message: "Alert Off" };
  res.json(data);

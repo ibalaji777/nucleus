@@ -3,7 +3,7 @@
   <h3>OEE PANEL</h3>
 
   <v-row>
-   <v-col cols="12" sm="6" md="3" class="cardCCol">
+   <v-col cols="6" sm="6" md="3" class="cardCCol">
     <percentage-chart
      :role="'OEE'"
      :color="$store.state.bgColor.oee"
@@ -12,7 +12,7 @@
      :title="'OEE'"
     ></percentage-chart>
    </v-col>
-   <v-col cols="12" sm="6" md="3" class="cardCCol">
+   <v-col cols="6" sm="6" md="3" class="cardCCol">
     <percentage-chart
      :role="'AVAILABILITY'"
      :color="$store.state.bgColor.availability"
@@ -22,7 +22,7 @@
     ></percentage-chart>
    </v-col>
 
-   <v-col cols="12" sm="6" md="3" class="cardCCol">
+   <v-col cols="6" sm="6" md="3" class="cardCCol">
     <percentage-chart
      :role="'QUALITY'"
      :color="$store.state.bgColor.quality"
@@ -32,7 +32,7 @@
     ></percentage-chart>
    </v-col>
 
-   <v-col cols="12" sm="6" md="3" class="cardCCol">
+   <v-col cols="6" sm="6" md="3" class="cardCCol">
     <percentage-chart
      :role="'PERFORMANCE'"
      :color="$store.state.bgColor.performance"

@@ -429,6 +429,7 @@ const state = {
    material_code: "11",
    // grn_no:'11',
    name: "sample",
+   description: "",
    // production_perStroke:1,//
    group: "",
    other_detail: "",

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import moment from "moment";
 import _ from "lodash";
 import Vue from "vue";
@@ -46,6 +47,33 @@ const mutations = {
  },
  machineWatcher(state, payload) {
   state.isMachineWatcher = payload;
+ },
+ MARK_DOWNTIME(state, payload) {
+  let previousData = _.cloneDeep(
+   state.machineData.machineHisotry[payload.index]
+  );
+  state.machineData.machineHisotry[payload.index] = {
+   ...previousData,
+   ...payload.dataset,
+  };
+ },
+ MARK_BREAK(state, payload) {
+  let previousData = _.cloneDeep(
+   state.machineData.machineHisotry[payload.index]
+  );
+  state.machineData.machineHisotry[payload.index] = {
+   ...previousData,
+   ...payload.dataset,
+  };
+ },
+ MARK_OEE_INFO(state, payload) {
+  // let previousData = _.cloneDeep(
+  //  state.machineData.machineHisotry[payload.index]
+  // );
+  // state.machineData.machineHisotry[payload.index] = {
+  //  ...previousData,
+  //  ...payload.dataset,
+  // };
  },
  MACHINE_LOG_UPDATE(state, data) {
   let payload = _.cloneDeep(data);
@@ -226,7 +254,7 @@ const mutations = {
   data.start_stroke = stroke;
   data.end_stroke = 0;
   data.actual_stroke = 0;
-  data.ruq = dateTime.valueOf();
+  // data.ruq = dateTime.valueOf();
   state.machineData.machineHisotry.push(_.cloneDeep(data));
 
   console.log("stroke", stroke, state.machineData);

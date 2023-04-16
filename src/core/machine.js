@@ -59,9 +59,10 @@ export function machineLogOut($vm) {
 export function startSignal($vm) {
  var dataset = machineData();
  dataset.operation = "signal";
- dataset.message = "running";
+ dataset.message = store.state.setup.checkMachine ? "running" : "stopped";
  dataset.type = "automatic";
- dataset.action = "start";
+ dataset.reason = store.state.setup.checkMachine ? "" : "unplanned";
+ dataset.action = store.state.setup.checkMachine ? "start" : "stop";
  store.dispatch("WATCH_MACHINE", dataset);
 }
 
@@ -81,7 +82,7 @@ export function startMachineShedule(item) {
  return true;
 }
 
-export function markBreak(item) {
+export function markBreak(selected, index, item) {
  var dataset = machineData();
  dataset.id = item.id; //history id
  dataset.operation = "break";
@@ -91,28 +92,31 @@ export function markBreak(item) {
  dataset.message = "break";
  dataset.reason = item.name;
  dataset.type = "manual";
- dataset.action = "";
+ dataset.action = "stop";
 
  //  console.log(dataset);
  store.dispatch("deviceAlert", "off");
- store.dispatch("MARK_DOWNTIME", dataset);
+ //  store.dispatch("MARK_DOWNTIME", dataset);
+ store.commit("MARK_BREAK", { index, dataset });
+
  return true;
 }
 
 //note its need to update
-export function markDownTime(item) {
- var dataset = machineData();
- dataset.id = item.id; //history id
+export function markDownTime(selected, index, item) {
+ console.log("downtime marker", selected, item);
+ var dataset = {};
  dataset.operation = "force";
  dataset.op_id = item.id;
  dataset.op_name = item.name;
  dataset.op_desc = item.desc;
- dataset.message = "down_time";
+ dataset.message = "downtime";
  dataset.reason = item.name;
  dataset.type = "manual";
- dataset.action = "";
+ dataset.action = "stop";
  store.dispatch("deviceAlert", "off");
- store.dispatch("MARK_DOWNTIME", dataset);
+ //  store.dispatch("MARK_DOWNTIME", dataset);
+ store.commit("MARK_DOWNTIME", { index, dataset });
  return true;
 }
 
@@ -223,6 +227,7 @@ export function machineData() {
   op_min: "", //signal/shedule/break/downtime/force their min
 
   uq: store.state.setup.uq,
+  ruq: moment().format(),
 
   time: new Date(),
   product_id: store.state.setup.selected_product.id,

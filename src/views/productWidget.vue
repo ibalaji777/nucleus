@@ -34,6 +34,7 @@
       v-model="name"
       label="Search Products"
       required
+      @input="selected = $event"
      >
      </v-autocomplete>
 
@@ -63,12 +64,13 @@ export default {
  methods: {
   submit() {
    var $vm = this;
+
    if (!_.isEmpty($vm.selected)) {
     $vm.$confirm("Do You want to change Product?").then(() => {
      $vm.$store.commit("setProduct", $vm.selected);
      $vm.$alert("Successfully Updated");
-     return;
     });
+    return;
    }
    $vm.$alert("Please Select Product First");
   },
