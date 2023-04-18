@@ -56,13 +56,13 @@ export function machineLogOut($vm) {
  });
 }
 
-export function startSignal($vm) {
+export function startSignal(checkMachine) {
  var dataset = machineData();
  dataset.operation = "signal";
- dataset.message = store.state.setup.checkMachine ? "running" : "stopped";
+ dataset.message = checkMachine ? "running" : "stopped";
  dataset.type = "automatic";
- dataset.reason = store.state.setup.checkMachine ? "" : "unplanned";
- dataset.action = store.state.setup.checkMachine ? "start" : "stop";
+ //  dataset.reason = checkMachine ? "" : "unplanned";
+ dataset.action = checkMachine ? "start" : "stop";
  store.dispatch("WATCH_MACHINE", dataset);
 }
 
@@ -83,7 +83,7 @@ export function startMachineShedule(item) {
 }
 
 export function markBreak(selected, index, item) {
- var dataset = machineData();
+ var dataset = {}; //machineData();
  dataset.id = item.id; //history id
  dataset.operation = "break";
  dataset.op_id = item.id;

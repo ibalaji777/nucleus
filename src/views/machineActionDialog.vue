@@ -30,7 +30,7 @@
        <div class="shedulerList">
         <div
          @click="machineAction('start_shedule', item)"
-         v-for="(item, index) in $store.state.db.shedule"
+         v-for="(item, index) in downtime"
          :key="'shedule' + index"
         >
          {{ item.name }}
@@ -429,7 +429,11 @@ export default {
    }
   }
  },
-
+ computed: {
+  downtime() {
+   return _.filter(this.$store.state.db.down_time, (x) => x.type == 1);
+  },
+ },
  methods: {
   selectEditRow(value, index) {
    let $vm = this;

@@ -41,7 +41,7 @@
   <shift-widget></shift-widget>
   <emp-login-widget></emp-login-widget>
   <machine-widget></machine-widget>
-  <load-material-dialog></load-material-dialog>
+  <!-- <load-material-dialog></load-material-dialog> -->
   <select-employee-widget></select-employee-widget>
   <select-machine></select-machine>
   <select-product></select-product>
@@ -212,8 +212,8 @@ export default {
   "$store.state.setup.checkMachine": {
    handler(value) {
     var $vm = this;
-    // console.log(value);
-    machine.startSignal();
+    console.log("check Machine", value);
+    machine.startSignal(value);
     // $vm.tracker();
    },
    deep: true,

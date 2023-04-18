@@ -314,185 +314,185 @@ Vue.mixin({
     return moment.utc(duration.asMilliseconds()).format("HH:mm:ss");
    };
   },
-
-  globalRunningProducts() {
-   var $vm = this;
-   var datasets = _.uniq(
-    _.map($vm.$store.state.setup.machineActivities, "product_id")
-   );
-   var products = _.reduce(
-    datasets,
-    (result, product_id) => {
-     var product =
-      _.find(
-       $vm.$store.state.db.products,
-       (product) => product.id == product_id
-      ) || {};
-     if (!_.isEmpty(product)) {
-      result.push(product);
-     }
-     return result;
-    },
-    []
-   );
-   return {
-    count: datasets.length,
-    datasets,
-    products,
-   };
-  },
-  globalRunningShifts() {
-   var $vm = this;
-   var datasets = _.uniq(
-    _.map($vm.$store.state.setup.machineActivities, "shift_id")
-   );
-   return {
-    count: datasets.length,
-    datasets,
-   };
-  },
-  globalRunningEmps() {
-   var $vm = this;
-   var datasets = _.uniq(
-    _.map($vm.$store.state.setup.machineActivities, "emp_id")
-   );
-   return {
-    count: datasets.length,
-    datasets,
-   };
-  },
-  globalRunningOn() {
-   var $vm = this;
-   var datasets = _.filter(
-    $vm.$store.state.setup.machineActivities,
-    (x) => x.machine_active_status == "ON"
-   );
-   return {
-    count: datasets.count,
-    datasets,
-   };
-  },
-  globalRunningOff() {
-   var $vm = this;
-   var datasets = _.filter(
-    $vm.$store.state.setup.machineActivities,
-    (x) => x.machine_active_status == "OFF"
-   );
-   return {
-    count: datasets.length,
-    datasets,
-   };
-  },
-  globalPlannedStops() {
-   var $vm = this;
-
-   var datasets = _.filter(
-    $vm.$store.state.setup.machineActivities,
-    (x) => x.break_type == "PLANNED" && x.machine_active_status == "OFF"
-   );
-   return {
-    count: datasets.length,
-    datasets,
-   };
-  },
-
-  globalDownTime() {
-   var $vm = this;
-   var arrangeOrderByTime = _.orderBy(
-    $vm.$store.state.setup.machineActivities,
-    ["machine_time"],
-    ["asc"]
-   );
-   // console.log("arrangeOrderByTime",arrangeOrderByTime)
-
-   var downTimes = [];
-   for (var i = 0; i < arrangeOrderByTime.length; i++) {
-    var object = arrangeOrderByTime[i];
-
-    var next = i + 1;
-    var objectNext = arrangeOrderByTime[next];
-    //  console.log(object)
-    //  console.log(objectNext)
-    //  console.log(typeof objectNext!='undefined',object.break_type=='UNPLANNED',object.machine_active_status=='OFF')
-    //  console.log(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
-    if (
-     typeof objectNext != "undefined" &&
-     object.break_type == "UNPLANNED" &&
-     object.machine_active_status == "OFF"
-    ) {
-     downTimes.push({
-      ...object,
-      start_time: object.machine_time,
-      end_time: objectNext.machine_time,
-     });
-    }
-   }
-   // console.log("downTimes",downTimes)
-   var takenTime = _.reduce(
-    downTimes,
-    function (result, x) {
-     // console.log()
-     return (
-      parseFloat(result) +
-      parseFloat(
-       moment
-        .utc(moment(x.end_time, "HH:mm").diff(moment(x.start_time, "HH:mm")))
-        .format("mm")
-      )
-     );
-    },
-    0
-   );
-   return {
-    count: downTimes.length,
-    datasets: downTimes,
-    takenTime,
-   };
-  },
-  // globalUnPlannedStops() {
+  //skip below
+  // globalRunningProducts() {
   //  var $vm = this;
-  //  var datasets = _.filter(
-  //   $vm.$store.state.setup.machineActivities,
-  //   (x) => x.break_type == "UNPLANNED" && x.machine_active_status == "OFF"
+  //  var datasets = _.uniq(
+  //   _.map($vm.$store.state.setup.machineActivities, "product_id")
+  //  );
+  //  var products = _.reduce(
+  //   datasets,
+  //   (result, product_id) => {
+  //    var product =
+  //     _.find(
+  //      $vm.$store.state.db.products,
+  //      (product) => product.id == product_id
+  //     ) || {};
+  //    if (!_.isEmpty(product)) {
+  //     result.push(product);
+  //    }
+  //    return result;
+  //   },
+  //   []
+  //  );
+  //  return {
+  //   count: datasets.length,
+  //   datasets,
+  //   products,
+  //  };
+  // },
+  // globalRunningShifts() {
+  //  var $vm = this;
+  //  var datasets = _.uniq(
+  //   _.map($vm.$store.state.setup.machineActivities, "shift_id")
   //  );
   //  return {
   //   count: datasets.length,
   //   datasets,
   //  };
   // },
-  // globalMaxStroke() {
+  // globalRunningEmps() {
   //  var $vm = this;
-  //  if ($vm.$store.state.setup.machineActivities.length != 0) {
-  //   var result = _.maxBy(
-  //    $vm.$store.state.setup.machineActivities,
-  //    (x) => x.stroke
-  //   );
-  //   return {
-  //    result: true,
-  //    find: result,
-  //    stroke: result.stroke,
-  //   };
-  //  }
+  //  var datasets = _.uniq(
+  //   _.map($vm.$store.state.setup.machineActivities, "emp_id")
+  //  );
   //  return {
-  //   result: false,
-  //   find: {},
-  //   stroke: 0,
+  //   count: datasets.length,
+  //   datasets,
+  //  };
+  // },
+  // globalRunningOn() {
+  //  var $vm = this;
+  //  var datasets = _.filter(
+  //   $vm.$store.state.setup.machineActivities,
+  //   (x) => x.machine_active_status == "ON"
+  //  );
+  //  return {
+  //   count: datasets.count,
+  //   datasets,
+  //  };
+  // },
+  // globalRunningOff() {
+  //  var $vm = this;
+  //  var datasets = _.filter(
+  //   $vm.$store.state.setup.machineActivities,
+  //   (x) => x.machine_active_status == "OFF"
+  //  );
+  //  return {
+  //   count: datasets.length,
+  //   datasets,
+  //  };
+  // },
+  // globalPlannedStops() {
+  //  var $vm = this;
+
+  //  var datasets = _.filter(
+  //   $vm.$store.state.setup.machineActivities,
+  //   (x) => x.break_type == "PLANNED" && x.machine_active_status == "OFF"
+  //  );
+  //  return {
+  //   count: datasets.length,
+  //   datasets,
   //  };
   // },
 
-  //------------------mixin------
-  // globalBreaks() {
+  // globalDownTime() {
   //  var $vm = this;
-  //  let list = _.filter(
-  //   $vm.global_historyWithoutNull,
-  //   function (x) {
-  //    return x.operation == "break";
+  //  var arrangeOrderByTime = _.orderBy(
+  //   $vm.$store.state.setup.machineActivities,
+  //   ["machine_time"],
+  //   ["asc"]
+  //  );
+  //  // console.log("arrangeOrderByTime",arrangeOrderByTime)
+
+  //  var downTimes = [];
+  //  for (var i = 0; i < arrangeOrderByTime.length; i++) {
+  //   var object = arrangeOrderByTime[i];
+
+  //   var next = i + 1;
+  //   var objectNext = arrangeOrderByTime[next];
+  //   //  console.log(object)
+  //   //  console.log(objectNext)
+  //   //  console.log(typeof objectNext!='undefined',object.break_type=='UNPLANNED',object.machine_active_status=='OFF')
+  //   //  console.log(typeof objectNext!='undefined'&&object.break_type=='UNPLANNED'&&object.machine_active_status=='OFF')
+  //   if (
+  //    typeof objectNext != "undefined" &&
+  //    object.break_type == "UNPLANNED" &&
+  //    object.machine_active_status == "OFF"
+  //   ) {
+  //    downTimes.push({
+  //     ...object,
+  //     start_time: object.machine_time,
+  //     end_time: objectNext.machine_time,
+  //    });
   //   }
+  //  }
+  //  // console.log("downTimes",downTimes)
+  //  var takenTime = _.reduce(
+  //   downTimes,
+  //   function (result, x) {
+  //    // console.log()
+  //    return (
+  //     parseFloat(result) +
+  //     parseFloat(
+  //      moment
+  //       .utc(moment(x.end_time, "HH:mm").diff(moment(x.start_time, "HH:mm")))
+  //       .format("mm")
+  //     )
+  //    );
+  //   },
+  //   0
   //  );
   //  return {
-  //   count: list.length,
-  //   list,
+  //   count: downTimes.length,
+  //   datasets: downTimes,
+  //   takenTime,
   //  };
   // },
+  // // globalUnPlannedStops() {
+  // //  var $vm = this;
+  // //  var datasets = _.filter(
+  // //   $vm.$store.state.setup.machineActivities,
+  // //   (x) => x.break_type == "UNPLANNED" && x.machine_active_status == "OFF"
+  // //  );
+  // //  return {
+  // //   count: datasets.length,
+  // //   datasets,
+  // //  };
+  // // },
+  // // globalMaxStroke() {
+  // //  var $vm = this;
+  // //  if ($vm.$store.state.setup.machineActivities.length != 0) {
+  // //   var result = _.maxBy(
+  // //    $vm.$store.state.setup.machineActivities,
+  // //    (x) => x.stroke
+  // //   );
+  // //   return {
+  // //    result: true,
+  // //    find: result,
+  // //    stroke: result.stroke,
+  // //   };
+  // //  }
+  // //  return {
+  // //   result: false,
+  // //   find: {},
+  // //   stroke: 0,
+  // //  };
+  // // },
+
+  // //------------------mixin------
+  // // globalBreaks() {
+  // //  var $vm = this;
+  // //  let list = _.filter(
+  // //   $vm.global_historyWithoutNull,
+  // //   function (x) {
+  // //    return x.operation == "break";
+  // //   }
+  // //  );
+  // //  return {
+  // //   count: list.length,
+  // //   list,
+  // //  };
+  // // },
  },
 });
