@@ -237,6 +237,7 @@ const mutations = {
     stroke
    );
   }
+  console.log("Log++++++++", state.machineData.machineLog);
   //--------------------LOG----------------
   var previousData = _.find(
    state.machineData.machineHisotry,
@@ -343,6 +344,7 @@ const mutations = {
  watchMachine(state, value) {
   state.setup.watchMachine = value;
  },
+
  //----------------machine track-----------
  createMachineEntryParent(state, value) {
   state.setup.createMachineEntryParent = value;

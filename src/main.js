@@ -51,12 +51,16 @@ import logsDialog from "./views/logsDialog.vue";
 import editLogsDialog from "./views/editLogsDialog.vue";
 import deviceDialog from "./views/deviceDialog.vue";
 
+import mainChartPanel from "./views/main-chart-panel.vue";
+
 import VueToast from "vue-toast-notification";
 // Import one of the available themes
 //import 'vue-toast-notification/dist/theme-default.css';
 import "vue-toast-notification/dist/theme-bootstrap.css";
 
 Vue.use(VueToast);
+
+Vue.component("mainChartPanel", mainChartPanel);
 Vue.component("errorsDialog", errorsDialog);
 Vue.component("deviceDialog", deviceDialog);
 

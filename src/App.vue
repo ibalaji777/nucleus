@@ -138,8 +138,8 @@ function handleErrors($vm, err) {
 // var isMachineStatus=false;
 var liveMachine = [];
 export function initSerialPort($vm) {
- $vm.$store.commit("setEmbededStatus", false);
- $vm.$store.commit("setMachineStatus", false);
+ //  $vm.$store.commit("setEmbededStatus", false);
+ //  $vm.$store.commit("setMachineStatus", false);
 
  socket.on("connect_failed", function () {
   console.log("Connection Failed");
@@ -186,7 +186,7 @@ export default {
 
   console.log("Route Name", $vm.$route.name);
   //----------------socket config-------------------
-  //   initSerialPort($vm);
+  // initSerialPort($vm);
   //   socketConfig.initSerialPort($vm);
   // await  machine.listentShift();
   await machine.listenMachineDemo();
@@ -212,9 +212,7 @@ export default {
   "$store.state.setup.checkMachine": {
    handler(value) {
     var $vm = this;
-    console.log("check Machine", value);
-    machine.startSignal(value);
-    // $vm.tracker();
+    if ($vm.$store.state.isMachineWatcher) machine.startSignal(value);
    },
    deep: true,
   },
@@ -222,14 +220,12 @@ export default {
    handler(value) {
     var $vm = this;
     machine.machineEventTermination();
-    // $vm.tracker();
    },
    deep: true,
   },
   "$store.state.setup.selected_employee": {
    handler(value) {
     var $vm = this;
-    // $vm.tracker();
    },
    deep: true,
   },
@@ -237,8 +233,6 @@ export default {
    handler(value) {
     var $vm = this;
     machine.machineEventTermination();
-
-    // $vm.tracker();
    },
    deep: true,
   },
@@ -250,8 +244,6 @@ export default {
      $vm.$store.state.setup.watchMachine
     )
      $vm.$store.dispatch("syncToServer");
-
-    // $vm.tracker();
    },
    deep: true,
   },

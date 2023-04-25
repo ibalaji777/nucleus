@@ -11,16 +11,8 @@
       class=""
       style="margin-top: 12px; background: white; height: 220px; padding: 10px"
      >
-      <time-chart-status
-       v-if="global_timeChart.end_time"
-       :key="JSON.stringify(global_timeChart.chartData)"
-       :startTime="global_timeChart.start_time"
-       :endTime="global_timeChart.end_time"
-       :newData="global_timeChart.chartData"
-      ></time-chart-status>
+      <main-chart-panel></main-chart-panel>
      </div>
-     <!-- {{ $store.state.machineData.machineLog }} -->
-     <oee-panel style="margin-top: 15px"></oee-panel>
     </div>
    </div>
   </div>

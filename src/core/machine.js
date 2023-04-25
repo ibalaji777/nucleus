@@ -8,15 +8,15 @@ export function generateUq() {
 }
 
 export function machineLogIn($vm) {
- store.commit("machineWatcher", true);
- if (store.state.setup.checkMachine) return false;
  var dataset = machineData();
  dataset.operation = "force";
  dataset.type = "manual";
  dataset.action = "start";
  dataset.reason = "planned";
  dataset.message = "login";
+ console.log("machine login", dataset);
  store.dispatch("WATCH_MACHINE", dataset);
+ store.commit("machineWatcher", true);
  return true;
 }
 
@@ -67,7 +67,7 @@ export function startSignal(checkMachine) {
 }
 
 export function startMachineShedule(item) {
- if (store.state.setup.checkMachine) return false;
+ //  if (store.state.setup.checkMachine) return false;
  var dataset = machineData();
  dataset.operation = "shedule";
  dataset.op_id = item.id;
